@@ -21,7 +21,8 @@ html, body{
 }
 
 .menu{
-    margin-left: 20%;
+    margin-left: 5%;
+    margin-right: 5%;
     margin-top:5%;
     margin-bottom: 5%;
     width: 600px;
@@ -69,5 +70,12 @@ html, body{
     }
     50% {
         transform: translateY(-5px);
+    }
+}
+
+
+@media (max-width: 767px) {
+    .menu {
+        margin-left: 2%;
     }
 }
