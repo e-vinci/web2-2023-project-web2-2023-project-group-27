@@ -84,6 +84,14 @@ html, body{
     width: 78px;
 }
 
+#popupSettings {
+    height: 700px;
+    width: 500px;
+    background-color: rgb(223, 147, 93);
+    margin-left: auto;
+    margin-right: auto;
+}
+
 
 @keyframes optionRotate {
     0% {
