@@ -53,16 +53,46 @@ html, body{
 
     font-size: 50px;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    transition: 0.8s;
+    transition: 1s;
 }
 
 #playButton:hover{
     background: rgb(228,50,50);
     height: 85px;
-    width: 200px;
+    width: 215px;
     margin-top:0px;
 }
 
+#options{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    height: 70px;
+    width: 73px;
+    background: url("../img/options.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    animation: optionRotate 3s linear infinite;
+    transform-origin: center center center;
+    animation-play-state:paused;
+    transition: 1s;
+}
+
+#options:hover {
+    animation-play-state:running;
+    height: 75px;
+    width: 78px;
+}
+
+
+@keyframes optionRotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
 
 @keyframes logoMove {
     0%, 100% {
