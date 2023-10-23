@@ -80,6 +80,7 @@ html, body{
 
 #options:hover {
     animation-play-state:running;
+    filter: saturate(500%);
     height: 75px;
     width: 78px;
 }
