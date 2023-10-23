@@ -31,9 +31,10 @@
     "@popperjs/core": "^2.9.2",
     "bootstrap": "^5.0.1",
     "clean-webpack-plugin": "^4.0.0",
-    "phaser": "^3.55.2",
     "gh-pages": "^4.0.0",
+    "phaser": "^3.55.2",
     "terser-webpack-plugin": "^5.3.6",
+    "unique-names-generator": "^4.7.1",
     "webpack-merge": "^5.8.0"
   }
 }
