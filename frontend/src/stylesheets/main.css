@@ -7,7 +7,11 @@ html, body{
     align-items: center; /*vertically center menu*/
     overflow: hidden; /* Disable scroll*/
 }
-
+.homepage{
+    position: relative;
+    margin-top: 0px;
+    top: 0px;
+}
 .background {
     position: absolute;
     top: 0;
@@ -63,7 +67,7 @@ html, body{
 }
 
 #options{
-    position: fixed;
+    position: absolute;
     top: 20px;
     left: 20px;
     height: 70px;
@@ -85,6 +89,8 @@ html, body{
 }
 
 #popupSettings {
+    position: absolute;
+    left: 400px;
     height: 700px;
     width: 500px;
     background-color: rgb(223, 147, 93);
@@ -111,9 +117,50 @@ html, body{
     }
 }
 
+@keyframes startingPlay {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-150%);
+    }
+}
+
+@keyframes startingPlay2 {
+    0% {
+        transform: translateY(1000%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+.loadingScreen{
+    transform: translateY(1000%);
+    color: orange;
+    position: relative;
+    height: 300px;
+    width: 400px;
+    background-color: aliceblue;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.homepage.slide-up {
+    animation: startingPlay 1s forwards;
+}
+
+.loadingScreen.slide-up {
+    animation: startingPlay2 2s forwards;
+}
+
 
 @media (max-width: 767px) {
     .menu {
         margin-left: 2%;
     }
+}
+
+h1{
+    font-weight: bold;
 }
