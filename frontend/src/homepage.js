@@ -25,25 +25,28 @@ settingsButton.addEventListener('click', () => {
 
 playForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    
-    /* Obtenir le pseudo
-    let nickname;
-    if(nicknameForm.value === "" ||nicknameForm.value === undefined) nickname = nicknameForm.placeholder;
-    else nickname = nicknameForm.value;
 
-     nickname = nickname.replace(/\s/g, "_");
-    */
-
-     // Démarrer l'animation de chargement
+    // Démarrer l'animation de chargement
     document.querySelector('.homepage').classList.add('slide-up');
     document.querySelector('.loadingScreen').classList.add('slide-up');
     document.querySelector('.background').classList.add('slide-up');
-    loadingScreen.style.display = 'block';
 
+    loadingScreen.style.display = 'block';
     popupSettings.style.display = 'none';
 
-    // démarrer connexion websocket
+    // Obtenir le pseudo
+    let nickname;
+    if(nicknameForm.value === "" || nicknameForm.value === undefined) nickname = nicknameForm.placeholder;
+    else nickname = nicknameForm.value;
+    nickname = nickname.replace(/\s/g, "_");
+    console.log(nickname)
+
+    // Démarrer connexion websocket
     connectWebSocket();
+    setTimeout(() => {
+        sendPlayerNickname(nickname);
+    }, 1000)
+   
 })
 
 function randomNickName() {
@@ -53,10 +56,14 @@ function randomNickName() {
       });
 }
 
-
 function connectWebSocket() {
     ws = new WebSocket("ws://localhost:8082");
     ws.addEventListener('open', () => {
         console.log("Connecté au serveur");
     });
+}
+
+function sendPlayerNickname(nickname) {
+    if(nickname === undefined) return;
+    ws.send(nickname);
 }
