@@ -91,11 +91,15 @@ html, body{
 #popupSettings {
     position: absolute;
     left: 400px;
-    height: 700px;
-    width: 500px;
-    background-color: rgba(0, 0, 0, 0.7);
-    margin-left: auto;
+    height: 90%;
+    width: 400px;
+    background-color: rgba(0, 0, 0);
+    margin-left: 10%;
     margin-right: auto;
+    color: white;
+    text-align: center;
+    border: 5px solid;
+    border-radius: 5%;
 }
 
 
