@@ -43,18 +43,15 @@ playForm.addEventListener('submit', (e) => {
     // Démarrer connexion websocket
     connectWebSocket();
 
-    const interval = setInterval(() => {
-        if(ws.readyState === WebSocket.OPEN) {
-            addPlayerToServer(nickname);
-            clearInterval(interval);
-        }
-        if(ws.readyState === WebSocket.CLOSED) {
-            // eslint-disable-next-line no-alert
-            alert("La connexion au serveur a échoué\nPour le groupe => Faites npm start sur le dossier api");
-            window.location.reload();
-            clearInterval(interval);
-        }
-    }, 2000)
+    ws.addEventListener('open', () => {
+        addPlayerToServer(nickname);
+      });
+      
+      ws.addEventListener('close', () => {
+        // eslint-disable-next-line no-alert
+        alert("La connexion au serveur a échoué\nPour le groupe => Faites npm start sur le dossier api");
+        window.location.reload();
+      });
    
 })
 
