@@ -7,6 +7,7 @@ const playForm = document.getElementById("playForm");
 const loadingScreen = document.querySelector(".loadingScreen");
 
 let isPopUpDisplayed = false;
+let ws;
 
 nicknameForm.placeholder = randomNickName();
 popupSettings.style.display = 'none';
@@ -39,6 +40,8 @@ playForm.addEventListener('submit', (e) => {
     document.querySelector('.background').classList.add('slide-up');
     loadingScreen.style.display = 'block';
 
+    // démarrer connexion websocket
+    connectWebSocket();
 })
 
 function randomNickName() {
@@ -46,4 +49,12 @@ function randomNickName() {
         dictionaries: [adjectives, animals, colors],
         length: 2
       });
+}
+
+
+function connectWebSocket() {
+    ws = new WebSocket("ws://localhost:8082");
+    ws.addEventListener('open', () => {
+        console.log("Connecté au serveur");
+    });
 }
