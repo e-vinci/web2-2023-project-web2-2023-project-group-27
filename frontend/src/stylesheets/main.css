@@ -193,6 +193,153 @@ html, body{
     }
 }
 
+@media (max-width: 391px) {
+    .menu {
+        margin-left: -18%;
+    }
+
+    #popupSettings {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        margin-right: none;
+        margin-left: -102.5%;
+    }
+}
+
+@media (max-width: 394px) {
+    .menu {
+        margin-left: -18.5%;
+    }
+
+    #popupSettings {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        margin-right: none;
+        margin-left: -101.5%;
+    }
+}
+
+@media (max-width: 361px) {
+    .menu {
+        margin-left: -21.5%;
+    }
+
+    #popupSettings {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        margin-right: none;
+        margin-left: -111%;
+    }
+}
+
+@media (max-width: 413px) {
+    .menu {
+        margin-left: -17%;
+    }
+
+    #popupSettings {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        margin-right: none;
+        margin-left: -97%;
+    }
+}
+
+@media (max-width: 821px) {
+    .menu {
+        margin-left: 16%;
+    }
+
+    #popupSettings {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        margin-right: none;
+        margin-left: -48.5%;
+    }
+}
+
+@media (max-width: 769px) {
+    .menu {
+        margin-left: 12%;
+    }
+
+    #popupSettings {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        margin-right: none;
+        margin-left: -52%;
+    }
+}
+
+@media (max-width: 913px) {
+    .menu {
+        margin-left: 24%;
+    }
+
+    #popupSettings {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        margin-right: none;
+        margin-left: -43.7%;
+    }
+}
+
+@media (max-width: 541px) {
+    .menu {
+        margin-left: -6%;
+    }
+
+    #popupSettings {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        margin-right: none;
+        margin-left: -74%;
+    }
+}
+
+@media (max-width: 281px) {
+    .menu {
+        margin-left: -27%;
+    }
+
+    #popupSettings {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        margin-right: none;
+        margin-left: -142.8%;
+    }
+}
+
+@media (max-width: 413px) {
+    .menu {
+        margin-left: -17%;
+    }
+
+    #popupSettings {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        margin-right: none;
+        margin-left: -96.9%;
+    }
+}
+
+@media (max-width: 1025px) {
+
+    #popupSettings {
+        margin-left: 16%;
+    }
+}
+
 h1{
     font-weight: bold;
 }
