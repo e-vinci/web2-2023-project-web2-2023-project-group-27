@@ -89,6 +89,7 @@ html, body{
 }
 
 #popupSettings {
+    z-index: 10000;
     position: absolute;
     left: 400px;
     height: 700px;
@@ -123,6 +124,7 @@ html, body{
     }
     100% {
         transform: translateY(-150%);
+        display: none;
     }
 }
 
@@ -140,14 +142,14 @@ html, body{
     color: orange;
     position: relative;
     height: 300px;
-    width: 400px;
+    width: 600px;
     background-color: aliceblue;
     margin-left: auto;
     margin-right: auto;
 }
 
 .homepage.slide-up {
-    animation: startingPlay 1s forwards;
+    animation: startingPlay 2s forwards;
 }
 
 .loadingScreen.slide-up {
