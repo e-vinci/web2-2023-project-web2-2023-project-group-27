@@ -42,12 +42,15 @@ html, body{
     background-size: cover;
 }
 
-#nickname{
-    margin-bottom: 20px;
+input {
+    border: 6px;
+    border-color: rgb(230, 87, 87);
+    border-style: ridge;
     width: 250px;
+    margin-bottom: 5vh;
 }
 
-#playButton{
+#playButton, #loginPath, #signInPath, #loginButton, #signInButton {
     background: rgb(230, 87, 87);
     border: 0px;
     height: 80px;
@@ -59,11 +62,39 @@ html, body{
     transition: 1s;
 }
 
-#playButton:hover{
+#loginPath, #signInPath {
+    margin-top: 7%;
+    box-shadow: 10px 10px 3px 3px rgba(255, 0, 0, 0.205);
+}
+
+#loginButton {
+    width: 300px;
+    box-shadow: 10px 10px 3px 3px rgba(255, 0, 0, 0.205);
+}
+
+#signInButton {
+    width: 230px;
+    box-shadow: 10px 10px 3px 3px rgba(255, 0, 0, 0.205);
+}
+
+#playButton:hover, #loginPath:hover, #signInPath:hover, #loginButton:hover, #signInButton:hover {
     background: rgb(228,50,50);
     height: 85px;
     width: 215px;
-    margin-top:0px;
+    margin-top:-5px;
+}
+
+#loginPath:hover, #signInPath:hover {
+    margin-top: 25px;
+    height: 85px;
+}
+
+#loginButton:hover {
+    width: 335px;
+}
+
+#signInButton:hover {
+    width: 265px;
 }
 
 #options{
@@ -89,7 +120,7 @@ html, body{
     width: 78px;
 }
 
-#popupSettings {
+#popupSettings, #popupLogin, #popupSignIn {
     z-index: 10000;
     position: absolute;
     left: 400px;
@@ -98,10 +129,11 @@ html, body{
     background-color: rgba(0, 0, 0);
     margin-left: 20%;
     margin-right: auto;
-    color: white;
+    color: rgb(230, 87, 87);
     text-align: center;
-    border: 5px solid;
-    border-radius: 5%;
+    border: 30px;
+    border-color: rgb(230, 87, 87);
+    border-style: ridge;
 }
 
 @keyframes optionRotate {
@@ -170,7 +202,7 @@ html, body{
         margin-left: -15%;
     }
 
-    #popupSettings {
+    #popupSettings, #popupLogin, #popupSignIn {
         position: absolute;
         height: 100%;
         width: 100%;
@@ -184,7 +216,7 @@ html, body{
         margin-left: -20%;
     }
 
-    #popupSettings {
+    #popupSettings, #popupLogin, #popupSignIn {
         position: absolute;
         height: 100%;
         width: 100%;
@@ -198,7 +230,7 @@ html, body{
         margin-left: -18%;
     }
 
-    #popupSettings {
+    #popupSettings, #popupLogin, #popupSignIn {
         position: absolute;
         height: 100%;
         width: 100%;
@@ -212,7 +244,7 @@ html, body{
         margin-left: -18.5%;
     }
 
-    #popupSettings {
+    #popupSettings, #popupLogin, #popupSignIn {
         position: absolute;
         height: 100%;
         width: 100%;
@@ -226,7 +258,7 @@ html, body{
         margin-left: -21.5%;
     }
 
-    #popupSettings {
+    #popupSettings, #popupLogin, #popupSignIn {
         position: absolute;
         height: 100%;
         width: 100%;
@@ -240,7 +272,7 @@ html, body{
         margin-left: -17%;
     }
 
-    #popupSettings {
+    #popupSettings, #popupLogin, #popupSignIn {
         position: absolute;
         height: 100%;
         width: 100%;
@@ -254,7 +286,7 @@ html, body{
         margin-left: 16%;
     }
 
-    #popupSettings {
+    #popupSettings, #popupLogin, #popupSignIn {
         position: absolute;
         height: 100%;
         width: 100%;
@@ -268,7 +300,7 @@ html, body{
         margin-left: 12%;
     }
 
-    #popupSettings {
+    #popupSettings, #popupLogin, #popupSignIn {
         position: absolute;
         height: 100%;
         width: 100%;
@@ -282,7 +314,7 @@ html, body{
         margin-left: 24%;
     }
 
-    #popupSettings {
+    #popupSettings, #popupLogin, #popupSignIn {
         position: absolute;
         height: 100%;
         width: 100%;
@@ -296,7 +328,7 @@ html, body{
         margin-left: -6%;
     }
 
-    #popupSettings {
+    #popupSettings, #popupLogin, #popupSignIn {
         position: absolute;
         height: 100%;
         width: 100%;
@@ -310,7 +342,7 @@ html, body{
         margin-left: -27%;
     }
 
-    #popupSettings {
+    #popupSettings, #popupLogin, #popupSignIn {
         position: absolute;
         height: 100%;
         width: 100%;
@@ -324,7 +356,7 @@ html, body{
         margin-left: -17%;
     }
 
-    #popupSettings {
+    #popupSettings, #popupLogin, #popupSignIn {
         position: absolute;
         height: 100%;
         width: 100%;
@@ -335,7 +367,7 @@ html, body{
 
 @media (max-width: 1025px) {
 
-    #popupSettings {
+    #popupSettings, #popupLogin, #popupSignIn {
         margin-left: 16%;
     }
 }

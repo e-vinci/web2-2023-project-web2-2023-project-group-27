@@ -10,30 +10,49 @@
 
   <body>
     <div class="background"></div>
-
     <div class="homepage">
       <div class="menu">
         <div id="logo"></div>
-
         <form id="playForm">
           <input type="text" id="nickname">
           <br>
           <input type="submit" id="playButton" value="Jouer">
         </form>
       </div>
-  </div>
-    
-        <div id="options" class="homepage">
-        </div>
-  <!-- TODO: Faire en sorte que la pop up passe au centre de l'écran, devant le logo et les autres divs-->
-        <div id="popupSettings">
-            <h1>Paramètres</h1>
-        </div>
-        
-
+    </div>
+    <div id="options" class="homepage"></div>
+    <div id="popupSettings">
+      <h1>Paramètres</h1>
+      <input type="submit" id="loginPath" value="Login">
+      <br>
+      <input type="submit" id="signInPath" value="Sign in">
+    </div>
+    <div id="popupLogin">
+      <h1>Login</h1>
+      <form id="loginForm">
+        <input type="text" id="email" placeholder="Email">
+        <br>
+        <input type="password" id="password" placeholder="Mot de passe">
+        <br>
+        <input type="submit" id="loginButton" value="Se connecter">
+      </form>
+    </div>
+    <div id="popupSignIn">
+      <h1>Sign in</h1>
+      <form id="signInForm">
+        <input type="text" id="nickname" placeholder="Pseudo">
+        <br>
+        <input type="text" id="email" placeholder="Email">
+        <br>
+        <input type="password" id="password" placeholder="Mot de passe">
+        <br>
+        <input type="password" id="passwordConfirmation" placeholder="Confirmation">
+        <br>
+        <input type="submit" id="signInButton" value="S'inscrire">
+      </form>
+    </div>
     <div class="loadingScreen">
       <h1>Nous recherchons une partie pour vous</h1>
     </div>
-  
   </body>
 </html>

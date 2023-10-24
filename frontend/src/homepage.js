@@ -2,26 +2,57 @@ import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-
 
 const nicknameForm = document.getElementById("nickname");
 const popupSettings = document.getElementById("popupSettings");
+const popupLogin = document.getElementById("popupLogin");
+const popupSignIn = document.getElementById("popupSignIn");
 const settingsButton = document.getElementById("options");
+const loginPath = document.getElementById("loginPath");
+const signInPath = document.getElementById("signInPath");
 const playForm = document.getElementById("playForm");
 const loadingScreen = document.querySelector(".loadingScreen");
 
 let isPopUpDisplayed = false;
+let isPopUpLoginDisplayed = false;
+let isPopUpSignInDisplayed = false;
 let ws;
 
 nicknameForm.placeholder = randomNickName();
 popupSettings.style.display = 'none';
 loadingScreen.style.display = 'none';
+popupLogin.style.display = 'none';
+popupSignIn.style.display = 'none';
 
 settingsButton.addEventListener('click', () => {
     if(isPopUpDisplayed) {
     popupSettings.style.display = 'none';
     } else {
     popupSettings.style.display = 'block';
+    popupLogin.style.display = 'none';
+    popupSignIn.style.display = 'none';
     }
     isPopUpDisplayed = !isPopUpDisplayed;
 });
 
+loginPath.addEventListener('click', () => {
+    if(isPopUpLoginDisplayed) {
+    popupLogin.style.display = 'none';
+    } else {
+    popupLogin.style.display = 'block';
+    popupSettings.style.display = 'none';
+    popupSignIn.style.display = 'none';
+    }
+    isPopUpLoginDisplayed = !isPopUpLoginDisplayed;
+});
+
+signInPath.addEventListener('click', () => {
+    if(isPopUpSignInDisplayed) {
+    popupSignIn.style.display = 'none';
+    } else {
+    popupSignIn.style.display = 'block';
+    popupSettings.style.display = 'none';
+    popupLogin.style.display = 'none';
+    }
+    isPopUpSignInDisplayed = !isPopUpSignInDisplayed;
+});
 
 playForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -33,7 +64,7 @@ playForm.addEventListener('submit', (e) => {
 
     loadingScreen.style.display = 'block';
     popupSettings.style.display = 'none';
-
+    
     // Obtenir le pseudo
     let nickname;
     if(nicknameForm.value === "" || nicknameForm.value === undefined) nickname = nicknameForm.placeholder;
