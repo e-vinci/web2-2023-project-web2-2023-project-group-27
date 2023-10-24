@@ -40,6 +40,8 @@ playForm.addEventListener('submit', (e) => {
     document.querySelector('.background').classList.add('slide-up');
     loadingScreen.style.display = 'block';
 
+    popupSettings.style.display = 'none';
+
     // démarrer connexion websocket
     connectWebSocket();
 })

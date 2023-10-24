@@ -104,13 +104,6 @@ html, body{
     border-radius: 5%;
 }
 
-#close_param {
-    float: left;
-    margin-top: 5%;
-    margin-left: 5%;
-}
-
-
 @keyframes optionRotate {
     0% {
         transform: rotate(0deg);
@@ -151,11 +144,11 @@ html, body{
 .loadingScreen{
     transform: translateY(1000%);
     color: orange;
-    position: relative;
+    position: absolute;
     height: 300px;
     width: 600px;
     background-color: aliceblue;
-    margin-left: auto;
+    margin-left: 25%;
     margin-right: auto;
 }
 
