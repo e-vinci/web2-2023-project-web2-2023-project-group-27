@@ -6,7 +6,7 @@ wsserver.on('connection', (ws) => {
   console.log('new client connected');
 
   ws.on('message', (data) => {
-    // TODO CORRIGER LE BUFFER
+    // réception du message venant du client
     console.log(data.toString());
   });
 

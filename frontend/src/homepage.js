@@ -39,16 +39,30 @@ playForm.addEventListener('submit', (e) => {
     if(nicknameForm.value === "" || nicknameForm.value === undefined) nickname = nicknameForm.placeholder;
     else nickname = nicknameForm.value;
     nickname = nickname.replace(/\s/g, "_");
-    console.log(nickname)
 
     // Démarrer connexion websocket
     connectWebSocket();
-    setTimeout(() => {
-        sendPlayerNickname(nickname);
-    }, 1000)
+
+    const interval = setInterval(() => {
+        if(ws.readyState === WebSocket.OPEN) {
+            addPlayerToServer(nickname);
+            clearInterval(interval);
+        }
+        if(ws.readyState === WebSocket.CLOSED) {
+            // eslint-disable-next-line no-alert
+            alert("La connexion au serveur a échoué\nPour le groupe => Faites npm start sur le dossier api");
+            window.location.reload();
+            clearInterval(interval);
+        }
+    }, 2000)
    
 })
 
+
+/**
+ * génère un pseudo aléatoire
+ * @returns Le pseudo
+ */
 function randomNickName() {
     return uniqueNamesGenerator({
         dictionaries: [adjectives, animals, colors],
@@ -56,14 +70,24 @@ function randomNickName() {
       });
 }
 
+/**
+ * Connexion au serveur websocket
+ */
 function connectWebSocket() {
     ws = new WebSocket("ws://localhost:8082");
-    ws.addEventListener('open', () => {
-        console.log("Connecté au serveur");
-    });
+
+    ws.addEventListener('message', () => {
+        // réception des messages venant du serveur
+      });
 }
 
-function sendPlayerNickname(nickname) {
+
+/**
+ * Envoie au serveur WebSocket l'ajout d'un nouveau joueur
+ * @param {*} nickname le pseudo du joueur
+ * @returns rien
+ */
+function addPlayerToServer(nickname) {
     if(nickname === undefined) return;
-    ws.send(nickname);
+    if(ws.readyState === WebSocket.OPEN) ws.send(nickname);
 }
