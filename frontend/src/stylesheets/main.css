@@ -87,7 +87,7 @@ html, body{
 #popupSettings {
     height: 700px;
     width: 500px;
-    background-color: rgb(223, 147, 93);
+    background-color: rgba(0, 0, 0, 0.7);
     margin-left: auto;
     margin-right: auto;
 }
