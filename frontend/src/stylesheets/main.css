@@ -67,6 +67,7 @@ html, body{
 }
 
 #options{
+    z-index: 10001;
     position: absolute;
     top: 20px;
     left: 20px;
@@ -95,12 +96,18 @@ html, body{
     height: 90%;
     width: 400px;
     background-color: rgba(0, 0, 0);
-    margin-left: 10%;
+    margin-left: 20%;
     margin-right: auto;
     color: white;
     text-align: center;
     border: 5px solid;
     border-radius: 5%;
+}
+
+#close_param {
+    float: left;
+    margin-top: 5%;
+    margin-left: 5%;
 }
 
 
@@ -167,7 +174,29 @@ html, body{
 
 @media (max-width: 767px) {
     .menu {
-        margin-left: 2%;
+        margin-left: -15%;
+    }
+
+    #popupSettings {
+        position: sticky;
+        height: 100%;
+        width: 100%;
+        margin-left: -200%;
+        margin-right: 45%;
+    }
+}
+
+@media (max-width: 376px) {
+    .menu {
+        margin-left: -20%;
+    }
+
+    #popupSettings {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        margin-right: none;
+        margin-left: -107%;
     }
 }
 
