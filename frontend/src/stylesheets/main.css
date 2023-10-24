@@ -171,11 +171,11 @@ html, body{
     }
 
     #popupSettings {
-        position: sticky;
+        position: absolute;
         height: 100%;
         width: 100%;
-        margin-left: -200%;
-        margin-right: 45%;
+        margin-left: -97%;
+        margin-right: none;
     }
 }
 
