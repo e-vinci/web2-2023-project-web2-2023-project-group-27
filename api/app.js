@@ -13,6 +13,8 @@ const authsRouter = require('./routes/auths');
 
 const app = express();
 
+require('./websockets');
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
