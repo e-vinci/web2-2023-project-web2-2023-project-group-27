@@ -156,8 +156,12 @@ html, body{
     animation: startingPlay 2s forwards;
 }
 
+.background.slide-up {
+    animation: startingPlay 4s forwards;
+}
+
 .loadingScreen.slide-up {
-    animation: startingPlay2 2s forwards;
+    animation: startingPlay2 3s forwards;
 }
 
 

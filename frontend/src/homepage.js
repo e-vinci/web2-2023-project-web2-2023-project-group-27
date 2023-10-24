@@ -19,7 +19,7 @@ settingsButton.addEventListener('click', () => {
     popupSettings.style.display = 'block';
     }
     isPopUpDisplayed = !isPopUpDisplayed;
-})
+});
 
 
 playForm.addEventListener('submit', (e) => {
@@ -36,10 +36,10 @@ playForm.addEventListener('submit', (e) => {
      // Démarrer l'animation de chargement
     document.querySelector('.homepage').classList.add('slide-up');
     document.querySelector('.loadingScreen').classList.add('slide-up');
+    document.querySelector('.background').classList.add('slide-up');
     loadingScreen.style.display = 'block';
+
 })
-
-
 
 function randomNickName() {
     return uniqueNamesGenerator({
