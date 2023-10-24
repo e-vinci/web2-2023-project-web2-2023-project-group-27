@@ -15,9 +15,8 @@ html, body{
     width: 100%;
     height: 100%;
     z-index: -1;
-    background: url("../img/homepage-background.png");
+    background: url("../img/homepage-background.jpg");
     background-size: cover;
-    transform: scaleX(-1); /* flip background */
 }
 
 .menu{
@@ -66,7 +65,7 @@ html, body{
 #options{
     position: fixed;
     top: 20px;
-    right: 20px;
+    left: 20px;
     height: 70px;
     width: 73px;
     background: url("../img/options.png");
