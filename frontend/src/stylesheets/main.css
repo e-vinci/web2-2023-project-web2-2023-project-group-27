@@ -23,13 +23,19 @@ html, body{
     background-size: cover;
 }
 
-.menu{
+.menu {
     margin-left: 5%;
     margin-right: 5%;
     margin-top:5%;
     margin-bottom: 5%;
     width: 600px;
     text-align: center;
+}
+
+.center {
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
 }
 
 #logo{
@@ -64,17 +70,17 @@ input {
 
 #loginPath, #signInPath {
     margin-top: 7%;
-    box-shadow: 10px 10px 3px 3px rgba(255, 0, 0, 0.205);
+    box-shadow: 10px 10px 3px 3px rgba(255, 0, 0, 0.3);
 }
 
 #loginButton {
     width: 300px;
-    box-shadow: 10px 10px 3px 3px rgba(255, 0, 0, 0.205);
+    box-shadow: 10px 10px 3px 3px rgba(255, 0, 0, 0.3);
 }
 
 #signInButton {
     width: 230px;
-    box-shadow: 10px 10px 3px 3px rgba(255, 0, 0, 0.205);
+    box-shadow: 10px 10px 3px 3px rgba(255, 0, 0, 0.3);
 }
 
 #playButton:hover, #loginPath:hover, #signInPath:hover, #loginButton:hover, #signInButton:hover {
@@ -134,6 +140,10 @@ input {
     border: 30px;
     border-color: rgb(230, 87, 87);
     border-style: ridge;
+}
+
+#loginForm, #signInForm {
+    margin-top: 5vh;
 }
 
 @keyframes optionRotate {
@@ -196,179 +206,25 @@ input {
     animation: startingPlay2 3s forwards;
 }
 
-
-@media (max-width: 767px) {
-    .menu {
-        margin-left: -15%;
-    }
-
-    #popupSettings, #popupLogin, #popupSignIn {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        margin-left: -97%;
-        margin-right: none;
-    }
-}
-
-@media (max-width: 376px) {
-    .menu {
-        margin-left: -20%;
-    }
-
-    #popupSettings, #popupLogin, #popupSignIn {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        margin-right: none;
-        margin-left: -107%;
-    }
-}
-
-@media (max-width: 391px) {
-    .menu {
-        margin-left: -18%;
-    }
-
-    #popupSettings, #popupLogin, #popupSignIn {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        margin-right: none;
-        margin-left: -102.5%;
-    }
-}
-
-@media (max-width: 394px) {
-    .menu {
-        margin-left: -18.5%;
-    }
-
-    #popupSettings, #popupLogin, #popupSignIn {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        margin-right: none;
-        margin-left: -101.5%;
-    }
-}
-
-@media (max-width: 361px) {
-    .menu {
-        margin-left: -21.5%;
-    }
-
-    #popupSettings, #popupLogin, #popupSignIn {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        margin-right: none;
-        margin-left: -111%;
-    }
-}
-
-@media (max-width: 413px) {
-    .menu {
-        margin-left: -17%;
-    }
-
-    #popupSettings, #popupLogin, #popupSignIn {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        margin-right: none;
-        margin-left: -97%;
-    }
-}
-
-@media (max-width: 821px) {
-    .menu {
-        margin-left: 16%;
-    }
-
-    #popupSettings, #popupLogin, #popupSignIn {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        margin-right: none;
-        margin-left: -48.5%;
-    }
-}
-
-@media (max-width: 769px) {
-    .menu {
-        margin-left: 12%;
-    }
-
-    #popupSettings, #popupLogin, #popupSignIn {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        margin-right: none;
-        margin-left: -52%;
-    }
-}
-
 @media (max-width: 913px) {
+
+    .homepage {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+    }
     .menu {
-        margin-left: 24%;
+        display: inline;
     }
 
     #popupSettings, #popupLogin, #popupSignIn {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        margin-right: none;
-        margin-left: -43.7%;
-    }
-}
-
-@media (max-width: 541px) {
-    .menu {
-        margin-left: -6%;
-    }
-
-    #popupSettings, #popupLogin, #popupSignIn {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        margin-right: none;
-        margin-left: -74%;
-    }
-}
-
-@media (max-width: 281px) {
-    .menu {
-        margin-left: -27%;
-    }
-
-    #popupSettings, #popupLogin, #popupSignIn {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        margin-right: none;
-        margin-left: -142.8%;
-    }
-}
-
-@media (max-width: 413px) {
-    .menu {
-        margin-left: -17%;
-    }
-
-    #popupSettings, #popupLogin, #popupSignIn {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        margin-right: none;
-        margin-left: -96.9%;
-    }
-}
-
-@media (max-width: 1025px) {
-
-    #popupSettings, #popupLogin, #popupSignIn {
-        margin-left: 16%;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        margin-left: 0;
     }
 }
 
