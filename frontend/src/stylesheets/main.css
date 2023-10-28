@@ -32,12 +32,6 @@ html, body{
     text-align: center;
 }
 
-.center {
-    display: inline-block;
-    justify-content: center;
-    align-items: center;
-}
-
 #logo{
     height: 350px;
     width: 350px;
@@ -46,6 +40,16 @@ html, body{
     animation: logoMove 2s infinite;
     background-image: url('../img/logo.png');
     background-size: cover;
+}
+
+#pseudo {
+    font-weight: bolder;
+    margin-bottom: 10px;
+    text-align: center;
+    background-color: rgb(230, 87, 87);
+    width: 100px;
+    margin-left: 250px;
+    box-shadow: 5px 5px 2px 2px rgba(0, 0, 0, 0.377);
 }
 
 input {
@@ -124,6 +128,7 @@ input {
     filter: saturate(500%);
     height: 75px;
     width: 78px;
+    cursor: pointer;
 }
 
 #popupSettings, #popupLogin, #popupSignIn {
@@ -217,6 +222,11 @@ input {
     }
     .menu {
         display: inline;
+    }
+
+    #pseudo {
+        margin: auto;
+        margin-bottom: 10px;
     }
 
     #popupSettings, #popupLogin, #popupSignIn {
