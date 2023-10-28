@@ -62,6 +62,12 @@ signInPath.addEventListener('click', () => {
     isPopUpLoginDisplayed = false;
 });
 
+window.addEventListener('unload', () => {
+    // Perform cleanup tasks or log information here
+    socket.disconnect();
+  });
+
+
 playForm.addEventListener('submit', (e) => {
     e.preventDefault();
 

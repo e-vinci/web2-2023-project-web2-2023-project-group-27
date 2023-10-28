@@ -10,6 +10,10 @@ io.on('connection', (socket) => {
   socket.on('addPlayer', (nickname) => {
     console.log(nickname);
   });
+
+  socket.on('disconnect', () => {
+    console.log('a client has disconnected');
+  });
 });
 
 http.listen(8082, () => console.log('Listening on http://localhost:8082'));
