@@ -32,6 +32,8 @@ settingsButton.addEventListener('click', () => {
     popupSignIn.style.display = 'none';
     }
     isPopUpDisplayed = !isPopUpDisplayed;
+    isPopUpLoginDisplayed = false;
+    isPopUpSignInDisplayed = false;
 });
 
 loginPath.addEventListener('click', () => {
@@ -43,6 +45,8 @@ loginPath.addEventListener('click', () => {
     popupSignIn.style.display = 'none';
     }
     isPopUpLoginDisplayed = !isPopUpLoginDisplayed;
+    isPopUpDisplayed = false;
+    isPopUpSignInDisplayed = false;
 });
 
 signInPath.addEventListener('click', () => {
@@ -54,6 +58,8 @@ signInPath.addEventListener('click', () => {
     popupLogin.style.display = 'none';
     }
     isPopUpSignInDisplayed = !isPopUpSignInDisplayed;
+    isPopUpDisplayed = false;
+    isPopUpLoginDisplayed = false;
 });
 
 playForm.addEventListener('submit', (e) => {
