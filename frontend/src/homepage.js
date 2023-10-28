@@ -1,5 +1,7 @@
 import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-generator';
 
+const socketio = require('socket.io-client');
+
 const nicknameForm = document.getElementById("nickname");
 const popupSettings = document.getElementById("popupSettings");
 const popupLogin = document.getElementById("popupLogin");
@@ -13,7 +15,7 @@ const loadingScreen = document.querySelector(".loadingScreen");
 let isPopUpDisplayed = false;
 let isPopUpLoginDisplayed = false;
 let isPopUpSignInDisplayed = false;
-let ws;
+let socket;
 
 nicknameForm.placeholder = randomNickName();
 popupSettings.style.display = 'none';
@@ -76,15 +78,9 @@ playForm.addEventListener('submit', (e) => {
     // Démarrer connexion websocket
     connectWebSocket();
 
-    ws.addEventListener('open', () => {
+    socket.on("connected", () => {
         addPlayerToServer(nickname);
-      });
-      
-      ws.addEventListener('close', () => {
-        // eslint-disable-next-line no-alert
-        alert("La connexion au serveur a échoué\nPour le groupe => Faites npm start sur le dossier api");
-        window.location.reload();
-      });
+    });
    
 })
 
@@ -104,11 +100,18 @@ function randomNickName() {
  * Connexion au serveur websocket
  */
 function connectWebSocket() {
-    ws = new WebSocket("ws://localhost:8082");
+    socket = socketio.io('ws://localhost:8082');
 
-    ws.addEventListener('message', () => {
-        // réception des messages venant du serveur
-      });
+    let i = 0;
+    const connection = setInterval(() => {
+      i += 1;
+      if(i >= 10 && !socket.connected) {
+      // eslint-disable-next-line no-alert
+      alert("La connexion au serveur a échoué\nPour le groupe => Faites npm start sur le dossier api");
+      clearInterval(connection);
+      window.location.reload();
+      }
+    }, 1000);
 }
 
 
@@ -119,5 +122,5 @@ function connectWebSocket() {
  */
 function addPlayerToServer(nickname) {
     if(nickname === undefined) return;
-    if(ws.readyState === WebSocket.OPEN) ws.send(nickname);
+    if(socket.connected) socket.emit('addPlayer', nickname);
 }

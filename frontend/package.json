@@ -34,6 +34,7 @@
     "clean-webpack-plugin": "^4.0.0",
     "gh-pages": "^4.0.0",
     "phaser": "^3.55.2",
+    "socket.io-client": "^4.7.2",
     "terser-webpack-plugin": "^5.3.6",
     "unique-names-generator": "^4.7.1",
     "webpack-merge": "^5.8.0"

@@ -3,17 +3,19 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 
-const corsOptions = {
-  origin: ['http://localhost:8080', 'https://e-baron.github.io'],
-};
+const PORT = process.env.PORT || 8080;
 
-const usersRouter = require('./routes/users');
-const pizzaRouter = require('./routes/pizzas');
-const authsRouter = require('./routes/auths');
+const corsOptions = {
+  origin: [`http://localhost:${PORT}`, 'https://e-baron.github.io'],
+};
 
 const app = express();
 
 require('./websockets');
+
+const usersRouter = require('./routes/users');
+const pizzaRouter = require('./routes/pizzas');
+const authsRouter = require('./routes/auths');
 
 app.use(logger('dev'));
 app.use(express.json());

@@ -1,16 +1,15 @@
-const WebSocket = require('ws');
+const http = require('http').createServer();
+const io = require('socket.io')(http, { cors: ['http://localhost:8082', 'https://e-baron.github.io'] });
 
-const wsserver = new WebSocket.Server({ port: 8082 });
+// Websockets
+io.on('connection', (socket) => {
+  console.log('new connection');
 
-wsserver.on('connection', (ws) => {
-  console.log('new client connected');
+  socket.emit('connected');
 
-  ws.on('message', (data) => {
-    // réception du message venant du client
-    console.log(data.toString());
-  });
-
-  ws.on('close', () => {
-    console.log('a client has disconnected');
+  socket.on('addPlayer', (nickname) => {
+    console.log(nickname);
   });
 });
+
+http.listen(8082, () => console.log('Listening on http://localhost:8082'));
