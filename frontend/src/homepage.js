@@ -100,17 +100,20 @@ playForm.addEventListener('submit', (e) => {
     loadingScreen.appendChild(loadingTitle);
     loadingScreen.appendChild(loadingInformation);
     document.body.appendChild(loadingScreen);
+    loopConnection();
 
     setTimeout(() => {
+        loadingScreen.classList.remove('slide-up');
         // Démarrer connexion websocket
         const timerConnection = setInterval(() => loopConnection(), 1000);
         connectWebSocket();
 
         socket.on("connected", () => {
             addPlayerToServer(nickname);
-            setTimeout(() => clearInterval(timerConnection), 2000)
+            clearInterval(timerConnection)
+            loadingInformation.textContent = "Connecté"
         });
-    }, 1800)
+    }, 3000)
 })
 
 
@@ -132,13 +135,27 @@ function connectWebSocket() {
     socket = socketio.io('ws://localhost:8082');
     let i = 0;
     const connection = setInterval(() => {
-      i += 1;
-      if(i >= 10 && !socket.connected) {
-      // eslint-disable-next-line no-alert
-      afficherErreur("Impossible de se connecter au serveur, veuillez réessayer");
-      clearInterval(connection);
-      }
+        i += 1;
+        if(i >= 10) {
+            clearInterval(connection);
+            checkForConnection();
+            return;
+        }
+        if(i >= 10 && !socket.connected) {
+            // eslint-disable-next-line no-alert
+            afficherErreur("Impossible de se connecter au serveur, veuillez réessayer");
+            clearInterval(connection);
+        }
     }, 1000);
+}
+
+function checkForConnection() {
+    const interval = setInterval(() => {
+        if(!socket.connected) {
+        afficherErreur("La connexion au serveur a été perdue");
+        clearInterval(interval);
+        }
+    }, 2000)
 }
 
 

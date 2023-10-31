@@ -7,6 +7,10 @@ html, body{
     align-items: center; /*vertically center menu*/
     overflow: hidden; /* Disable scroll*/
 }
+
+body{
+    background: linear-gradient(110.1deg, rgb(241, 115, 30) 18.9%, rgb(231, 29, 54) 90.7%); 
+}
 .homepage{
     position: relative;
     margin-top: 0px;
@@ -21,6 +25,14 @@ html, body{
     z-index: -1;
     background: url("../img/background.jpg");
     background-size: cover;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1),rgba(0, 0, 0, 0.704), rgba(0,0,0,0));
+    /*For Edge*/
+    -webkit-mask-image: -webkit-gradient(linear, left top, left bottom,
+        color-stop(0, rgba(0,0,0,1)),
+        color-stop(0.5, rgba(0, 0, 0, 0.704)),
+        color-stop(1, rgba(0,0,0,0))
+    );
+    -webkit-mask-composite: source-over;
 }
 
 .menu {
@@ -193,10 +205,27 @@ input {
     color: orange;
     position: absolute;
     height: 300px;
-    width: 50%;
-    background-color: aliceblue;
-    margin-left: 25%;
+    width: 70%;
+    background-color: rgb(215, 61, 61);
+    text-align: center;
+    margin-left: 15%;
     margin-right: auto;
+    border: 15px solid rgb(102, 17, 17);
+    animation: logoMove 2s infinite;
+    box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.634);
+}
+
+.loadingScreen h1{
+    margin-top: 85px;
+    text-decoration: underline;
+    text-decoration-thickness: 5px;
+    line-height: 1;
+}
+
+.loadingScreen h2{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 600;
+    font-size: 40px;
 }
 
 .homepage.slide-up {
@@ -269,7 +298,7 @@ h1{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.837);
+    background-color: rgba(0, 0, 0, 0.673);
 }
 
 .error-image{
@@ -324,5 +353,9 @@ h1{
     .error-image{
         height: 50px;
         width: 50px;
+    }
+
+    .loadingScreen h1{
+        text-decoration-thickness: 2px;
     }
 }
