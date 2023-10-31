@@ -10,13 +10,12 @@ const settingsButton = document.getElementById("options");
 const loginPath = document.getElementById("loginPath");
 const signInPath = document.getElementById("signInPath");
 const playForm = document.getElementById("playForm");
+const options = document.getElementById("options");
 
 let isPopUpDisplayed = false;
 let isPopUpLoginDisplayed = false;
 let isPopUpSignInDisplayed = false;
 let socket;
-
-// genererErreur("bite");
 
 nicknameForm.placeholder = randomNickName();
 popupSettings.style.display = 'none';
@@ -62,8 +61,8 @@ signInPath.addEventListener('click', () => {
     isPopUpLoginDisplayed = false;
 });
 
+// Déconnecter le websocket en quittant la page
 window.addEventListener('unload', () => {
-    // Perform cleanup tasks or log information here
     socket.disconnect();
   });
 
@@ -102,33 +101,16 @@ playForm.addEventListener('submit', (e) => {
     loadingScreen.appendChild(loadingInformation);
     document.body.appendChild(loadingScreen);
 
-    // Démarrer connexion websocket
-    let iConnection = 0;
-    const timerConnection = setInterval(() => {
-        iConnection += 1;
-        if(iConnection > 3) iConnection = 1;
-        switch(iConnection) {
-        case 1:
-            document.getElementById("loadingInformation").innerText = 'Connexion au serveur.';
-            break;
-        case 2:
-            document.getElementById("loadingInformation").innerText = 'Connexion au serveur..';
-            break;
-        case 3:
-            document.getElementById("loadingInformation").innerText = 'Connexion au serveur...';
-            break;
-        default:
-            document.getElementById("loadingInformation").innerText = 'Connexion au serveur';
-            break;
-        }
-    }, 1000);
-    connectWebSocket();
+    setTimeout(() => {
+        // Démarrer connexion websocket
+        const timerConnection = setInterval(() => loopConnection(), 1000);
+        connectWebSocket();
 
-    socket.on("connected", () => {
-        addPlayerToServer(nickname);
-        clearInterval(timerConnection);
-    });
-   
+        socket.on("connected", () => {
+            addPlayerToServer(nickname);
+            setTimeout(() => clearInterval(timerConnection), 2000)
+        });
+    }, 1800)
 })
 
 
@@ -148,13 +130,12 @@ function randomNickName() {
  */
 function connectWebSocket() {
     socket = socketio.io('ws://localhost:8082');
-
     let i = 0;
     const connection = setInterval(() => {
       i += 1;
       if(i >= 10 && !socket.connected) {
       // eslint-disable-next-line no-alert
-      afficherErreur("Impossible de se connecter au serveur");
+      afficherErreur("Impossible de se connecter au serveur, veuillez réessayer");
       clearInterval(connection);
       }
     }, 1000);
@@ -171,6 +152,7 @@ function addPlayerToServer(nickname) {
     if(socket.connected) socket.emit('addPlayer', nickname);
 }
 
+
 /**
  * Afficher un message d'erreur forcant l'utilisateur à rafraichir la page
  * @param {*} message 
@@ -186,14 +168,50 @@ function afficherErreur(message) {
     const messageText = document.createElement('p');
     messageText.textContent = message;
 
+    const img = document.createElement("div");
+    img.className = "error-image";
+
     const boutonRecharger = document.createElement('button');
     boutonRecharger.textContent = 'Recharger la page';
     boutonRecharger.addEventListener('click', () => {
         window.location.reload();
     });
 
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+
+    document.body.style.zIndex = -1;
+    divErreur.style.zIndex = 1;
+    overlay.style.zIndex = 0;
+    options.style.zIndex = -12;
+
+    popupSettings.style.display = 'none';
+    popupLogin.style.display = 'none';
+    popupSignIn.style.display = 'none';
+
+    divErreur.appendChild(img);
     divErreur.appendChild(titre);
     divErreur.appendChild(messageText);
     divErreur.appendChild(boutonRecharger);
+
     document.body.appendChild(divErreur);
+    document.body.appendChild(overlay);
+}
+
+function loopConnection() {
+    const text = document.getElementById("loadingInformation");
+    switch(text.innerText) {
+    case 'Connexion au serveur...':
+        text.innerText = 'Connexion au serveur.';
+        break;
+    case 'Connexion au serveur.':
+        text.innerText = 'Connexion au serveur..';
+        break;
+    case 'Connexion au serveur..':
+        text.innerText = 'Connexion au serveur...';
+        break;
+    default:
+        text.innerText = 'Connexion au serveur.';
+        break;
+    }
 }
