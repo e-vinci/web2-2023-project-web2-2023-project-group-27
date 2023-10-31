@@ -10,16 +10,16 @@ const settingsButton = document.getElementById("options");
 const loginPath = document.getElementById("loginPath");
 const signInPath = document.getElementById("signInPath");
 const playForm = document.getElementById("playForm");
-const loadingScreen = document.querySelector(".loadingScreen");
 
 let isPopUpDisplayed = false;
 let isPopUpLoginDisplayed = false;
 let isPopUpSignInDisplayed = false;
 let socket;
 
+// genererErreur("bite");
+
 nicknameForm.placeholder = randomNickName();
 popupSettings.style.display = 'none';
-loadingScreen.style.display = 'none';
 popupLogin.style.display = 'none';
 popupSignIn.style.display = 'none';
 
@@ -73,10 +73,9 @@ playForm.addEventListener('submit', (e) => {
 
     // Démarrer l'animation de chargement
     document.querySelector('.homepage').classList.add('slide-up');
-    document.querySelector('.loadingScreen').classList.add('slide-up');
+
     document.querySelector('.background').classList.add('slide-up');
 
-    loadingScreen.style.display = 'block';
     popupSettings.style.display = 'none';
     popupLogin.style.display = 'none';
     popupSignIn.style.display = 'none';
@@ -87,11 +86,47 @@ playForm.addEventListener('submit', (e) => {
     else nickname = nicknameForm.value;
     nickname = nickname.replace(/\s/g, "_");
 
+    // Div chargement
+    const loadingScreen = document.createElement('div');
+    loadingScreen.className = 'loadingScreen';
+    loadingScreen.classList.add('slide-up');
+
+    const loadingTitle = document.createElement('h1');
+    loadingTitle.id = 'loadingTitle';
+    loadingTitle.textContent = 'Nous recherchons une partie pour vous';
+
+    const loadingInformation = document.createElement('h2');
+    loadingInformation.id = 'loadingInformation';
+
+    loadingScreen.appendChild(loadingTitle);
+    loadingScreen.appendChild(loadingInformation);
+    document.body.appendChild(loadingScreen);
+
     // Démarrer connexion websocket
+    let iConnection = 0;
+    const timerConnection = setInterval(() => {
+        iConnection += 1;
+        if(iConnection > 3) iConnection = 1;
+        switch(iConnection) {
+        case 1:
+            document.getElementById("loadingInformation").innerText = 'Connexion au serveur.';
+            break;
+        case 2:
+            document.getElementById("loadingInformation").innerText = 'Connexion au serveur..';
+            break;
+        case 3:
+            document.getElementById("loadingInformation").innerText = 'Connexion au serveur...';
+            break;
+        default:
+            document.getElementById("loadingInformation").innerText = 'Connexion au serveur';
+            break;
+        }
+    }, 1000);
     connectWebSocket();
 
     socket.on("connected", () => {
         addPlayerToServer(nickname);
+        clearInterval(timerConnection);
     });
    
 })
@@ -119,9 +154,8 @@ function connectWebSocket() {
       i += 1;
       if(i >= 10 && !socket.connected) {
       // eslint-disable-next-line no-alert
-      alert("La connexion au serveur a échoué\nPour le groupe => Faites npm start sur le dossier api");
+      afficherErreur("Impossible de se connecter au serveur");
       clearInterval(connection);
-      window.location.reload();
       }
     }, 1000);
 }
@@ -135,4 +169,31 @@ function connectWebSocket() {
 function addPlayerToServer(nickname) {
     if(nickname === undefined) return;
     if(socket.connected) socket.emit('addPlayer', nickname);
+}
+
+/**
+ * Afficher un message d'erreur forcant l'utilisateur à rafraichir la page
+ * @param {*} message 
+ */
+function afficherErreur(message) {
+    const divErreur = document.createElement('div');
+    divErreur.className = 'erreur-message';
+    divErreur.style.zIndex = 100;
+
+    const titre = document.createElement('h1');
+    titre.textContent = 'Une erreur est survenue';
+
+    const messageText = document.createElement('p');
+    messageText.textContent = message;
+
+    const boutonRecharger = document.createElement('button');
+    boutonRecharger.textContent = 'Recharger la page';
+    boutonRecharger.addEventListener('click', () => {
+        window.location.reload();
+    });
+
+    divErreur.appendChild(titre);
+    divErreur.appendChild(messageText);
+    divErreur.appendChild(boutonRecharger);
+    document.body.appendChild(divErreur);
 }
