@@ -108,12 +108,23 @@ playForm.addEventListener('submit', (e) => {
         const timerConnection = setInterval(() => loopConnection(), 1000);
         connectWebSocket();
 
+        // Afficher erreur si pas connecté dans les 10 secondes
+        const timerConnection2 = setTimeout(() => {
+            if(!socket.connected) {
+                afficherErreur("Impossible de se connecter au serveur, veuillez réessayer");
+            }
+        }, 10000);
+
+        // évènement quand le socket est connecté
         socket.on("connected", () => {
             addPlayerToServer(nickname);
             clearInterval(timerConnection)
-            loadingInformation.textContent = "Connecté"
+            clearTimeout(timerConnection2);
+            checkForConnection();
+            loadingInformation.textContent = "Connecté";
         });
-    }, 3000)
+
+    }, 2900)
 })
 
 
@@ -133,29 +144,16 @@ function randomNickName() {
  */
 function connectWebSocket() {
     socket = socketio.io('ws://localhost:8082');
-    let i = 0;
-    const connection = setInterval(() => {
-        i += 1;
-        if(i >= 10) {
-            clearInterval(connection);
-            checkForConnection();
-            return;
-        }
-        if(i >= 10 && !socket.connected) {
-            // eslint-disable-next-line no-alert
-            afficherErreur("Impossible de se connecter au serveur, veuillez réessayer");
-            clearInterval(connection);
-        }
-    }, 1000);
 }
 
 function checkForConnection() {
     const interval = setInterval(() => {
+        console.log('connected')
         if(!socket.connected) {
         afficherErreur("La connexion au serveur a été perdue");
         clearInterval(interval);
         }
-    }, 2000)
+    }, 5000)
 }
 
 
