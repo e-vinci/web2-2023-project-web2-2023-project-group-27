@@ -358,4 +358,8 @@ h1{
     .loadingScreen h1{
         text-decoration-thickness: 2px;
     }
+
+    .loadingScreen h1{
+        margin-top: 40px;
+    }
 }
