@@ -112,6 +112,7 @@ playForm.addEventListener('submit', (e) => {
         const timerConnection2 = setTimeout(() => {
             if(!socket.connected) {
                 afficherErreur("Impossible de se connecter au serveur, veuillez réessayer");
+                socket.disconnect();
             }
         }, 10000);
 
@@ -148,10 +149,10 @@ function connectWebSocket() {
 
 function checkForConnection() {
     const interval = setInterval(() => {
-        console.log('connected')
         if(!socket.connected) {
-        afficherErreur("La connexion au serveur a été perdue");
-        clearInterval(interval);
+            socket.disconnect();
+            afficherErreur("La connexion au serveur a été perdue");
+            clearInterval(interval);
         }
     }, 5000)
 }
