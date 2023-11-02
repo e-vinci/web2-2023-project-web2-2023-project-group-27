@@ -44,7 +44,7 @@ button:focus {
 }
 
 .menu {
-    margin-left: 5%;
+    margin-left: 0%;
     margin-right: 5%;
     margin-top:5%;
     margin-bottom: 5%;
@@ -128,10 +128,10 @@ input {
 }
 
 #options{
-    z-index: 100;
+    z-index: 100001;
     position: absolute;
     top: 20px;
-    left: 20px;
+    right: 20px;
     height: 70px;
     width: 73px;
     background: url("../img/options.png");
@@ -328,6 +328,7 @@ h1{
     }
     .menu {
         display: inline;
+        margin-left: 5%;
     }
 
     #pseudo {
