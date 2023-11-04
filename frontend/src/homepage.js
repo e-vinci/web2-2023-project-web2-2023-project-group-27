@@ -105,7 +105,7 @@ playForm.addEventListener('submit', (e) => {
 
         divColorBar = document.createElement('div');
         divColorBar.id = 'loadingColorBar';
-        divColorBar.style.width = '0%';
+        divColorBar.style.width = '2%';
 
     loadingScreen.appendChild(loadingTitle);
     loadingScreen.appendChild(loadingInformation);
@@ -124,7 +124,7 @@ playForm.addEventListener('submit', (e) => {
         // Afficher erreur si pas connecté dans les 10 secondes
         const timerConnection2 = setTimeout(() => {
             if(!socket.connected) {
-              //  afficherErreur("Impossible de se connecter au serveur, veuillez réessayer");
+                afficherErreur("Impossible de se connecter au serveur, veuillez réessayer");
             }
         }, 10000);
 
