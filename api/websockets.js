@@ -16,4 +16,4 @@ io.on('connection', (socket) => {
   });
 });
 
-http.listen(8082, () => console.log('Listening on http://localhost:8082'));
+http.listen(8082, () => console.log('WebSockets server listening on http://localhost:8082'));

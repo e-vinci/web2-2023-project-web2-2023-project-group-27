@@ -16,6 +16,7 @@ let isPopUpDisplayed = false;
 let isPopUpLoginDisplayed = false;
 let isPopUpSignInDisplayed = false;
 let socket;
+let divColorBar;
 
 nicknameForm.placeholder = randomNickName();
 popupSettings.style.display = 'none';
@@ -24,11 +25,11 @@ popupSignIn.style.display = 'none';
 
 settingsButton.addEventListener('click', () => {
     if(isPopUpDisplayed) {
-    popupSettings.style.display = 'none';
+        popupSettings.style.display = 'none';
     } else {
-    popupSettings.style.display = 'block';
-    popupLogin.style.display = 'none';
-    popupSignIn.style.display = 'none';
+        popupSettings.style.display = 'block';
+        popupLogin.style.display = 'none';
+        popupSignIn.style.display = 'none';
     }
     isPopUpDisplayed = !isPopUpDisplayed;
     isPopUpLoginDisplayed = false;
@@ -37,11 +38,11 @@ settingsButton.addEventListener('click', () => {
 
 loginPath.addEventListener('click', () => {
     if(isPopUpLoginDisplayed) {
-    popupLogin.style.display = 'none';
+        popupLogin.style.display = 'none';
     } else {
-    popupLogin.style.display = 'block';
-    popupSettings.style.display = 'none';
-    popupSignIn.style.display = 'none';
+        popupLogin.style.display = 'block';
+        popupSettings.style.display = 'none';
+        popupSignIn.style.display = 'none';
     }
     isPopUpLoginDisplayed = !isPopUpLoginDisplayed;
     isPopUpDisplayed = false;
@@ -50,11 +51,11 @@ loginPath.addEventListener('click', () => {
 
 signInPath.addEventListener('click', () => {
     if(isPopUpSignInDisplayed) {
-    popupSignIn.style.display = 'none';
+        popupSignIn.style.display = 'none';
     } else {
-    popupSignIn.style.display = 'block';
-    popupSettings.style.display = 'none';
-    popupLogin.style.display = 'none';
+        popupSignIn.style.display = 'block';
+        popupSettings.style.display = 'none';
+        popupLogin.style.display = 'none';
     }
     isPopUpSignInDisplayed = !isPopUpSignInDisplayed;
     isPopUpDisplayed = false;
@@ -66,7 +67,9 @@ window.addEventListener('unload', () => {
     socket.disconnect();
   });
 
-
+/**
+ * Démarrage d'une partie
+ */
 playForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
@@ -87,20 +90,30 @@ playForm.addEventListener('submit', (e) => {
 
     // Div chargement
     const loadingScreen = document.createElement('div');
-    loadingScreen.className = 'loadingScreen';
-    loadingScreen.classList.add('slide-up');
+        loadingScreen.className = 'loadingScreen';
+        loadingScreen.classList.add('slide-up');
 
     const loadingTitle = document.createElement('h1');
-    loadingTitle.id = 'loadingTitle';
-    loadingTitle.textContent = 'Nous recherchons une partie pour vous';
+        loadingTitle.id = 'loadingTitle';
+        loadingTitle.textContent = 'Nous recherchons une partie pour vous';
 
     const loadingInformation = document.createElement('h2');
-    loadingInformation.id = 'loadingInformation';
+        loadingInformation.id = 'loadingInformation';
+
+    const divLoadingBar = document.createElement('div');
+        divLoadingBar.id = 'loadingBar'
+
+        divColorBar = document.createElement('div');
+        divColorBar.id = 'loadingColorBar';
+        divColorBar.style.width = '0%';
 
     loadingScreen.appendChild(loadingTitle);
     loadingScreen.appendChild(loadingInformation);
+    divLoadingBar.appendChild(divColorBar)
+    loadingScreen.appendChild(divLoadingBar);
     document.body.appendChild(loadingScreen);
     loopConnection();
+
 
     setTimeout(() => {
         loadingScreen.classList.remove('slide-up');
@@ -111,8 +124,7 @@ playForm.addEventListener('submit', (e) => {
         // Afficher erreur si pas connecté dans les 10 secondes
         const timerConnection2 = setTimeout(() => {
             if(!socket.connected) {
-                afficherErreur("Impossible de se connecter au serveur, veuillez réessayer");
-                socket.disconnect();
+              //  afficherErreur("Impossible de se connecter au serveur, veuillez réessayer");
             }
         }, 10000);
 
@@ -123,6 +135,7 @@ playForm.addEventListener('submit', (e) => {
             clearTimeout(timerConnection2);
             checkForConnection();
             loadingInformation.textContent = "Connecté";
+            divColorBar.style.width = '10%'
         });
 
     }, 2900)
@@ -150,7 +163,6 @@ function connectWebSocket() {
 function checkForConnection() {
     const interval = setInterval(() => {
         if(!socket.connected) {
-            socket.disconnect();
             afficherErreur("La connexion au serveur a été perdue");
             clearInterval(interval);
         }
@@ -174,6 +186,8 @@ function addPlayerToServer(nickname) {
  * @param {*} message 
  */
 function afficherErreur(message) {
+    socket.disconnect();
+    
     const divErreur = document.createElement('div');
     divErreur.className = 'erreur-message';
     divErreur.style.zIndex = 100;
