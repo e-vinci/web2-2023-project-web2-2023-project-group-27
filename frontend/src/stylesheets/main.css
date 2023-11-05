@@ -292,7 +292,7 @@ h1{
 }
 
 .erreur-message button {
-    width: 30%;
+    width: 35%;
     text-align: center;
     height: 20%;
     font-size: 25px;
@@ -304,6 +304,13 @@ h1{
     border: 10px;
     border-color: rgb(193, 64, 64);
     border-style: ridge;
+}
+
+.erreur-message button:hover {
+    background-color: rgb(74, 8, 8);
+    height: 22%;
+    width: 37%;
+    transition: 1s;
 }
 
 .overlay {
