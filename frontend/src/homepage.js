@@ -18,7 +18,10 @@ let isPopUpSignInDisplayed = false;
 let socket;
 let divColorBar;
 
-nicknameForm.placeholder = randomNickName();
+nicknameForm.placeholder = uniqueNamesGenerator({
+    dictionaries: [adjectives, animals, colors],
+    length: 2
+  });
 popupSettings.style.display = 'none';
 popupLogin.style.display = 'none';
 popupSignIn.style.display = 'none';
@@ -116,6 +119,7 @@ playForm.addEventListener('submit', (e) => {
 
     const loadingInformation = document.createElement('h2');
         loadingInformation.id = 'loadingInformation';
+        loadingInformation.innerText = "Connexion au serveur";
 
     const divLoadingBar = document.createElement('div');
         divLoadingBar.id = 'loadingBar'
@@ -129,13 +133,12 @@ playForm.addEventListener('submit', (e) => {
     divLoadingBar.appendChild(divColorBar)
     loadingScreen.appendChild(divLoadingBar);
     document.body.appendChild(loadingScreen);
-    loopConnection();
 
 
     setTimeout(() => {
         loadingScreen.classList.remove('slide-up');
         // Démarrer connexion websocket
-        const timerConnection = setInterval(() => loopConnection(), 1000);
+        const timerConnection = setInterval(() => displayLoadingStatus(loadingInformation, "Connexion au serveur"), 1000);
         connectWebSocket();
 
         // Afficher erreur si pas connecté dans les 10 secondes
@@ -158,17 +161,6 @@ playForm.addEventListener('submit', (e) => {
     }, 2900)
 })
 
-
-/**
- * génère un pseudo aléatoire
- * @returns Le pseudo
- */
-function randomNickName() {
-    return uniqueNamesGenerator({
-        dictionaries: [adjectives, animals, colors],
-        length: 2
-      });
-}
 
 /**
  * Connexion au serveur websocket
@@ -240,25 +232,34 @@ function afficherErreur(message) {
     divErreur.appendChild(titre);
     divErreur.appendChild(messageText);
     divErreur.appendChild(boutonRecharger);
-
     document.body.appendChild(divErreur);
     document.body.appendChild(overlay);
 }
 
-function loopConnection() {
-    const text = document.getElementById("loadingInformation");
-    switch(text.innerText) {
-    case 'Connexion au serveur...':
-        text.innerText = 'Connexion au serveur.';
+
+/**
+ * Anime un message en ajoutant des points sur un élément HTML. 
+ * Il faut appeller cette méthode plusieurs fois pour à chaque fois ajouter un point. 
+ * Se reset après 3 points
+ * @param {*} element L'élément HTML (doit avoir un ID)
+ * @param {*} text Le message à afficher
+ * @returns The new String
+ */
+function displayLoadingStatus(element, text) {
+    let textElement = element.innerText;
+    switch(textElement) {
+    case `${text}.`:
+        textElement = `${text}..`;
         break;
-    case 'Connexion au serveur.':
-        text.innerText = 'Connexion au serveur..';
+    case `${text}..`:
+        textElement = `${text}...`;
         break;
-    case 'Connexion au serveur..':
-        text.innerText = 'Connexion au serveur...';
+    case `${text}...`:
+        textElement = `${text}.`;
         break;
     default:
-        text.innerText = 'Connexion au serveur.';
+        textElement = `${text}.`;
         break;
     }
+    document.getElementById(element.id).innerText = textElement;
 }
