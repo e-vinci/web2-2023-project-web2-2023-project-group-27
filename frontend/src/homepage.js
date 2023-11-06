@@ -135,7 +135,7 @@ playForm.addEventListener('submit', (e) => {
             clearTimeout(timerConnection2);
             checkForConnection();
             loadingInformation.textContent = "Connecté";
-            divColorBar.style.width = '10%'
+            divColorBar.style.width = '10%';
         });
 
     }, 2900)

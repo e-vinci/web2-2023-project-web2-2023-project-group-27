@@ -304,13 +304,13 @@ h1{
     border: 10px;
     border-color: rgb(193, 64, 64);
     border-style: ridge;
+    transition: 1s;
 }
 
 .erreur-message button:hover {
     background-color: rgb(74, 8, 8);
     height: 22%;
     width: 37%;
-    transition: 1s;
 }
 
 .overlay {
