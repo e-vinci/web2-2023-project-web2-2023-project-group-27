@@ -23,6 +23,23 @@ popupSettings.style.display = 'none';
 popupLogin.style.display = 'none';
 popupSignIn.style.display = 'none';
 
+document.getElementById("fullscreen").addEventListener('click', () => {
+const elem = document.documentElement;
+if (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
+    document.exitFullscreen();
+  }
+else if(elem.requestFullscreen) { // Général
+        elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) { // Firefox
+        elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) { // Chrome
+        elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { // Edge
+        elem.msRequestFullscreen();
+    }
+}
+);
+
 settingsButton.addEventListener('click', () => {
     if(isPopUpDisplayed) {
         popupSettings.style.display = 'none';

@@ -24,6 +24,21 @@ button:focus {
     margin-top: 0px;
     top: 0px;
 }
+
+#fullscreen{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 70px;
+    height: 70px;
+    transition: ease-out 0.5s;
+}
+
+#fullscreen:hover{
+    width: 80px;
+    height: 80px;
+}
+
 .background {
     position: absolute;
     top: 0;

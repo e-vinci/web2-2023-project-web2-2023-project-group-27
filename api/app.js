@@ -11,7 +11,7 @@ const corsOptions = {
 
 const app = express();
 
-require('./websockets');
+require('./websockets/websockets');
 
 const usersRouter = require('./routes/users');
 const pizzaRouter = require('./routes/pizzas');
