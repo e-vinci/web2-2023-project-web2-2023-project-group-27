@@ -109,6 +109,7 @@ input {
 
 #loginPath, #signInPath {
     margin-top: 7%;
+    width: 300px;
     box-shadow: 10px 10px 3px 3px rgba(255, 0, 0, 0.3);
 }
 
@@ -132,6 +133,7 @@ input {
 #loginPath:hover, #signInPath:hover {
     margin-top: 25px;
     height: 85px;
+    width: 320px;
 }
 
 #loginButton:hover {
