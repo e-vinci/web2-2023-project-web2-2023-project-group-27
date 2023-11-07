@@ -23,7 +23,7 @@ const game = require('./game');
 const players = require('./players');
 
 const lobbies = [];
-const MAX_PLAYERS_PER_LOBBY = 2;
+const MAX_PLAYERS_PER_LOBBY = 4;
 
 /**
  * Crée un lobby et l'ajoute au tableau de lobbies
@@ -58,7 +58,7 @@ function addPlayerToLobby(player) {
   lobby.players.push(player);
 
   for (let i = 0; i < lobby.players.length; i += 1) {
-    io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { playerCount: lobby.players.length, maxPlayers: MAX_PLAYERS_PER_LOBBY });
+    io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { message: `En attente de joueurs (${lobby.players.length}/${MAX_PLAYERS_PER_LOBBY})` });
   }
 
   if (lobby.players.length === MAX_PLAYERS_PER_LOBBY) {
@@ -74,7 +74,7 @@ function removePlayer(socketId) {
   const playerIndex = lobby.players.findIndex((ply) => ply === player);
   lobby.players.splice(playerIndex, 1);
   for (let i = 0; i < lobby.players.length; i += 1) {
-    io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { playerCount: lobby.players.length, maxPlayers: MAX_PLAYERS_PER_LOBBY });
+    io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { message: `En attente de joueurs (${lobby.players.length}/${MAX_PLAYERS_PER_LOBBY})` });
   }
 }
 
@@ -98,7 +98,23 @@ function getPlayers(lobbyId) {
 }
 
 function startGame(lobby) {
-  game.generateCards(lobby);
+  for (let i = 0; i < lobby.players.length; i += 1) {
+    io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { message: 'Partie trouvée' });
+  }
+  // Attend que tous les joueurs soient prêts
+  let isEveryPlayersReady = false;
+
+  const interval = setInterval(() => {
+    isEveryPlayersReady = true;
+    for (let i = 0; i < lobby.players.length; i += 1) {
+      if (!lobby.players[i].isReady) isEveryPlayersReady = false;
+    }
+
+    if (isEveryPlayersReady) {
+      clearInterval(interval);
+      game.generateCards(lobby);
+    }
+  }, 1000);
 }
 
 module.exports = {

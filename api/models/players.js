@@ -1,4 +1,5 @@
-const db = require("./db_conf");
+// eslint-disable-next-line no-unused-vars
+const db = require('./db_conf');
 
 const onlinePlayers = [];
 
@@ -11,9 +12,15 @@ function createProfile(username, isConnected, socketId) {
     numberOfCardsPlayed: 0,
     numberOfCardsDrawned: 0,
     score: 0,
+    isReady: false,
   };
   onlinePlayers.push(profile);
   return profile;
+}
+
+function readyToStart(socketId) {
+  const player = getPlayer(socketId);
+  player.isReady = true;
 }
 
 function getPlayer(socketId) {
@@ -23,4 +30,5 @@ function getPlayer(socketId) {
 module.exports = {
   createProfile,
   getPlayer,
+  readyToStart,
 };

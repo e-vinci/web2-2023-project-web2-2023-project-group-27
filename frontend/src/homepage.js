@@ -166,8 +166,9 @@ playForm.addEventListener('submit', (e) => {
             socket.on('gameUpdate', (infos) => {
                 clearInterval(timerPartie);
                 divColorBar.style.width = '20%';
-                loadingInformation.textContent = `En attente d'autres joueurs (${infos.playerCount}/${infos.maxPlayers})`;
-                timerPartie = setInterval(() => displayLoadingStatus(loadingInformation, `En attente d'autres joueurs (${infos.playerCount}/${infos.maxPlayers})`), 1000);
+                if(infos.message === 'Partie trouvée') divColorBar.style.width = '30%';
+                loadingInformation.textContent = infos.message;
+                timerPartie = setInterval(() => displayLoadingStatus(loadingInformation, infos.message), 1000);
             });
     })
 }, 2900)
