@@ -1,5 +1,6 @@
-const info = require('../../frontend/src/config.js');
+const info = require('../config');
 
-const db = require('better-sqlite3')(info.dbPath, {verbose: console.log });
+// eslint-disable-next-line import/order
+const db = require('better-sqlite3')(info.dbPath, { verbose: console.log });
 
-module.exports =db;
+module.exports = db;
