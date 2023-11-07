@@ -3,7 +3,6 @@
 // Un lobby est un objet avec les propriétés suivantes :
 // id: un identifiant unique
 // players: un tableau de joueurs, contenant un tableau de cartes
-// status: 'open' ou 'ingame', un lobby fermé est un lobby supprimé
 // direction: 'clockwise' ou 'counterclockwise', le sens de rotation du jeu
 // currentPlayer: l'index du joueur actuel dans le tableau des joueurs
 // currentCard: la dernière carte jouée
@@ -19,7 +18,9 @@
 // - Supprimer un lobby => deleteLobby(lobbyId)
 // - Récupérer les joueurs d'un lobby => getPlayers(lobbyId)
 
+const io = require('../websockets/websockets');
 const game = require('./game');
+const players = require('./players');
 
 const lobbies = [];
 const MAX_PLAYERS_PER_LOBBY = 2;
@@ -32,7 +33,6 @@ function addLobby() {
   lobbies.push({
     id: lobbies.length + 1,
     players: [],
-    status: 'open',
     direction: 'clockwise',
     currentPlayer: Math.random() * MAX_PLAYERS_PER_LOBBY,
     currentCard: null,
@@ -47,7 +47,7 @@ function isPlayerInLobby(player) {
 }
 
 function getNextAvailableLobby() {
-  let lobby = lobbies.find((lob) => lob.status === 'open');
+  let lobby = lobbies.find((lob) => lob.players.length < MAX_PLAYERS_PER_LOBBY);
   if (lobby === undefined) lobby = addLobby();
   return lobby;
 }
@@ -57,22 +57,25 @@ function addPlayerToLobby(player) {
   const lobby = getNextAvailableLobby();
   lobby.players.push(player);
 
+  for (let i = 0; i < lobby.players.length; i += 1) {
+    io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { playerCount: lobby.players.length, maxPlayers: MAX_PLAYERS_PER_LOBBY });
+  }
+
   if (lobby.players.length === MAX_PLAYERS_PER_LOBBY) {
     startGame(lobby);
   }
   return lobby;
 }
 
-function removePlayer(player) {
+function removePlayer(socketId) {
+  const player = players.getPlayer(socketId);
   const lobby = lobbies.find((lob) => lob.players.includes(player));
   if (lobby === undefined) return;
   const playerIndex = lobby.players.findIndex((ply) => ply === player);
   lobby.players.splice(playerIndex, 1);
-}
-
-function setLobbyIngame(lobbyId) {
-  const lobby = getLobbyById(lobbyId);
-  lobby.status = 'ingame';
+  for (let i = 0; i < lobby.players.length; i += 1) {
+    io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { playerCount: lobby.players.length, maxPlayers: MAX_PLAYERS_PER_LOBBY });
+  }
 }
 
 function addDeckToLobby(lobbyId, deck) {
@@ -95,14 +98,12 @@ function getPlayers(lobbyId) {
 }
 
 function startGame(lobby) {
-  lobby.status = 'ingame';
   game.generateCards(lobby);
 }
 
 module.exports = {
   addPlayerToLobby,
   removePlayer,
-  setLobbyIngame,
   addDeckToLobby,
   getLobbyById,
   deleteLobby,

@@ -138,7 +138,7 @@ playForm.addEventListener('submit', (e) => {
     document.body.appendChild(loadingScreen);
 
     setTimeout(() => {
-        loadingScreen.classList.remove('slide-up');
+        loadingScreen.style.animation = 'logoMove 2s infinite';
         // Démarrer connexion websocket
         const timerConnection = setInterval(() => displayLoadingStatus(loadingInformation, "Connexion au serveur"), 1000);
         connectWebSocket();
@@ -160,20 +160,17 @@ playForm.addEventListener('submit', (e) => {
             loadingInformation.textContent = "Connecté";
             divColorBar.style.width = '10%';
 
-        setTimeout(() => {
-                loadingInformation.textContent = "Recherche d'une partie";
-                timerPartie = setInterval(() => displayLoadingStatus(loadingInformation, "Recherche d'une partie"), 1000);
-        });
+            loadingInformation.textContent = "Recherche d'une partie";
+            timerPartie = setInterval(() => displayLoadingStatus(loadingInformation, "Recherche d'une partie"), 1000);
 
-        socket.on("gameFound", (lobby) => {
-            clearInterval(timerPartie);
-            divColorBar.style.width = '20%';
-            loadingInformation.textContent = `En attente d'autres joueurs (${lobby.players.length}/${lobby.maxPlayers})`;
-            timerPartie = setInterval(() => displayLoadingStatus(loadingInformation, `En attente d'autres joueurs (${lobby.players.length}/${lobby.maxPlayers})`), 1000);
-        });
-
-    }, 2900)
-})
+            socket.on('gameUpdate', (infos) => {
+                clearInterval(timerPartie);
+                divColorBar.style.width = '20%';
+                loadingInformation.textContent = `En attente d'autres joueurs (${infos.playerCount}/${infos.maxPlayers})`;
+                timerPartie = setInterval(() => displayLoadingStatus(loadingInformation, `En attente d'autres joueurs (${infos.playerCount}/${infos.maxPlayers})`), 1000);
+            });
+    })
+}, 2900)
 });
 
 /**
@@ -200,7 +197,7 @@ function checkForConnection() {
  */
 function addPlayerToServer(nickname) {
     if(nickname === undefined) return;
-    if(socket.connected) socket.emit('addPlayer', nickname);
+    if(socket.connected) socket.emit('addPlayer', nickname, socket.id);
 }
 
 
