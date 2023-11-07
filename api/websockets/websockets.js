@@ -5,7 +5,6 @@ const lobbies = require('../models/lobbies');
 const players = require('../models/players');
 
 io.on('connection', (socket) => {
-  // Envoi automatique d'une réponse disant qu'il est connecté au serveur
   socket.emit('connected');
 
   // Quand un joueur souhaite rejoindre une partie
@@ -20,4 +19,5 @@ io.on('connection', (socket) => {
 });
 
 // Ouverture du serveur sur le port 8082
+// eslint-disable-next-line no-console
 http.listen(8082, () => console.log('WebSockets server listening on http://localhost:8082'));
