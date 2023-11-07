@@ -266,3 +266,4 @@ function displayLoadingStatus(element, text) {
     }
     document.getElementById(element.id).innerText = textElement;
 }
+
