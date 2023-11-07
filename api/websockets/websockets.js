@@ -13,6 +13,10 @@ io.on('connection', (socket) => {
     lobbies.addPlayerToLobby(players.createProfile(nickname, false, socketID));
   });
 
+  socket.on('readyToStart', () => {
+    players.readyToStart(socket.id);
+  });
+
   // Quand un joueur se déconnecte
   socket.on('disconnect', () => {
     lobbies.removePlayer(socket.id);
