@@ -44,3 +44,16 @@ const db = require("./db_conf");
     const id = profile.findIDWithPseudo(username);
     return db.prepare('UPDATE stats SET point_count = point_count - 16 WHERE user = ?').get(id);
   }
+
+  module.exports = {
+    findIDWithPseudo,
+    addCardDrawned,
+    addCardPlayed,
+    addLoose,
+    addUno,
+    addWin,
+    PointCount1,
+    PointCount2,
+    PointCount3,
+    PointCount4
+  };
