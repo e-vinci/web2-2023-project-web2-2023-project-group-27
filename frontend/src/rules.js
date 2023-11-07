@@ -194,3 +194,80 @@ const Couleur = {
       return false;
     }
   }
+    // Fonction de jeu
+    function jouerUno(joueurs) {
+      const paquetDeCartes = melangerCartes();
+      const pile = [paquetDeCartes.pop()];
+      const nouvelleCouleur = pile[0].split('-')[0];
+      let joueurActuel = 0;
+      let sens = 1; // Sens du jeu (1 pour avant, -1 pour arrière)
+      
+      for (let i = 0; i < 7; i++) {
+        joueurs.forEach(joueur => {
+          joueur.piocher([paquetDeCartes.pop()]);
+        });
+      }
+      
+      while (true) {
+        const joueur = joueurs[joueurActuel];
+        console.log(`C'est au tour de ${joueur.nom}`);
+        console.log(`La carte actuelle sur la pile est : ${pile[pile.length - 1]}`);
+        
+        if (joueur.main.length === 0) {
+          console.log(`Le joueur ${joueur.nom} a gagné !`);
+          break;
+        }
+        
+        const carteIndex = Math.floor(Math.random() * joueur.main.length);
+        const carteJouee = joueur.jouer(carteIndex, pile, nouvelleCouleur);
+        
+        if (!carteJouee) {
+          joueur.piocher([paquetDeCartes.pop()]);
+          console.log(`Le joueur ${joueur.nom} pioche une carte.`);
+        } else {
+          console.log(`Le joueur ${joueur.nom} joue la carte ${joueur.main[carteIndex]}.`);
+          
+          if (joueur.main.length === 1) {
+            console.log(`UNO ! ${joueur.nom} a une carte restante.`);
+          }
+          
+          if (joueur.main.length === 0) {
+            console.log(`Le joueur ${joueur.nom} a gagné !`);
+            break;
+          }
+          
+          const sommetPile = pile[pile.length - 1];
+          
+          if (sommetPile === ValeurSpeciale.PLUS_DEUX) {
+            const prochainJoueur = joueurs[(joueurActuel + sens) % joueurs.length];
+            prochainJoueur.piocher([paquetDeCartes.pop(), paquetDeCartes.pop()]);
+            console.log(`Le joueur ${prochainJoueur.nom} pioche 2 cartes et perd son tour.`);
+            joueurActuel = (joueurActuel + sens) % joueurs.length;
+          } else if (sommetPile === ValeurSpeciale.INVERSION) {
+            sens *= -1;
+            console.log('L\'ordre du jeu est inversé.');
+            joueurActuel = (joueurActuel + sens + joueurs.length) % joueurs.length;
+          } else if (sommetPile === ValeurSpeciale.PASSE_TOUR) {
+            joueurActuel = (joueurActuel + sens + joueurs.length) % joueurs.length;
+            console.log(`Le joueur ${joueurs[joueurActuel].nom} perd son tour.`);
+          } else if (sommetPile.startsWith('joker')) {
+            nouvelleCouleur = joueur.main[carteIndex].split('-')[1];
+            console.log(`Le joueur ${joueur.nom} choisit la nouvelle couleur : ${nouvelleCouleur}`);
+          } else {
+            joueurActuel = (joueurActuel + sens + joueurs.length) % joueurs.length;
+          }
+        }
+        
+        console.log('-------------------------');
+      }
+    }
+    
+    // Exemple d'utilisation
+    const joueurs = [
+      new Joueur('Joueur 1'),
+      new Joueur('Joueur 2'),
+      new Joueur('Joueur 3'),
+      new Joueur('Joueur 4'),
+    ];
+    
+    jouerUno(joueurs);
