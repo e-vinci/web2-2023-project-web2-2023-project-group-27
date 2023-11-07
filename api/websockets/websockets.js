@@ -8,16 +8,19 @@ io.on('connection', (socket) => {
   socket.emit('connected');
 
   // Quand un joueur souhaite rejoindre une partie
-  socket.on('addPlayer', (nickname) => {
-    if (lobbies.addPlayerToLobby(players.createProfile(nickname, false, socket.id))) socket.emit('playerAdded');
+  socket.on('addPlayer', (nickname, socketID) => {
+    socket.join(socketID);
+    lobbies.addPlayerToLobby(players.createProfile(nickname, false, socketID));
   });
 
   // Quand un joueur se déconnecte
   socket.on('disconnect', () => {
-    players.removePlayer(socket.id);
+    lobbies.removePlayer(socket.id);
   });
 });
 
 // Ouverture du serveur sur le port 8082
 // eslint-disable-next-line no-console
 http.listen(8082, () => console.log('WebSockets server listening on http://localhost:8082'));
+
+exports.sendSocketToId = (id, type, content) => io.to(id).emit(type, content);

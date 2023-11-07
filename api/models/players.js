@@ -10,7 +10,6 @@ function createProfile(username, isConnected, socketId) {
     numberOfCardsDrawned: 0,
     score: 0,
   };
-
   onlinePlayers.push(profile);
   return profile;
 }

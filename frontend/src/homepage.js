@@ -113,7 +113,7 @@ playForm.addEventListener('submit', (e) => {
     // Div chargement
     const loadingScreen = document.createElement('div');
         loadingScreen.className = 'loadingScreen';
-        loadingScreen.classList.add('slide-up');
+        loadingScreen.style.animation = 'startingPlay2 3s forwards';
 
     const loadingTitle = document.createElement('h1');
         loadingTitle.id = 'loadingTitle';
@@ -137,9 +137,8 @@ playForm.addEventListener('submit', (e) => {
     loadingScreen.appendChild(divLoadingBar);
     document.body.appendChild(loadingScreen);
 
-
     setTimeout(() => {
-        loadingScreen.classList.remove('slide-up');
+        loadingScreen.style.animation = 'logoMove 2s infinite';
         // Démarrer connexion websocket
         const timerConnection = setInterval(() => displayLoadingStatus(loadingInformation, "Connexion au serveur"), 1000);
         connectWebSocket();
@@ -151,6 +150,7 @@ playForm.addEventListener('submit', (e) => {
             }
         }, 15000);
 
+        let timerPartie;
         // évènement quand le socket est connecté
         socket.on("connected", () => {
             addPlayerToServer(nickname);
@@ -159,11 +159,19 @@ playForm.addEventListener('submit', (e) => {
             checkForConnection();
             loadingInformation.textContent = "Connecté";
             divColorBar.style.width = '10%';
-        });
 
-    }, 2900)
-})
+            loadingInformation.textContent = "Recherche d'une partie";
+            timerPartie = setInterval(() => displayLoadingStatus(loadingInformation, "Recherche d'une partie"), 1000);
 
+            socket.on('gameUpdate', (infos) => {
+                clearInterval(timerPartie);
+                divColorBar.style.width = '20%';
+                loadingInformation.textContent = `En attente d'autres joueurs (${infos.playerCount}/${infos.maxPlayers})`;
+                timerPartie = setInterval(() => displayLoadingStatus(loadingInformation, `En attente d'autres joueurs (${infos.playerCount}/${infos.maxPlayers})`), 1000);
+            });
+    })
+}, 2900)
+});
 
 /**
  * Connexion au serveur websocket
@@ -189,7 +197,7 @@ function checkForConnection() {
  */
 function addPlayerToServer(nickname) {
     if(nickname === undefined) return;
-    if(socket.connected) socket.emit('addPlayer', nickname);
+    if(socket.connected) socket.emit('addPlayer', nickname, socket.id);
 }
 
 
@@ -266,3 +274,4 @@ function displayLoadingStatus(element, text) {
     }
     document.getElementById(element.id).innerText = textElement;
 }
+

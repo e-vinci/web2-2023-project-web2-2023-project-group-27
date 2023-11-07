@@ -267,9 +267,6 @@ input {
     animation: startingPlay 4s forwards;
 }
 
-.loadingScreen.slide-up {
-    animation: startingPlay2 3s forwards;
-}
 
 #loadingTitle{
     font-size: 40px;

@@ -31,6 +31,7 @@ function generateCards(lobby) {
     generateCard(lobby, 'black', 'multicolor');
   }
   shuffleStack(lobby);
+  console.log(lobby.stack);
 }
 
 function generateCard(lobby, color, value) {
