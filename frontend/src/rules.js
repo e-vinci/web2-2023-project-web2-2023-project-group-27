@@ -157,3 +157,40 @@ const Couleur = {
       .sort(() => Math.random() - 0.5);
     return cartes;
   }
+   // Définition du joueur
+   class Joueur {
+    constructor(nom) {
+      this.nom = nom;
+      this.main = [];
+    }
+    
+    piocher(cartes) {
+      this.main.push(...cartes);
+    }
+    
+    jouer(carteIndex, pile, nouvelleCouleur) {
+      const carte = this.main[carteIndex];
+      
+      if (this.peutJouer(carte, pile, nouvelleCouleur)) {
+        this.main.splice(carteIndex, 1);
+        pile.push(carte);
+        return true;
+      }
+      
+      return false;
+    }
+    
+    peutJouer(carte, pile, nouvelleCouleur) {
+      const sommetPile = pile[pile.length - 1];
+      
+      if (carte === ValeurSpeciale.PLUS_DEUX && sommetPile === ValeurSpeciale.PLUS_DEUX) {
+        return true;
+      }
+      
+      if (carte === sommetPile || carte.startsWith(nouvelleCouleur)) {
+        return true;
+      }
+      
+      return false;
+    }
+  }
