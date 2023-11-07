@@ -6,6 +6,9 @@ function createProfile(username, isConnected, socketId) {
     isConnected,
     socketId,
     deck: [],
+    numberOfCardsPlayed: 0,
+    numberOfCardsDrawned: 0,
+    score: 0,
   };
 
   onlinePlayers.push(profile);

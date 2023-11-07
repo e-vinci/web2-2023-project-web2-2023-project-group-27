@@ -1,7 +1,13 @@
+/* eslint-disable no-param-reassign */
+
 // Un lobby est un objet avec les propriétés suivantes :
 // id: un identifiant unique
 // players: un tableau de joueurs, contenant un tableau de cartes
 // status: 'open' ou 'ingame', un lobby fermé est un lobby supprimé
+// direction: 'clockwise' ou 'counterclockwise', le sens de rotation du jeu
+// currentPlayer: l'index du joueur actuel dans le tableau des joueurs
+// currentCard: la dernière carte jouée
+// stack: La pioche de cartes
 
 // Actions possible:
 // - Créer un lobby => addLobby()
@@ -13,7 +19,10 @@
 // - Supprimer un lobby => deleteLobby(lobbyId)
 // - Récupérer les joueurs d'un lobby => getPlayers(lobbyId)
 
+const game = require('./game');
+
 const lobbies = [];
+const MAX_PLAYERS_PER_LOBBY = 2;
 
 /**
  * Crée un lobby et l'ajoute au tableau de lobbies
@@ -24,6 +33,10 @@ function addLobby() {
     id: lobbies.length + 1,
     players: [],
     status: 'open',
+    direction: 'clockwise',
+    currentPlayer: Math.random() * MAX_PLAYERS_PER_LOBBY,
+    currentCard: null,
+    stack: [],
   });
   return lobbies[lobbies.length - 1];
 }
@@ -42,7 +55,10 @@ function addPlayerToLobby(player) {
   if (isPlayerInLobby(player)) return false;
   const lobby = getNextAvailableLobby();
   lobby.players.push(player);
-  console.log(`added ${player.username} to lobby ${lobby.id}`);
+
+  if (lobby.players.length === MAX_PLAYERS_PER_LOBBY) {
+    startGame(lobby);
+  }
   return true;
 }
 
@@ -53,12 +69,12 @@ function removePlayer(player) {
 }
 
 function setLobbyIngame(lobbyId) {
-  const lobby = lobbies.find((lob) => lob.id === lobbyId);
+  const lobby = getLobbyById(lobbyId);
   lobby.status = 'ingame';
 }
 
 function addDeckToLobby(lobbyId, deck) {
-  const lobby = lobbies.find((lob) => lob.id === lobbyId);
+  const lobby = getLobbyById(lobbyId);
   lobby.decks.push(deck);
 }
 
@@ -67,13 +83,17 @@ function getLobbyById(lobbyId) {
 }
 
 function deleteLobby(lobbyId) {
-  const lobbyIndex = lobbies.findIndex((lobby) => lobby.id === lobbyId);
+  const lobbyIndex = getLobbyById(lobbyId).id;
   lobbies.splice(lobbyIndex, 1);
 }
 
 function getPlayers(lobbyId) {
-  const lobby = lobbies.find((lob) => lob.id === lobbyId);
+  const lobby = getLobbyById(lobbyId);
   return lobby.players;
+}
+
+function startGame(lobby) {
+  game.generateCards(lobby);
 }
 
 module.exports = {
