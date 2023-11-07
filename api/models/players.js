@@ -1,3 +1,5 @@
+const db = require("./db_conf");
+
 const onlinePlayers = [];
 
 function createProfile(username, isConnected, socketId) {
