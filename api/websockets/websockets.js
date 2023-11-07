@@ -9,12 +9,17 @@ io.on('connection', (socket) => {
 
   // Quand un joueur souhaite rejoindre une partie
   socket.on('addPlayer', (nickname) => {
-    if (lobbies.addPlayerToLobby(players.createProfile(nickname, false, socket.id))) socket.emit('playerAdded');
+    const lobby = lobbies.addPlayerToLobby(players.createProfile(nickname, false, socket.id));
+    if (lobby === undefined) {
+      socket.emit('gameNotFound');
+    } else {
+      socket.emit('gameFound', lobby);
+    }
   });
 
   // Quand un joueur se déconnecte
   socket.on('disconnect', () => {
-    players.removePlayer(socket.id);
+    lobbies.removePlayer(socket.id);
   });
 });
 

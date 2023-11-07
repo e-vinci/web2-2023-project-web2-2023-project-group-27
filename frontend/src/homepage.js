@@ -113,7 +113,7 @@ playForm.addEventListener('submit', (e) => {
     // Div chargement
     const loadingScreen = document.createElement('div');
         loadingScreen.className = 'loadingScreen';
-        loadingScreen.classList.add('slide-up');
+        loadingScreen.style.animation = 'startingPlay2 3s forwards';
 
     const loadingTitle = document.createElement('h1');
         loadingTitle.id = 'loadingTitle';
@@ -137,7 +137,6 @@ playForm.addEventListener('submit', (e) => {
     loadingScreen.appendChild(divLoadingBar);
     document.body.appendChild(loadingScreen);
 
-
     setTimeout(() => {
         loadingScreen.classList.remove('slide-up');
         // Démarrer connexion websocket
@@ -151,6 +150,7 @@ playForm.addEventListener('submit', (e) => {
             }
         }, 15000);
 
+        let timerPartie;
         // évènement quand le socket est connecté
         socket.on("connected", () => {
             addPlayerToServer(nickname);
@@ -159,11 +159,22 @@ playForm.addEventListener('submit', (e) => {
             checkForConnection();
             loadingInformation.textContent = "Connecté";
             divColorBar.style.width = '10%';
+
+        setTimeout(() => {
+                loadingInformation.textContent = "Recherche d'une partie";
+                timerPartie = setInterval(() => displayLoadingStatus(loadingInformation, "Recherche d'une partie"), 1000);
+        });
+
+        socket.on("gameFound", (lobby) => {
+            clearInterval(timerPartie);
+            divColorBar.style.width = '20%';
+            loadingInformation.textContent = `En attente d'autres joueurs (${lobby.players.length}/${lobby.maxPlayers})`;
+            timerPartie = setInterval(() => displayLoadingStatus(loadingInformation, `En attente d'autres joueurs (${lobby.players.length}/${lobby.maxPlayers})`), 1000);
         });
 
     }, 2900)
 })
-
+});
 
 /**
  * Connexion au serveur websocket

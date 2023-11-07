@@ -37,6 +37,7 @@ function addLobby() {
     currentPlayer: Math.random() * MAX_PLAYERS_PER_LOBBY,
     currentCard: null,
     stack: [],
+    maxPlayers: MAX_PLAYERS_PER_LOBBY,
   });
   return lobbies[lobbies.length - 1];
 }
@@ -59,11 +60,12 @@ function addPlayerToLobby(player) {
   if (lobby.players.length === MAX_PLAYERS_PER_LOBBY) {
     startGame(lobby);
   }
-  return true;
+  return lobby;
 }
 
 function removePlayer(player) {
   const lobby = lobbies.find((lob) => lob.players.includes(player));
+  if (lobby === undefined) return;
   const playerIndex = lobby.players.findIndex((ply) => ply === player);
   lobby.players.splice(playerIndex, 1);
 }
@@ -93,6 +95,7 @@ function getPlayers(lobbyId) {
 }
 
 function startGame(lobby) {
+  lobby.status = 'ingame';
   game.generateCards(lobby);
 }
 
