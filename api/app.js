@@ -3,10 +3,10 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 
-const PORT = process.env.PORT || 8082;
+// const PORT = process.env.PORT || 8082;
 
 const corsOptions = {
-  origin: [`http://localhost:${PORT}`, 'https://e-baron.github.io'],
+  origin: '*',
 };
 
 const app = express();
