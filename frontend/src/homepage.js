@@ -177,8 +177,8 @@ playForm.addEventListener('submit', (e) => {
  * Connexion au serveur websocket
  */
 function connectWebSocket() {
-    // socket = socketio.io('ws://localhost:8082');
-    socket = socketio.io('ws://51.75.194.23:8082');
+    socket = socketio.io('ws://localhost:8082');
+    /// socket = socketio.io('http://51.75.194.23:8082');
 }
 
 function checkForConnection() {
