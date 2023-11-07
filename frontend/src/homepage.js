@@ -101,6 +101,8 @@ playForm.addEventListener('submit', (e) => {
     popupSettings.style.display = 'none';
     popupLogin.style.display = 'none';
     popupSignIn.style.display = 'none';
+    loginPath.style.display = 'none';
+    signInPath.style.display = 'none';
     
     // Obtenir le pseudo
     let nickname;
@@ -118,6 +120,7 @@ playForm.addEventListener('submit', (e) => {
         loadingTitle.textContent = 'Nous recherchons une partie pour vous';
 
     const loadingInformation = document.createElement('h2');
+        loadingInformation.style.cursor = 'default';
         loadingInformation.id = 'loadingInformation';
         loadingInformation.innerText = "Connexion au serveur";
 
