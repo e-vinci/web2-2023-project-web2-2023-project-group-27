@@ -120,6 +120,7 @@ playForm.addEventListener('submit', (e) => {
         loadingTitle.textContent = 'Nous recherchons une partie pour vous';
 
     const loadingInformation = document.createElement('h2');
+        loadingInformation.style.cursor = 'default';
         loadingInformation.id = 'loadingInformation';
         loadingInformation.innerText = "Connexion au serveur";
 
