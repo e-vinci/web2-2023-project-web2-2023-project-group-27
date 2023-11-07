@@ -101,6 +101,8 @@ playForm.addEventListener('submit', (e) => {
     popupSettings.style.display = 'none';
     popupLogin.style.display = 'none';
     popupSignIn.style.display = 'none';
+    loginPath.style.display = 'none';
+    signInPath.style.display = 'none';
     
     // Obtenir le pseudo
     let nickname;
