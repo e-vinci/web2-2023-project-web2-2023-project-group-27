@@ -24,6 +24,22 @@ button:focus {
     margin-top: 0px;
     top: 0px;
 }
+
+#fullscreen{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 70px;
+    height: 70px;
+    transition: ease-out 0.5s;
+}
+
+#fullscreen:hover{
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+}
+
 .background {
     position: absolute;
     top: 0;
@@ -72,6 +88,10 @@ button:focus {
     box-shadow: 5px 5px 2px 2px rgba(0, 0, 0, 0.377);
 }
 
+#pseudo:hover {
+    cursor:default;
+}
+
 input {
     border: 6px;
     border-color: rgb(230, 87, 87);
@@ -94,6 +114,7 @@ input {
 
 #loginPath, #signInPath {
     margin-top: 7%;
+    width: 300px;
     box-shadow: 10px 10px 3px 3px rgba(255, 0, 0, 0.3);
 }
 
@@ -117,6 +138,7 @@ input {
 #loginPath:hover, #signInPath:hover {
     margin-top: 25px;
     height: 85px;
+    width: 320px;
 }
 
 #loginButton:hover {
@@ -219,6 +241,7 @@ input {
     margin-left: 15%;
     margin-right: auto;
     border: 15px solid rgb(102, 17, 17);
+    border-radius: 20px;
     animation: logoMove 2s infinite;
     box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.634);
 }
@@ -244,13 +267,16 @@ input {
     animation: startingPlay 4s forwards;
 }
 
-.loadingScreen.slide-up {
-    animation: startingPlay2 3s forwards;
+
+#loadingTitle{
+    font-size: 40px;
+    margin-top: 65px;
 }
 
 
 h1{
     font-weight: bold;
+    cursor: default;
 }
 
 .erreur-message {
@@ -286,7 +312,7 @@ h1{
 }
 
 .erreur-message button {
-    width: 30%;
+    width: 35%;
     text-align: center;
     height: 20%;
     font-size: 25px;
@@ -298,6 +324,13 @@ h1{
     border: 10px;
     border-color: rgb(193, 64, 64);
     border-style: ridge;
+    transition: 1s;
+}
+
+.erreur-message button:hover {
+    background-color: rgb(74, 8, 8);
+    height: 22%;
+    width: 37%;
 }
 
 .overlay {
@@ -316,8 +349,37 @@ h1{
     background-size: cover;
 }
 
+#loadingBar{
+    margin-top: 10px;
+    margin-left: 15%;
+    width: 70%;
+    height: 20px;
+    border-left: 5px;
+    border-right: 5px;
+    border-top: 15px;
+    border-bottom: 15px;
+    border-style: solid;
+    border-color: rgb(99, 14, 14);
+    border-radius: 15px;
+    background-color: rgb(153, 22, 22);
+    z-index: 5;
+}
 
-@media (max-width: 1000px) {
+#loadingColorBar{
+    background: rgb(230,86,14);
+    background: linear-gradient(90deg, rgba(230,86,14,1) 0%, rgba(255,177,31,1) 50%, rgba(230,86,14,1) 100%);
+    border-radius: 15px;
+    transition: ease-out 1s; 
+    height: 20px;
+    margin-top: -10px;
+    margin-left: 0px;
+    z-index: 6;
+}
+
+
+
+
+@media (max-width: 900px) {
 
     .homepage {
         display: flex;
@@ -370,5 +432,20 @@ h1{
 
     .loadingScreen h1{
         margin-top: 40px;
+    }
+
+    #loadingInformation{
+        margin-top: 33px;
+        font-size: 20px;
+    }
+
+    #loadingTitle{
+        font-size: 19px;
+    }
+
+    #loadingBar{
+        margin-top: 8px;
+        margin-left: 5%;
+        width: 90%;
     }
 }
