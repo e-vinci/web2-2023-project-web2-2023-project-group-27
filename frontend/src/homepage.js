@@ -146,7 +146,7 @@ playForm.addEventListener('submit', (e) => {
             if(!socket.connected) {
                 afficherErreur("Impossible de se connecter au serveur, veuillez réessayer");
             }
-        }, 10000);
+        }, 15000);
 
         // évènement quand le socket est connecté
         socket.on("connected", () => {
@@ -175,7 +175,7 @@ function checkForConnection() {
             afficherErreur("La connexion au serveur a été perdue");
             clearInterval(interval);
         }
-    }, 5000)
+    }, 3000)
 }
 
 
