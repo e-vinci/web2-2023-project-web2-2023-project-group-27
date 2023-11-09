@@ -42,6 +42,13 @@ function addLobby() {
   return lobbies[lobbies.length - 1];
 }
 
+function deleteLobby(lobby) {
+  const index = lobbies.indexOf(lobby);
+  if (index !== -1) {
+    lobbies.splice(index, 1);
+  }
+}
+
 function isPlayerInLobby(player) {
   return lobbies.some((lobby) => lobby.players.includes(player));
 }
@@ -58,7 +65,7 @@ function addPlayerToLobby(player) {
   lobby.players.push(player);
 
   for (let i = 0; i < lobby.players.length; i += 1) {
-    io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { message: `En attente de joueurs (${lobby.players.length}/${MAX_PLAYERS_PER_LOBBY})` });
+    io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { message: `En attente d'autre joueurs (${lobby.players.length}/${MAX_PLAYERS_PER_LOBBY})` });
   }
 
   if (lobby.players.length === MAX_PLAYERS_PER_LOBBY) {
@@ -73,8 +80,10 @@ function removePlayer(socketId) {
   if (lobby === undefined) return;
   const playerIndex = lobby.players.findIndex((ply) => ply === player);
   lobby.players.splice(playerIndex, 1);
+  if (lobby.players.length === 0) deleteLobby(lobby);
+
   for (let i = 0; i < lobby.players.length; i += 1) {
-    io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { message: `En attente de joueurs (${lobby.players.length}/${MAX_PLAYERS_PER_LOBBY})` });
+    io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { message: `En attente d'autre joueurs (${lobby.players.length}/${MAX_PLAYERS_PER_LOBBY})` });
   }
 }
 
@@ -85,11 +94,6 @@ function addDeckToLobby(lobbyId, deck) {
 
 function getLobbyById(lobbyId) {
   return lobbies.find((lobby) => lobby.id === lobbyId);
-}
-
-function deleteLobby(lobbyId) {
-  const lobbyIndex = getLobbyById(lobbyId).id;
-  lobbies.splice(lobbyIndex, 1);
 }
 
 function getPlayers(lobbyId) {

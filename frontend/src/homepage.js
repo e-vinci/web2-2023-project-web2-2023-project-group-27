@@ -131,13 +131,21 @@ playForm.addEventListener('submit', (e) => {
         divColorBar.id = 'loadingColorBar';
         divColorBar.style.width = '2%';
 
+        const divChargement = document.createElement('div');
+        divChargement.id = 'divChargement';
+        const divChargement2 = document.createElement('div');
+        divChargement2.id = 'divChargement2';
+
     loadingScreen.appendChild(loadingTitle);
     loadingScreen.appendChild(loadingInformation);
     divLoadingBar.appendChild(divColorBar)
     loadingScreen.appendChild(divLoadingBar);
     document.body.appendChild(loadingScreen);
 
+
     setTimeout(() => {
+        document.body.appendChild(divChargement);
+        document.body.appendChild(divChargement2);
         loadingScreen.style.animation = 'logoMove 2s infinite';
         // Démarrer connexion websocket
         const timerConnection = setInterval(() => displayLoadingStatus(loadingInformation, "Connexion au serveur"), 1000);
@@ -179,14 +187,14 @@ playForm.addEventListener('submit', (e) => {
  */
 function connectWebSocket() {
     socket = socketio.io('ws://localhost:8082');
-    /// socket = socketio.io('http://51.75.194.23:8082');
+    // socket = socketio.io('ws://unovinci.alwaysdata.net');
 }
 
 function checkForConnection() {
-    const interval = setInterval(() => {
+    const connectionCheckInterval = setInterval(() => {
         if(!socket.connected) {
             afficherErreur("La connexion au serveur a été perdue");
-            clearInterval(interval);
+            clearInterval(connectionCheckInterval);
         }
     }, 3000)
 }
@@ -233,9 +241,9 @@ function afficherErreur(message) {
     overlay.className = 'overlay';
 
     document.body.style.zIndex = -1;
-    divErreur.style.zIndex = 1;
-    overlay.style.zIndex = 0;
-    options.style.zIndex = -12;
+    divErreur.style.zIndex = 10000;
+    overlay.style.zIndex = 2000;
+    options.style.zIndex = 1100;
 
     popupSettings.style.display = 'none';
     popupLogin.style.display = 'none';
