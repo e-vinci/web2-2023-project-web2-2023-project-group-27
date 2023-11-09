@@ -35,7 +35,7 @@ function addLobby() {
     status: 'open',
     direction: 'clockwise',
     currentPlayer: Math.random() * MAX_PLAYERS_PER_LOBBY,
-    currentCard: null,
+    currentCard: stack[0],
     stack: [],
   });
   return lobbies[lobbies.length - 1];

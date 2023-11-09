@@ -40,6 +40,14 @@ function generateCard(lobby, color, value) {
   });
 }
 
+//fonction distribuant les cartes aux joueurs debut de games
+function drawCard(lobby, joueur){
+ let card =  lobby.stack.pop();
+ joueur.deck.push(card);
+ 
+}
+
 module.exports = {
   generateCards,
+  drawCard,
 };
