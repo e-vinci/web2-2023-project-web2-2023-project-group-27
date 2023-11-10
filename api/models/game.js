@@ -64,7 +64,7 @@ function playCard (lobby, joueur, carteIndex){
   const card = joueur.deck[carteIndex];
   if(isCardPlayable(card,lobby.currentCard)) {
     lobby.currentCard = card;
-    joueur.deck.splice(cardIndex,1);
+    joueur.deck.splice(carteIndex,1);
     for (let i = 0; i < lobby.players.length; i += 1) {
       const player = lobby.players[i];
       io.sendSocketToId(joueur.socketId, 'cardPlayed', { toPlayer: player, card });
@@ -86,10 +86,46 @@ function isCardPlayable(card, currentCard) {
   }
   return false;
 }
+// Fonction pour gérer les effets spéciaux des cartes
+function handleSpecialCardEffects(card, lobby) {
+  if (card.value === '+2') {
+    
+    const currentPlayerIndex = lobby.players.indexOf(lobby.currentPlayer);
+    let nextPlayerIndex = currentPlayerIndex + 1;
+    if (nextPlayerIndex >= lobby.players.length) {
+      nextPlayerIndex = 0; // Revenir au premier joueur s'il n'y a plus de joueurs suivants
+    }
+    const nextPlayer = lobby.players[nextPlayerIndex];
+    for (let i = 0; i < 2; i += 1) {
+      drawCard(lobby, nextPlayer);
+    }
+  } else if (card.value === 'stop') {
+    
+    const currentPlayerIndex = lobby.players.indexOf(lobby.currentPlayer);
+    let nextPlayerIndex = currentPlayerIndex + 1;
+    if (nextPlayerIndex >= lobby.players.length) {
+      nextPlayerIndex = 0; 
+    }
+    lobby.currentPlayer = lobby.players[nextPlayerIndex];
+  } else if (card.value === 'reverse') {
+    lobby.players.reverse();
+  } else if (card.value === '+4') {
+    const currentPlayerIndex = lobby.players.indexOf(lobby.currentPlayer);
+    let nextPlayerIndex = currentPlayerIndex + 1;
+    if (nextPlayerIndex >= lobby.players.length) {
+      nextPlayerIndex = 0;
+    }
+    const nextPlayer = lobby.players[nextPlayerIndex];
+    for (let i = 0; i < 4; i += 1) {
+      drawCard(lobby, nextPlayer);
+    }
+  }
+}
 
 module.exports = {
   generateCards,
   drawCard,
   playCard,
+  
 };
 
