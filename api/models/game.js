@@ -60,11 +60,11 @@ function drawCard(lobby, joueur) {
 }
 
 // Fonction pour jouer une carte
-function playCard (lobby, joueur, carteIndex){
+function playCard(lobby, joueur, carteIndex) {
   const card = joueur.deck[carteIndex];
-  if(isCardPlayable(card,lobby.currentCard)) {
+  if (isCardPlayable(card, lobby.currentCard)) {
     lobby.currentCard = card;
-    joueur.deck.splice(cardIndex,1);
+    joueur.deck.splice(carteIndex, 1);
     for (let i = 0; i < lobby.players.length; i += 1) {
       const player = lobby.players[i];
       io.sendSocketToId(joueur.socketId, 'cardPlayed', { toPlayer: player, card });
@@ -72,14 +72,13 @@ function playCard (lobby, joueur, carteIndex){
 
     handleSpecialCardEffects(card, lobby);
   } else {
-    
     io.sendSocketToId(joueur.socketId, 'invalidCard', { card });
   }
-  }
+}
 // Fonction pour vérifier si une carte est jouable
 function isCardPlayable(card, currentCard) {
   if (card.color === 'black') {
-    return true; 
+    return true;
   }
   if (card.color === currentCard.color || card.value === currentCard.value) {
     return true;
@@ -92,4 +91,3 @@ module.exports = {
   drawCard,
   playCard,
 };
-

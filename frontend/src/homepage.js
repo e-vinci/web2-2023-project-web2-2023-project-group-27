@@ -107,7 +107,10 @@ playForm.addEventListener('submit', (e) => {
     // Div chargement
     afficherDivChargement();
 
+    
     setTimeout(() => {
-        connectWebSocket(nicknameForm.value, null, null);
+        let nickname = nicknameForm.value;
+        if(nickname === '' || nickname === undefined) nickname = nicknameForm.placeholder;
+        connectWebSocket(nickname, null, null);
     }, 2900);
 });
