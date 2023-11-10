@@ -21,17 +21,17 @@ let divColorBar;
 nicknameForm.placeholder = uniqueNamesGenerator({
     dictionaries: [adjectives, animals, colors],
     length: 2
-  });
+});
 popupSettings.style.display = 'none';
 popupLogin.style.display = 'none';
 popupSignIn.style.display = 'none';
 
 document.getElementById("fullscreen").addEventListener('click', () => {
-const elem = document.documentElement;
-if (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
-    document.exitFullscreen();
-  }
-else if(elem.requestFullscreen) { // Général
+    const elem = document.documentElement;
+    if (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
+        document.exitFullscreen();
+    }
+    else if (elem.requestFullscreen) { // Général
         elem.requestFullscreen();
     } else if (elem.mozRequestFullScreen) { // Firefox
         elem.mozRequestFullScreen();
@@ -44,7 +44,7 @@ else if(elem.requestFullscreen) { // Général
 );
 
 settingsButton.addEventListener('click', () => {
-    if(isPopUpDisplayed) {
+    if (isPopUpDisplayed) {
         popupSettings.style.display = 'none';
     } else {
         popupSettings.style.display = 'block';
@@ -57,7 +57,7 @@ settingsButton.addEventListener('click', () => {
 });
 
 loginPath.addEventListener('click', () => {
-    if(isPopUpLoginDisplayed) {
+    if (isPopUpLoginDisplayed) {
         popupLogin.style.display = 'none';
     } else {
         popupLogin.style.display = 'block';
@@ -70,7 +70,7 @@ loginPath.addEventListener('click', () => {
 });
 
 signInPath.addEventListener('click', () => {
-    if(isPopUpSignInDisplayed) {
+    if (isPopUpSignInDisplayed) {
         popupSignIn.style.display = 'none';
     } else {
         popupSignIn.style.display = 'block';
@@ -85,7 +85,7 @@ signInPath.addEventListener('click', () => {
 // Déconnecter le websocket en quittant la page
 window.addEventListener('unload', () => {
     socket.disconnect();
-  });
+});
 
 /**
  * Démarrage d'une partie
@@ -103,38 +103,38 @@ playForm.addEventListener('submit', (e) => {
     popupSignIn.style.display = 'none';
     loginPath.style.display = 'none';
     signInPath.style.display = 'none';
-    
+
     // Obtenir le pseudo
     let nickname;
-    if(nicknameForm.value === "" || nicknameForm.value === undefined) nickname = nicknameForm.placeholder;
+    if (nicknameForm.value === "" || nicknameForm.value === undefined) nickname = nicknameForm.placeholder;
     else nickname = nicknameForm.value;
     nickname = nickname.replace(/\s/g, "_");
 
     // Div chargement
     const loadingScreen = document.createElement('div');
-        loadingScreen.className = 'loadingScreen';
-        loadingScreen.style.animation = 'startingPlay2 3s forwards';
+    loadingScreen.className = 'loadingScreen';
+    loadingScreen.style.animation = 'startingPlay2 3s forwards';
 
     const loadingTitle = document.createElement('h1');
-        loadingTitle.id = 'loadingTitle';
-        loadingTitle.textContent = 'Nous recherchons une partie pour vous';
+    loadingTitle.id = 'loadingTitle';
+    loadingTitle.textContent = 'Nous recherchons une partie pour vous';
 
     const loadingInformation = document.createElement('h2');
-        loadingInformation.style.cursor = 'default';
-        loadingInformation.id = 'loadingInformation';
-        loadingInformation.innerText = "Connexion au serveur";
+    loadingInformation.style.cursor = 'default';
+    loadingInformation.id = 'loadingInformation';
+    loadingInformation.innerText = "Connexion au serveur";
 
     const divLoadingBar = document.createElement('div');
-        divLoadingBar.id = 'loadingBar'
+    divLoadingBar.id = 'loadingBar'
 
-        divColorBar = document.createElement('div');
-        divColorBar.id = 'loadingColorBar';
-        divColorBar.style.width = '2%';
+    divColorBar = document.createElement('div');
+    divColorBar.id = 'loadingColorBar';
+    divColorBar.style.width = '2%';
 
-        const divChargement = document.createElement('div');
-        divChargement.id = 'divChargement';
-        const divChargement2 = document.createElement('div');
-        divChargement2.id = 'divChargement2';
+    const divChargement = document.createElement('div');
+    divChargement.id = 'divChargement';
+    const divChargement2 = document.createElement('div');
+    divChargement2.id = 'divChargement2';
 
     loadingScreen.appendChild(loadingTitle);
     loadingScreen.appendChild(loadingInformation);
@@ -153,7 +153,7 @@ playForm.addEventListener('submit', (e) => {
 
         // Afficher erreur si pas connecté dans les 10 secondes
         const timerConnection2 = setTimeout(() => {
-            if(!socket.connected) {
+            if (!socket.connected) {
                 afficherErreur("Impossible de se connecter au serveur, veuillez réessayer");
             }
         }, 15000);
@@ -174,12 +174,15 @@ playForm.addEventListener('submit', (e) => {
             socket.on('gameUpdate', (infos) => {
                 clearInterval(timerPartie);
                 divColorBar.style.width = '20%';
-                if(infos.message === 'Partie trouvée') divColorBar.style.width = '30%';
+                if (infos.message === 'Partie trouvée') {
+                    divColorBar.style.width = '30%';
+
+                }
                 loadingInformation.textContent = infos.message;
                 timerPartie = setInterval(() => displayLoadingStatus(loadingInformation, infos.message), 1000);
             });
-    })
-}, 2900)
+        })
+    }, 2900)
 });
 
 /**
@@ -192,7 +195,7 @@ function connectWebSocket() {
 
 function checkForConnection() {
     const connectionCheckInterval = setInterval(() => {
-        if(!socket.connected) {
+        if (!socket.connected) {
             afficherErreur("La connexion au serveur a été perdue");
             clearInterval(connectionCheckInterval);
         }
@@ -206,8 +209,8 @@ function checkForConnection() {
  * @returns rien
  */
 function addPlayerToServer(nickname) {
-    if(nickname === undefined) return;
-    if(socket.connected) socket.emit('addPlayer', nickname, socket.id);
+    if (nickname === undefined) return;
+    if (socket.connected) socket.emit('addPlayer', nickname, socket.id);
 }
 
 
@@ -217,7 +220,7 @@ function addPlayerToServer(nickname) {
  */
 function afficherErreur(message) {
     socket.disconnect();
-    
+
     const divErreur = document.createElement('div');
     divErreur.className = 'erreur-message';
     divErreur.style.zIndex = 100;
@@ -268,20 +271,19 @@ function afficherErreur(message) {
  */
 function displayLoadingStatus(element, text) {
     let textElement = element.innerText;
-    switch(textElement) {
-    case `${text}.`:
-        textElement = `${text}..`;
-        break;
-    case `${text}..`:
-        textElement = `${text}...`;
-        break;
-    case `${text}...`:
-        textElement = `${text}.`;
-        break;
-    default:
-        textElement = `${text}.`;
-        break;
+    switch (textElement) {
+        case `${text}.`:
+            textElement = `${text}..`;
+            break;
+        case `${text}..`:
+            textElement = `${text}...`;
+            break;
+        case `${text}...`:
+            textElement = `${text}.`;
+            break;
+        default:
+            textElement = `${text}.`;
+            break;
     }
     document.getElementById(element.id).innerText = textElement;
 }
-
