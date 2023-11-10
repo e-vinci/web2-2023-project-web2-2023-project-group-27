@@ -59,7 +59,28 @@ function drawCard(lobby, joueur) {
   }
 }
 
+// Fonction pour jouer une carte
+function playCard (lobby, joueur, carteIndex){
+  const card = joueur.deck[carteIndex];
+  if(isCardPlayable(card,lobby.currentCard)) {
+    lobby.currentCard = card;
+    joueur.deck.splice(cardIndex,1);
+    for (let i = 0; i < lobby.players.length; i += 1) {
+      const player = lobby.players[i];
+      io.sendSocketToId(joueur.socketId, 'cardPlayed', { toPlayer: player, card });
+    }
+    
+    handleSpecialCardEffects(card, lobby);
+  } else {
+    
+    io.sendSocketToId(joueur.socketId, 'invalidCard', { card });
+  }
+  }
+
+
 module.exports = {
   generateCards,
   drawCard,
+  playCard,
 };
+
