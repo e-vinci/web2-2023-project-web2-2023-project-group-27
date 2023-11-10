@@ -30,7 +30,7 @@ const MAX_PLAYERS_PER_LOBBY = 4;
  * @returns un lobby
  */
 function addLobby() {
-  lobbies.push({
+  const lobby = {
     id: lobbies.length + 1,
     players: [],
     direction: 'clockwise',
@@ -39,7 +39,19 @@ function addLobby() {
     stack: [],
     maxPlayers: MAX_PLAYERS_PER_LOBBY,
     humanPlayersCount: 0,
-  });
+  };
+  lobbies.push(lobby);
+
+  setTimeout(() => {
+    if (getLobbyById(lobby.id) !== undefined) {
+      for (let i = 0; i < MAX_PLAYERS_PER_LOBBY - lobby.humanPlayersCount; i += 1) {
+        const profile = players.createProfile('Bot', null, false);
+        lobby.players.push(profile);
+        profile.isReady = true;
+      }
+      startGame(lobby);
+    }
+  }, 20000);
   return lobbies[lobbies.length - 1];
 }
 

@@ -19,8 +19,8 @@ function createProfile(username, socketId, isHuman) {
   return profile;
 }
 
-function readyToStart(player) {
-  // eslint-disable-next-line no-param-reassign
+function readyToStart(socketId) {
+  const player = getPlayerBySocket(socketId);
   player.isReady = true;
 }
 
