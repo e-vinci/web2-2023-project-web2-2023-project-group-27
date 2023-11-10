@@ -69,14 +69,23 @@ function playCard (lobby, joueur, carteIndex){
       const player = lobby.players[i];
       io.sendSocketToId(joueur.socketId, 'cardPlayed', { toPlayer: player, card });
     }
-    
+
     handleSpecialCardEffects(card, lobby);
   } else {
     
     io.sendSocketToId(joueur.socketId, 'invalidCard', { card });
   }
   }
-
+// Fonction pour vérifier si une carte est jouable
+function isCardPlayable(card, currentCard) {
+  if (card.color === 'black') {
+    return true; 
+  }
+  if (card.color === currentCard.color || card.value === currentCard.value) {
+    return true;
+  }
+  return false;
+}
 
 module.exports = {
   generateCards,
