@@ -1,22 +1,25 @@
-html, body{
+html,
+body {
     background-size: auto;
-    scrollbar-width: 0px;    
+    scrollbar-width: 0px;
     height: 100%;
     margin: 0;
     display: flex;
-    align-items: center; /*vertically center menu*/
-    overflow: hidden; /* Disable scroll*/
+    align-items: center;
+    /*vertically center menu*/
+    overflow: hidden;
+    /* Disable scroll*/
 }
 
-body{
-    background: linear-gradient(110.1deg, rgb(241, 115, 30) 18.9%, rgb(231, 29, 54) 90.7%); 
+body {
+    background: linear-gradient(110.1deg, rgb(241, 115, 30) 18.9%, rgb(231, 29, 54) 90.7%);
 }
 
-#divChargement{
+#divChargement {
     position: fixed;
     top: 0;
     left: 0;
-    width:100%;
+    width: 100%;
     height: 100%;
     background: linear-gradient(110.1deg, rgb(255, 134, 53) 18.9%, rgb(231, 29, 54) 90.7%);
     z-index: 1000;
@@ -24,24 +27,27 @@ body{
     transition: 3s;
 }
 
-#divChargement2{
+#divChargement2 {
     position: fixed;
     top: 0;
     left: 0;
-    width:100%;
+    width: 100%;
     height: 100%;
     background: linear-gradient(110.1deg, rgb(231, 29, 54) 18.9%, rgb(255, 135, 55) 90.7%);
     z-index: 999;
 }
 
 @keyframes gradientAnimation {
-    0%, 100% {
-      opacity: 1;
+
+    0%,
+    100% {
+        opacity: 1;
     }
+
     50% {
-      opacity: 0;
+        opacity: 0;
     }
-  }
+}
 
 input:focus,
 select:focus,
@@ -50,13 +56,13 @@ button:focus {
     outline: none;
 }
 
-.homepage{
+.homepage {
     position: relative;
     margin-top: 0px;
     top: 0px;
 }
 
-#fullscreen{
+#fullscreen {
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -66,7 +72,7 @@ button:focus {
     z-index: 1001;
 }
 
-#fullscreen:hover{
+#fullscreen:hover {
     width: 80px;
     height: 80px;
     cursor: pointer;
@@ -81,26 +87,25 @@ button:focus {
     z-index: -1;
     background: url("../img/background.jpg");
     background-size: cover;
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,1),rgba(0, 0, 0, 0.704), rgba(0,0,0,0));
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.704), rgba(0, 0, 0, 0));
     /*For Edge*/
     -webkit-mask-image: -webkit-gradient(linear, left top, left bottom,
-        color-stop(0, rgba(0,0,0,1)),
-        color-stop(0.5, rgba(0, 0, 0, 0.704)),
-        color-stop(1, rgba(0,0,0,0))
-    );
+            color-stop(0, rgba(0, 0, 0, 1)),
+            color-stop(0.5, rgba(0, 0, 0, 0.704)),
+            color-stop(1, rgba(0, 0, 0, 0)));
     -webkit-mask-composite: source-over;
 }
 
 .menu {
     margin-left: 0%;
     margin-right: 5%;
-    margin-top:5%;
+    margin-top: 5%;
     margin-bottom: 5%;
     width: 600px;
     text-align: center;
 }
 
-#logo{
+#logo {
     height: 350px;
     width: 350px;
     display: block;
@@ -121,7 +126,7 @@ button:focus {
 }
 
 #pseudo:hover {
-    cursor:default;
+    cursor: default;
 }
 
 input {
@@ -132,7 +137,11 @@ input {
     margin-bottom: 5vh;
 }
 
-#playButton, #loginPath, #signInPath, #loginButton, #signInButton {
+#playButton,
+#loginPath,
+#signInPath,
+#loginButton,
+#signInButton {
     background: rgb(230, 87, 87);
     border: 0px;
     height: 80px;
@@ -144,7 +153,8 @@ input {
     transition: 1s;
 }
 
-#loginPath, #signInPath {
+#loginPath,
+#signInPath {
     margin-top: 7%;
     width: 300px;
     box-shadow: 10px 10px 3px 3px rgba(255, 0, 0, 0.3);
@@ -160,14 +170,19 @@ input {
     box-shadow: 10px 10px 3px 3px rgba(255, 0, 0, 0.3);
 }
 
-#playButton:hover, #loginPath:hover, #signInPath:hover, #loginButton:hover, #signInButton:hover {
-    background: rgb(228,50,50);
+#playButton:hover,
+#loginPath:hover,
+#signInPath:hover,
+#loginButton:hover,
+#signInButton:hover {
+    background: rgb(228, 50, 50);
     height: 85px;
     width: 215px;
-    margin-top:-5px;
+    margin-top: -5px;
 }
 
-#loginPath:hover, #signInPath:hover {
+#loginPath:hover,
+#signInPath:hover {
     margin-top: 25px;
     height: 85px;
     width: 320px;
@@ -181,7 +196,7 @@ input {
     width: 265px;
 }
 
-#options{
+#options {
     z-index: 100001;
     position: absolute;
     top: 20px;
@@ -193,19 +208,21 @@ input {
     background-repeat: no-repeat;
     animation: optionRotate 3s linear infinite;
     transform-origin: center center center;
-    animation-play-state:paused;
+    animation-play-state: paused;
     transition: 1s;
 }
 
 #options:hover {
-    animation-play-state:running;
+    animation-play-state: running;
     filter: saturate(500%);
     height: 75px;
     width: 78px;
     cursor: pointer;
 }
 
-#popupSettings, #popupLogin, #popupSignIn {
+#popupSettings,
+#popupLogin,
+#popupSignIn {
     z-index: 10000;
     position: absolute;
     left: 400px;
@@ -221,7 +238,8 @@ input {
     border-style: ridge;
 }
 
-#loginForm, #signInForm {
+#loginForm,
+#signInForm {
     margin-top: 5vh;
 }
 
@@ -229,15 +247,19 @@ input {
     0% {
         transform: rotate(0deg);
     }
+
     100% {
         transform: rotate(360deg);
     }
 }
 
 @keyframes logoMove {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0);
     }
+
     50% {
         transform: translateY(-5px);
     }
@@ -247,6 +269,7 @@ input {
     0% {
         transform: translateY(0);
     }
+
     100% {
         transform: translateY(-150%);
         display: none;
@@ -257,12 +280,13 @@ input {
     0% {
         transform: translateY(1000%);
     }
+
     100% {
         transform: translateY(0%);
     }
 }
 
-.loadingScreen{
+.loadingScreen {
     z-index: 1001;
     transform: translateY(1000%);
     color: orange;
@@ -279,15 +303,15 @@ input {
     box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.634);
 }
 
-.loadingScreen h1{
+.loadingScreen h1 {
     margin-top: 85px;
     text-decoration: underline;
     text-decoration-thickness: 5px;
     line-height: 1;
 }
 
-.loadingScreen h2{
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+.loadingScreen h2 {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-weight: 600;
     font-size: 40px;
 }
@@ -301,13 +325,13 @@ input {
 }
 
 
-#loadingTitle{
+#loadingTitle {
     font-size: 40px;
     margin-top: 65px;
 }
 
 
-h1{
+h1 {
     font-weight: bold;
     cursor: default;
 }
@@ -329,7 +353,7 @@ h1{
     box-shadow: 10px 10px 3px 3px rgba(0, 0, 0, 0.3);
 }
 
-.erreur-message h1{
+.erreur-message h1 {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-size: 50px;
     margin-left: 60px;
@@ -337,7 +361,7 @@ h1{
 }
 
 .erreur-message p {
-    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 30px;
     font-weight: bold;
     margin-left: 20px;
@@ -375,14 +399,14 @@ h1{
     background-color: rgba(0, 0, 0, 0.558);
 }
 
-.error-image{
+.error-image {
     height: 100px;
     width: 100px;
     background: url("../img/error.png");
     background-size: cover;
 }
 
-#loadingBar{
+#loadingBar {
     margin-top: 10px;
     margin-left: 15%;
     width: 70%;
@@ -398,11 +422,11 @@ h1{
     z-index: 5;
 }
 
-#loadingColorBar{
-    background: rgb(230,86,14);
-    background: linear-gradient(90deg, rgba(230,86,14,1) 0%, rgba(255,177,31,1) 50%, rgba(230,86,14,1) 100%);
+#loadingColorBar {
+    background: rgb(230, 86, 14);
+    background: linear-gradient(90deg, rgba(230, 86, 14, 1) 0%, rgba(255, 177, 31, 1) 50%, rgba(230, 86, 14, 1) 100%);
     border-radius: 15px;
-    transition: ease-out 1s; 
+    transition: ease-out 1s;
     height: 20px;
     margin-top: -10px;
     margin-left: 0px;
@@ -421,6 +445,7 @@ h1{
         width: 100vw;
         height: 100vh;
     }
+
     .menu {
         display: inline;
         margin-left: 5%;
@@ -431,18 +456,20 @@ h1{
         margin-bottom: 10px;
     }
 
-    #popupSettings, #popupLogin, #popupSignIn {
+    #popupSettings,
+    #popupLogin,
+    #popupSignIn {
         top: 0;
         left: 0;
         width: 100vw;
         height: 100vh;
         margin-left: 0;
     }
-    
-    .erreur-message h1{
+
+    .erreur-message h1 {
         font-size: 30px;
     }
-    
+
     .erreur-message p {
         font-size: 20px;
     }
@@ -454,29 +481,29 @@ h1{
         height: 20%;
     }
 
-    .error-image{
+    .error-image {
         height: 50px;
         width: 50px;
     }
 
-    .loadingScreen h1{
+    .loadingScreen h1 {
         text-decoration-thickness: 2px;
     }
 
-    .loadingScreen h1{
+    .loadingScreen h1 {
         margin-top: 40px;
     }
 
-    #loadingInformation{
+    #loadingInformation {
         margin-top: 33px;
         font-size: 20px;
     }
 
-    #loadingTitle{
+    #loadingTitle {
         font-size: 19px;
     }
 
-    #loadingBar{
+    #loadingBar {
         margin-top: 8px;
         margin-left: 5%;
         width: 90%;
