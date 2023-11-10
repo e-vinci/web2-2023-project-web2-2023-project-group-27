@@ -27,11 +27,11 @@ popupLogin.style.display = 'none';
 popupSignIn.style.display = 'none';
 
 document.getElementById("fullscreen").addEventListener('click', () => {
-const elem = document.documentElement;
-if (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
-    document.exitFullscreen();
-  }
-else if(elem.requestFullscreen) { // Général
+    const elem = document.documentElement;
+    if (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
+        document.exitFullscreen();
+    }
+    else if (elem.requestFullscreen) { // Général
         elem.requestFullscreen();
     } else if (elem.mozRequestFullScreen) { // Firefox
         elem.mozRequestFullScreen();
@@ -44,7 +44,7 @@ else if(elem.requestFullscreen) { // Général
 );
 
 settingsButton.addEventListener('click', () => {
-    if(isPopUpDisplayed) {
+    if (isPopUpDisplayed) {
         popupSettings.style.display = 'none';
     } else {
         popupSettings.style.display = 'block';
@@ -57,7 +57,7 @@ settingsButton.addEventListener('click', () => {
 });
 
 loginPath.addEventListener('click', () => {
-    if(isPopUpLoginDisplayed) {
+    if (isPopUpLoginDisplayed) {
         popupLogin.style.display = 'none';
     } else {
         popupLogin.style.display = 'block';
@@ -70,7 +70,7 @@ loginPath.addEventListener('click', () => {
 });
 
 signInPath.addEventListener('click', () => {
-    if(isPopUpSignInDisplayed) {
+    if (isPopUpSignInDisplayed) {
         popupSignIn.style.display = 'none';
     } else {
         popupSignIn.style.display = 'block';
@@ -85,7 +85,7 @@ signInPath.addEventListener('click', () => {
 // Déconnecter le websocket en quittant la page
 window.addEventListener('unload', () => {
     socket.disconnect();
-  });
+});
 
 /**
  * Démarrage d'une partie
