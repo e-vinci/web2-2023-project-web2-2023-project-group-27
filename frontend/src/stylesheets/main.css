@@ -12,6 +12,37 @@ body{
     background: linear-gradient(110.1deg, rgb(241, 115, 30) 18.9%, rgb(231, 29, 54) 90.7%); 
 }
 
+#divChargement{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    height: 100%;
+    background: linear-gradient(110.1deg, rgb(241, 115, 30) 18.9%, rgb(231, 29, 54) 90.7%);
+    z-index: 1000;
+    animation: gradientAnimation 5s infinite linear;
+    transition: 3s;
+}
+
+#divChargement2{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    height: 100%;
+    background: linear-gradient(110.1deg, rgb(231, 29, 54) 18.9%, rgb(247, 123, 40) 90.7%);
+    z-index: 999;
+}
+
+@keyframes gradientAnimation {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
 input:focus,
 select:focus,
 textarea:focus,
@@ -32,6 +63,7 @@ button:focus {
     width: 70px;
     height: 70px;
     transition: ease-out 0.5s;
+    z-index: 1001;
 }
 
 #fullscreen:hover{
@@ -231,6 +263,7 @@ input {
 }
 
 .loadingScreen{
+    z-index: 1001;
     transform: translateY(1000%);
     color: orange;
     position: absolute;
