@@ -121,6 +121,15 @@ function handleSpecialCardEffects(card, lobby) {
     }
   }
 }
+// Fonction pour passer au joueur suivant
+function nextPlayer(lobby) {
+  const currentPlayerIndex = lobby.players.indexOf(lobby.currentPlayer);
+  let nextPlayerIndex = currentPlayerIndex + 1;
+  if (nextPlayerIndex >= lobby.players.length) {
+    nextPlayerIndex = 0; // Revenir au premier joueur s'il n'y a plus de joueurs suivants
+  }
+  lobby.currentPlayer = lobby.players[nextPlayerIndex];
+}
 
 module.exports = {
   generateCards,
