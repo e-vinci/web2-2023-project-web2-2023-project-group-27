@@ -34,7 +34,7 @@ function addLobby() {
     id: lobbies.length + 1,
     players: [],
     direction: 'clockwise',
-    currentPlayer: Math.random() * MAX_PLAYERS_PER_LOBBY,
+    currentPlayer: Math.floor(Math.random() * MAX_PLAYERS_PER_LOBBY),
     currentCard: null,
     stack: [],
     maxPlayers: MAX_PLAYERS_PER_LOBBY,
@@ -125,8 +125,10 @@ function getPlayers(lobbyId) {
 }
 
 function startGame(lobby) {
+  console.log(lobby);
   for (let i = 0; i < lobby.players.length; i += 1) {
     io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { message: 'Partie trouvée' });
+    io.sendSocketToId(lobby.players[i].socketId, 'gameStart');
   }
   // Attend que tous les joueurs soient prêts
   let isEveryPlayersReady = false;
