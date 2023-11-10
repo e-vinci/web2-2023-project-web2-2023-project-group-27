@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+const io = require('../websockets/websockets');
 
 function shuffleStack(lobby) {
   let currentIndex = lobby.stack.length;
@@ -45,7 +46,13 @@ function generateCard(lobby, color, value) {
 function drawCard(lobby, joueur){
  let card =  lobby.stack.pop();
  joueur.deck.push(card);
- 
+ for(i = 0 ; i < lobby.players.length; i++) {
+  let player = lobby.players[i];
+  if(player === joueur)
+    io.sendSocketToId(joueur.socketId, 'cardDrawn', {toPlayer : player, card});
+  else
+    io.sendSocketToId(joueur.socketId, 'cardDrawn', {toPlayer : player, card: null});
+ }
 }
 
 module.exports = {
