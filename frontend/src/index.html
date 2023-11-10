@@ -1,59 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Uno Vinci</title>
-    <link rel="icon" href="./img/logo.png" type="image/svg+xml" />
-    <link rel="stylesheet" href="./stylesheets/main.css">
-    <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
-  </head>
 
-  <body>
-    <div class="background"></div>
-    <div class="homepage">
-      <div class="menu">
-          <div id="logo"></div>
-          <p id="pseudo">Pseudo</p>
-          <form id="playForm">
-            <input type="text" id="nickname">
-            <br>
-            <input type="submit" id="playButton" value="Jouer">
-          </form>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Uno Vinci</title>
+  <link rel="icon" href="./img/logo.png" type="image/svg+xml" />
+  <link rel="stylesheet" href="./stylesheets/main.css">
+  <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
+</head>
+
+<body>
+  <div class="background"></div>
+  <div class="homepage">
+    <div class="menu">
+      <div id="logo"></div>
+      <p id="pseudo">Pseudo</p>
+      <form id="playForm">
+        <input type="text" id="nickname">
+        <br>
+        <input type="submit" id="playButton" value="Jouer">
+      </form>
     </div>
+  </div>
 
-    <img src="./img/fullscreen.png" id="fullscreen">
-    <div id="options"></div>
-    <div id="popupSettings">
-      <h1 id="param">Paramètres</h1>
-      <input type="submit" id="loginPath" value="Se connecter">
+  <img src="./img/fullscreen.png" id="fullscreen">
+  <div id="options"></div>
+  <div id="popupSettings">
+    <h1 id="param">Paramètres</h1>
+    <input type="submit" id="loginPath" value="Se connecter">
+    <br>
+    <input type="submit" id="signInPath" value="S'inscrire">
+  </div>
+  <div id="popupLogin">
+    <h1>Se connecter</h1>
+    <form id="loginForm">
+      <input type="text" id="email" placeholder="Email">
       <br>
-      <input type="submit" id="signInPath" value="S'inscrire">
-    </div>
-    <div id="popupLogin">
-      <h1>Se connecter</h1>
-      <form id="loginForm">
-        <input type="text" id="email" placeholder="Email">
-        <br>
-        <input type="password" id="password" placeholder="Mot de passe">
-        <br>
-        <input type="submit" id="loginButton" value="Se connecter">
-      </form>
-    </div>
-    <div id="popupSignIn">
-      <h1>S'inscrire</h1>
-      <form id="signInForm">
-        <input type="text" id="nickname" placeholder="Pseudo">
-        <br>
-        <input type="text" id="email" placeholder="Email">
-        <br>
-        <input type="password" id="password" placeholder="Mot de passe">
-        <br>
-        <input type="password" id="passwordConfirmation" placeholder="Confirmation">
-        <br>
-        <input type="submit" id="signInButton" value="S'inscrire">
-      </form>
-    </div>
-  </body>
+      <input type="password" id="password" placeholder="Mot de passe">
+      <br>
+      <input type="submit" id="loginButton" value="Se connecter">
+    </form>
+  </div>
+  <div id="popupSignIn">
+    <h1>S'inscrire</h1>
+    <form id="signInForm">
+      <input type="text" id="nickname" placeholder="Pseudo">
+      <br>
+      <input type="text" id="email" placeholder="Email">
+      <br>
+      <input type="password" id="password" placeholder="Mot de passe">
+      <br>
+      <input type="password" id="passwordConfirmation" placeholder="Confirmation">
+      <br>
+      <input type="submit" id="signInButton" value="S'inscrire">
+    </form>
+  </div>
+</body>
+
 </html>
