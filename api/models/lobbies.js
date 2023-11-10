@@ -38,6 +38,7 @@ function addLobby() {
     currentCard: null,
     stack: [],
     maxPlayers: MAX_PLAYERS_PER_LOBBY,
+    humanPlayersCount: 0,
   });
   return lobbies[lobbies.length - 1];
 }
@@ -54,7 +55,7 @@ function isPlayerInLobby(player) {
 }
 
 function getNextAvailableLobby() {
-  let lobby = lobbies.find((lob) => lob.players.length < MAX_PLAYERS_PER_LOBBY);
+  let lobby = lobbies.find((lob) => lob.humanPlayersCount < MAX_PLAYERS_PER_LOBBY);
   if (lobby === undefined) lobby = addLobby();
   return lobby;
 }
@@ -62,12 +63,20 @@ function getNextAvailableLobby() {
 function addPlayerToLobby(player) {
   if (isPlayerInLobby(player)) return false;
   const lobby = getNextAvailableLobby();
-  lobby.players.push(player);
+  if (lobby.players.length !== lobby.humanPlayersCount) {
+    const playerToUpdate = lobby.players.find((play) => !play.isHuman);
+    playerToUpdate.isHuman = true;
+    playerToUpdate.socketId = player.socketId;
+    playerToUpdate.username = player.username;
+    playerToUpdate.isReady = false;
+  } else {
+    lobby.players.push(player);
+  }
+  lobby.humanPlayersCount += 1;
 
   for (let i = 0; i < lobby.players.length; i += 1) {
-    io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { message: `En attente d'autre joueurs (${lobby.players.length}/${MAX_PLAYERS_PER_LOBBY})` });
+    io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { message: `En attente d'autre joueurs (${lobby.humanPlayersCount}/${MAX_PLAYERS_PER_LOBBY})` });
   }
-
   if (lobby.players.length === MAX_PLAYERS_PER_LOBBY) {
     startGame(lobby);
   }
@@ -75,16 +84,18 @@ function addPlayerToLobby(player) {
 }
 
 function removePlayer(socketId) {
-  const player = players.getPlayer(socketId);
+  const player = players.getPlayerBySocket(socketId);
   const lobby = lobbies.find((lob) => lob.players.includes(player));
   if (lobby === undefined) return;
-  const playerIndex = lobby.players.findIndex((ply) => ply === player);
-  lobby.players.splice(playerIndex, 1);
-  if (lobby.players.length === 0) deleteLobby(lobby);
 
+  player.isHuman = false;
+  player.socketId = null;
+
+  lobby.humanPlayersCount -= 1;
   for (let i = 0; i < lobby.players.length; i += 1) {
-    io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { message: `En attente d'autre joueurs (${lobby.players.length}/${MAX_PLAYERS_PER_LOBBY})` });
+    io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { message: `En attente d'autre joueurs (${lobby.humanPlayersCount}/${MAX_PLAYERS_PER_LOBBY})` });
   }
+  if (lobby.humanPlayersCount === 0) deleteLobby(lobby);
 }
 
 function addDeckToLobby(lobbyId, deck) {

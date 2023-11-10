@@ -10,7 +10,7 @@ io.on('connection', (socket) => {
   // Quand un joueur souhaite rejoindre une partie
   socket.on('addPlayer', (nickname, socketID) => {
     socket.join(socketID);
-    lobbies.addPlayerToLobby(players.createProfile(nickname, false, socketID));
+    lobbies.addPlayerToLobby(players.createProfile(nickname, socketID, true));
   });
 
   socket.on('readyToStart', () => {
@@ -27,4 +27,8 @@ io.on('connection', (socket) => {
 // eslint-disable-next-line no-console
 http.listen(8082, () => console.log(`WebSockets server listening on ${http.address().address}:${http.address().port}`));
 
-exports.sendSocketToId = (id, type, content) => io.to(id).emit(type, content);
+exports.sendSocketToId = (id, type, content) => {
+  if (id !== null || id !== undefined) {
+    io.to(id).emit(type, content);
+  }
+};

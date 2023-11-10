@@ -3,32 +3,38 @@ const db = require('./db_conf');
 
 const onlinePlayers = [];
 
-function createProfile(username, isConnected, socketId) {
+function createProfile(username, socketId, isHuman) {
   const profile = {
+    playerId: Math.floor(Math.random() * 9999999),
     username,
-    isConnected,
     socketId,
     deck: [],
     numberOfCardsPlayed: 0,
     numberOfCardsDrawned: 0,
     score: 0,
     isReady: false,
+    isHuman,
   };
   onlinePlayers.push(profile);
   return profile;
 }
 
-function readyToStart(socketId) {
-  const player = getPlayer(socketId);
+function readyToStart(player) {
+  // eslint-disable-next-line no-param-reassign
   player.isReady = true;
 }
 
-function getPlayer(socketId) {
+function getPlayerBySocket(socketId) {
   return onlinePlayers.find((player) => player.socketId === socketId);
+}
+
+function getPlayerById(playerId) {
+  return onlinePlayers.find((player) => player.playerId === playerId);
 }
 
 module.exports = {
   createProfile,
-  getPlayer,
+  getPlayerById,
+  getPlayerBySocket,
   readyToStart,
 };
