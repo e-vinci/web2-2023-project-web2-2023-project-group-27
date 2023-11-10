@@ -5,7 +5,7 @@ const onlinePlayers = [];
 
 function createProfile(username, socketId, isHuman) {
   const profile = {
-    playerId: Math.floor(Math.random() * 9999999),
+    playerId: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
     username,
     socketId,
     deck: [],

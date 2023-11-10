@@ -35,7 +35,7 @@ function addLobby() {
     players: [],
     direction: 'clockwise',
     currentPlayer: Math.random() * MAX_PLAYERS_PER_LOBBY,
-    currentCard: stack[0],
+    currentCard: null,
     stack: [],
     maxPlayers: MAX_PLAYERS_PER_LOBBY,
     humanPlayersCount: 0,
