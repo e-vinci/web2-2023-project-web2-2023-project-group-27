@@ -1,12 +1,20 @@
+/* eslint-disable no-multi-assign */
 /* eslint-disable no-param-reassign */
 const { debugCacherChargement } = require('./loadingGame') ;
-const {getCardImage} = require("./images");
+const {getCardImage, getCardIcon, getUserIcon} = require("./images");
 
 
 let cardCenterDiv;
 let currentCard;
 let cardStack;
-let divMainPlayer;
+
+let divMainPlayer = {
+    mainDiv: null,
+    divCardIcon: null,
+    textCardCount: null,
+    textNickname: null,
+    imageUserIcon: null,
+};
 
 function generatingGame(lobby) {
     debugCacherChargement();
@@ -16,7 +24,7 @@ function generatingGame(lobby) {
     currentCard = document.createElement('div');
         currentCard.className = 'currentCard';
         if(lobby.currentCard === null) currentCard.src = '';
-        setImage(currentCard, lobby.currentCard);
+        setCardImage(currentCard, lobby.currentCard);
 
     cardStack = document.createElement('div');
         cardStack.className = 'cardStack';
@@ -27,29 +35,86 @@ function generatingGame(lobby) {
     // setLoadingBarPercentage(mettreLePourcentIci);
 
     for(let i = 0; i < lobby.players.length; i+=1) {
-        const {deck} = lobby.players[i];
+        const player = lobby.players[i];
+        const {deck} = player;
         if (typeof deck !== 'number') {
             divMainPlayer = document.createElement('div');
                 divMainPlayer.className = 'mainPlayer';
             for(let j = 0; j < deck.length; j+=1) {
+                /*
                 const card = document.createElement('div');
                     card.className = 'cardMainPlayer';
-                    setImage(card, deck[j]);
+                    setCardImage(card, deck[j]);
                 divMainPlayer.appendChild(card);
+                */
             }
-            document.body.appendChild(divMainPlayer);
+            
+    divMainPlayer.mainDiv = document.createElement('div');
+        divMainPlayer.mainDiv.className = 'card';
+
+    // Create card icon
+    divMainPlayer.divCardIcon = document.createElement('div');
+        divMainPlayer.divCardIcon.title = `Nombre de cartes: ${deck.length}`;
+        setCardIcon(divMainPlayer.divCardIcon);
+
+    // Create card count
+    divMainPlayer.textCardCount = document.createElement('div');
+        divMainPlayer.textCardCount.className = 'card-count';
+        divMainPlayer.textCardCount.textContent = deck.length;
+
+    // Create nickname
+    divMainPlayer.textNickname = document.createElement('div');
+        divMainPlayer.textNickname.className = 'nickname';
+        divMainPlayer.textNickname.style.marginLeft = `${calculateMargin(player.username.length)}px`;
+        divMainPlayer.textNickname.textContent = player.username;
+        divMainPlayer.textNickname.fontSize = `${calculateFontSize(player.username.length)}px`;
+
+    // Create user icon
+    divMainPlayer.imageUserIcon = document.createElement('img');
+        setUserIcon(divMainPlayer.imageUserIcon);
+
+    divMainPlayer.mainDiv.appendChild(divMainPlayer.divCardIcon);
+    divMainPlayer.mainDiv.appendChild(divMainPlayer.textCardCount);
+    divMainPlayer.mainDiv.appendChild(divMainPlayer.textNickname);
+    divMainPlayer.mainDiv.appendChild(divMainPlayer.imageUserIcon);
+    document.body.appendChild(divMainPlayer.mainDiv);
         }
     }
-    
 }
 
 
-function setImage(element, card) {
+
+function setCardImage(element, card) {
     if(card === null) card = {value: 'card', color: 'back'};
     element.style.backgroundImage = `url("${getCardImage(card.color, card.value)}")`;
     element.title = `${card.value} ${card.color}`;
 };
 
+function setCardIcon(element) {
+    element.className = 'card-icon';
+    element.style.backgroundImage = `url("${getCardIcon()}")`;
+}
+
+function setUserIcon(element) {
+    element.className = 'user-icon';
+    element.src = getUserIcon();
+}
+
+
+function calculateMargin(length) {
+    const maxMargin = 20;
+    const reductionPerChar = 1;
+    let margin = maxMargin - (length * reductionPerChar);
+    margin = margin < 0 ? 0 : margin;
+    return margin;
+}
+
+function calculateFontSize(length) {
+    const baseFontSize = 40;
+    const minFontSize = 10;
+    const fontSize = baseFontSize - length;
+    return fontSize < minFontSize ? minFontSize : fontSize;
+}
 
 module.exports = {
     generatingGame,

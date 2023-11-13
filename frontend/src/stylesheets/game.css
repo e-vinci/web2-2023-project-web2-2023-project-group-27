@@ -28,3 +28,56 @@
     height: 260px;
     width: 184px; 
 }
+
+
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: orange;
+    border: 5px solid rgb(34, 34, 34);
+    width: 190px; /* Ajuster selon les besoins */
+    height: 110px; /* Ajuster selon les besoins */
+    padding: 10px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.card-icon {
+    position: absolute;
+    top: 10px;
+    left: 80px;
+    width: 50px; /* Ajuster selon les besoins */
+    height: 50px; /* Ajuster selon les besoins */
+    background-size: 50px 50px;
+}
+
+.card-count {
+    position: absolute;
+    top: -5px;
+    left: 130px;
+    font-size: 3em;
+    color: black;
+    margin: 0;
+}
+
+.nickname {
+    position: absolute;
+    top: 68px;
+    color: black;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.user-icon {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 60px; /* Ajuster selon les besoins */
+    height: 60px; /* Ajuster selon les besoins */
+    border-radius: 50%;
+    border: 2px solid black;
+    margin-bottom: 10px;
+}

@@ -19,7 +19,7 @@ function shuffleStack(lobby) {
 
 function generateCards(lobby) {
   const colors = ['red', 'blue', 'green', 'yellow'];
-  const values = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+2', 'stop', 'reverse'];
+  const values = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+2', 'block', 'reverse'];
 
   for (let i = 0; i < colors.length; i += 1) {
     for (let j = 0; j < values.length; j += 1) {
@@ -35,11 +35,21 @@ function generateCards(lobby) {
   shuffleStack(lobby);
 
   drawCardFromStack(lobby);
+  giveCardsToPlayers(lobby);
   /*
   setTimeout(() => {
     drawCardFromStack(lobby);
   }, 2000);
   */
+}
+
+function giveCardsToPlayers(lobby) {
+  for (let i = 0; i < lobby.players.length; i += 1) {
+    const player = lobby.players[i];
+    for (let j = 0; j < 7; j += 1) {
+      drawCard(lobby, player);
+    }
+  }
 }
 
 function generateCard(lobby, color, value) {
@@ -126,6 +136,7 @@ function handleSpecialCardEffects(card, lobby) {
     }
   }
 }
+
 // Fonction pour passer au joueur suivant
 function nextPlayer(lobby) {
   const currentPlayerIndex = lobby.players.indexOf(lobby.currentPlayer);
@@ -140,4 +151,5 @@ module.exports = {
   generateCards,
   drawCard,
   playCard,
+  nextPlayer,
 };
