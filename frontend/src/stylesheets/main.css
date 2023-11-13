@@ -21,7 +21,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(110.1deg, rgb(255, 134, 53) 18.9%, rgb(231, 29, 54) 90.7%);
+    background: linear-gradient(110.1deg, rgb(241, 115, 30) 18.9%, rgb(231, 29, 54) 90.7%);
     z-index: 1000;
     animation: gradientAnimation 5s infinite linear;
     transition: 3s;
@@ -33,7 +33,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(110.1deg, rgb(231, 29, 54) 18.9%, rgb(255, 135, 55) 90.7%);
+    background: linear-gradient(110.1deg, rgb(231, 29, 54) 18.9%, rgb(241, 115, 30) 90.7%);
     z-index: 999;
 }
 

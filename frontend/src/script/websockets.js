@@ -40,7 +40,7 @@ const connectWebSocket = (nickname) => {
         io.on('gameUpdate', (infos) => {
             clearInterval(timerPartie);
             if(!isGameStarted) {
-            if(infos.message === 'Partie trouvée') setLoadingBarPercentage(30);
+            if(infos.message === 'Partie trouvée' && !isGameStarted) setLoadingBarPercentage(30);
             afficherChargement(infos.message);
             }
         });

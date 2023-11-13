@@ -107,6 +107,7 @@ function removePlayer(socketId) {
 
   player.isHuman = false;
   player.socketId = null;
+  player.isReady = true;
 
   lobby.humanPlayersCount -= 1;
   for (let i = 0; i < lobby.players.length; i += 1) {
