@@ -93,6 +93,10 @@ window.addEventListener('unload', () => {
 playForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
+
+    // Masquer le bouton des paramètres
+    settingsButton.style.display = 'none';
+
     // Démarrer l'animation de chargement
     document.querySelector('.homepage').classList.add('slide-up');
 
