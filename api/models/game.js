@@ -33,9 +33,13 @@ function generateCards(lobby) {
     generateCard(lobby, 'black', 'multicolor');
   }
   shuffleStack(lobby);
+
+  drawCardFromStack(lobby);
+  /*
   setTimeout(() => {
     drawCardFromStack(lobby);
   }, 2000);
+  */
 }
 
 function generateCard(lobby, color, value) {

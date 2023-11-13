@@ -136,6 +136,9 @@ function getPlayers(lobbyId) {
 
 function startGame(lobby) {
   console.log(lobby);
+  // retirer la ligne en dessous plus tard
+  game.generateCards(lobby);
+
   for (let i = 0; i < lobby.players.length; i += 1) {
     io.sendSocketToId(lobby.players[i].socketId, 'gameStart', { hasStarted: lobby.hasStarted });
   }
