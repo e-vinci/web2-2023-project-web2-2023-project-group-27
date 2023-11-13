@@ -21,6 +21,11 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     lobbies.removePlayer(socket.id);
   });
+
+  socket.on('getLobbyInfo', () => {
+    const infos = lobbies.getLobbyInformation(players.getPlayerBySocket(socket.id));
+    socket.emit('lobbyInfo', infos);
+  });
 });
 
 // Ouverture du serveur sur le port 8082

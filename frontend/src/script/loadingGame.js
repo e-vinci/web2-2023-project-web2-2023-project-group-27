@@ -7,6 +7,7 @@ let loadingInformation;
 let loadingTitle;
 let divChargement;
 let divChargement2;
+let loadingScreen;
 
 /**
  * Anime un message en ajoutant des points sur un élément HTML. 
@@ -67,7 +68,7 @@ const setLoadingBarPercentage = (percentage) => {
 }
 
 const afficherDivChargement = () => {
-    const loadingScreen = document.createElement('div');
+    loadingScreen = document.createElement('div');
         loadingScreen.className = 'loadingScreen';
         loadingScreen.style.animation = 'startingPlay2 3s forwards';
 
@@ -101,13 +102,24 @@ const afficherDivChargement = () => {
     setTimeout(() => {
         loadingScreen.style.animation = 'logoMove 2s infinite';
         afficherDivQuiCacheLeChargement();
-        // Démarrer connexion websocket
         afficherChargement('Connexion au serveur');
+        document.querySelector(".homepage").style.display = "none";
 }, 2900)
 };
 
 const updateLoadingTitle = (text) => {
     loadingTitle.textContent = text;
+}
+
+
+function debugCacherChargement() {
+    loadingScreen.style.display = "none";
+    divChargement.style.display = "none";
+    divChargement2.style.display = "none";
+}
+
+function generatingGame() {
+    debugCacherChargement();
 }
 
 module.exports = {
@@ -118,5 +130,6 @@ module.exports = {
     afficherDivChargement,
     updateLoadingTitle,
     afficherDivQuiCacheLeChargement,
-    cacherDivQuiCacheLeChargement
+    cacherDivQuiCacheLeChargement,
+    generatingGame,
 };

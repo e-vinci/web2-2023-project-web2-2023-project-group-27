@@ -95,7 +95,7 @@ function addPlayerToLobby(player) {
       startGame(lobby);
     }
   } else {
-    io.sendSocketToId(player.socketId, 'gameStart', { joinedAlreadyStartedGame: lobby.hasStarted });
+    io.sendSocketToId(player.socketId, 'gameStart', { hasStarted: lobby.hasStarted });
   }
   return lobby;
 }
@@ -125,6 +125,10 @@ function getLobbyById(lobbyId) {
   return lobbies.find((lobby) => lobby.id === lobbyId);
 }
 
+function getLobbyByPlayer(player) {
+  return lobbies.find((lobby) => lobby.players.includes(player));
+}
+
 function getPlayers(lobbyId) {
   const lobby = getLobbyById(lobbyId);
   return lobby.players;
@@ -133,10 +137,9 @@ function getPlayers(lobbyId) {
 function startGame(lobby) {
   console.log(lobby);
   for (let i = 0; i < lobby.players.length; i += 1) {
-    io.sendSocketToId(lobby.players[i].socketId, 'gameStart', { joinedAlreadyStartedGame: lobby.hasStarted });
+    io.sendSocketToId(lobby.players[i].socketId, 'gameStart', { hasStarted: lobby.hasStarted });
   }
   lobby.hasStarted = true;
-
   // Attend que tous les joueurs soient prêts
   let isEveryPlayersReady = false;
 
@@ -153,6 +156,48 @@ function startGame(lobby) {
   }, 1000);
 }
 
+/**
+ * Affiche toute les infos de la partie, en masquant les cartes des adversaires
+ * @param {*} player Le joueur
+ * @returns les informations de la partie
+ */
+function getLobbyInformation(player) {
+  const lobby = getLobbyByPlayer(player);
+  if (lobby === undefined) return undefined;
+  const informations = {
+    players: [],
+    direction: lobby.direction,
+    currentPlayer: lobby.currentPlayer,
+    currentCard: lobby.currentCard,
+  };
+
+  for (let i = 0; i < lobby.players.length; i += 1) {
+    const plr = lobby.players[i];
+    if (plr === player) {
+      informations.players.push({
+        username: plr.username,
+        deck: plr.deck,
+        numberOfCardsPlayed: plr.numberOfCardsPlayed,
+        numberOfCardsDrawned: plr.numberOfCardsDrawned,
+        score: plr.score,
+        isReady: plr.isReady,
+        isHuman: plr.isHuman,
+      });
+    } else {
+      informations.players.push({
+        username: plr.username,
+        deck: plr.deck.length,
+        numberOfCardsPlayed: plr.numberOfCardsPlayed,
+        numberOfCardsDrawned: plr.numberOfCardsDrawned,
+        score: plr.score,
+        isReady: plr.isReady,
+        isHuman: plr.isHuman,
+      });
+    }
+  }
+  return informations;
+}
+
 module.exports = {
   addPlayerToLobby,
   removePlayer,
@@ -160,4 +205,5 @@ module.exports = {
   getLobbyById,
   deleteLobby,
   getPlayers,
+  getLobbyInformation,
 };
