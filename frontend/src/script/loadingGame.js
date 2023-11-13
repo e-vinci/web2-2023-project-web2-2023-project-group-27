@@ -118,10 +118,6 @@ function debugCacherChargement() {
     divChargement2.style.display = "none";
 }
 
-function generatingGame() {
-    debugCacherChargement();
-}
-
 module.exports = {
     afficherChargement,
     stopAfficherChargement,
@@ -131,5 +127,5 @@ module.exports = {
     updateLoadingTitle,
     afficherDivQuiCacheLeChargement,
     cacherDivQuiCacheLeChargement,
-    generatingGame,
+    debugCacherChargement,
 };

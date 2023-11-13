@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './stylesheets/main.css';
+import './stylesheets/game.css';
 import './script/homepage';
 
 /*

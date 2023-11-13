@@ -1,0 +1,30 @@
+.cardCenterDiv{
+    position: absolute;
+    display: flex;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 500px;
+    height: 260px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.cardStack{
+    flex:1;
+    left:0px;
+    background-image: url("../img/cards/card_back.png");
+    background-repeat: no-repeat;
+    background-size: 164px 240px;
+    height: 260px;
+    width: 184px;
+}
+
+.currentCard{
+    flex:1;
+    right:0px;
+    background-repeat: no-repeat;
+    background-size: 164px 240px;
+    height: 260px;
+    width: 184px; 
+}

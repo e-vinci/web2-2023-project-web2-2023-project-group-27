@@ -2,8 +2,10 @@
 /* eslint-disable no-param-reassign */
 
 const socketio = require('socket.io-client');
+const { generatingGame } = require('./game');
+
 // const erreur = require('./erreur');
-const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAfficherChargement, updateLoadingTitle, generatingGame } = require('./loadingGame');
+const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAfficherChargement, updateLoadingTitle } = require('./loadingGame');
 
 let socket;
 let isGameStarted = false;

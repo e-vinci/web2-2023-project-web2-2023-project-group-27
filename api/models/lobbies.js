@@ -52,7 +52,7 @@ function addLobby() {
       }
       startGame(lobby);
     }
-  }, 19000);
+  }, 1 * 1000);
   return lobbies[lobbies.length - 1];
 }
 
