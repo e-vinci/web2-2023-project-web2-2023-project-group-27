@@ -102,6 +102,7 @@ function createMainPlayerDiv(player) {
       card.style.transform = 'translateY(0px)';
     });
     setCardImage(card, playerDeck[i]);
+    divMainPlayer.divCardIconCards.push(card);
     divMainPlayer.mainDivCards.appendChild(card);
   }
   document.body.appendChild(divMainPlayer.mainDivCards);
