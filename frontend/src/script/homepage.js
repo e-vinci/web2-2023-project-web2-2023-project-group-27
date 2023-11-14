@@ -117,6 +117,10 @@ window.addEventListener('unload', () => {
 playForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
+
+    // Masquer le bouton des paramètres
+    settingsButton.style.display = 'none';
+
     // Démarrer l'animation de chargement
     document.querySelector('.homepage').classList.add('slide-up');
 
@@ -131,7 +135,10 @@ playForm.addEventListener('submit', (e) => {
     // Div chargement
     afficherDivChargement();
 
+    
     setTimeout(() => {
-        connectWebSocket(nicknameForm.value, null, null);
+        let nickname = nicknameForm.value;
+        if(nickname === '' || nickname === undefined) nickname = nicknameForm.placeholder;
+        connectWebSocket(nickname, null, null);
     }, 2900);
 });

@@ -3,9 +3,10 @@
 
 const socketio = require('socket.io-client');
 const erreur = require('./erreur');
-const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAfficherChargement } = require('./loadingGame');
+const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAfficherChargement, updateLoadingTitle } = require('./loadingGame');
 
 let socket;
+let isGameStarted = false;
 
 const isConnected = () => {
     return socket.connected;
@@ -19,7 +20,7 @@ const connectWebSocket = (nickname) => {
     const io = socketio.io('ws://localhost:8082');
     socket = io;
     let timerPartie;
-    // Afficher erreur si pas connecté dans les 15 secondes
+    // Afficher erreur si pas connecté dans les 150 secondes
     const interval = setTimeout(() => {
         if(!socket.connected) {
             erreur.afficherErreur("Impossible de se connecter au serveur, veuillez réessayer", socket);
@@ -38,9 +39,19 @@ const connectWebSocket = (nickname) => {
 
         io.on('gameUpdate', (infos) => {
             clearInterval(timerPartie);
-            
+            if(!isGameStarted) {
             if(infos.message === 'Partie trouvée') setLoadingBarPercentage(30);
             afficherChargement(infos.message);
+            }
+        });
+
+        io.on('gameStart', (infos) => {
+            isGameStarted = true;
+            setTimeout(() => {
+            if(!infos.joinedAlreadyStartedGame) updateLoadingTitle('La partie va bientôt commencer');
+            else updateLoadingTitle('Vous allez rejoindre une partie déjà commencée');
+            afficherChargement('Chargement du terrain de jeu');
+            }, 1000);
         });
 })
 return io;
