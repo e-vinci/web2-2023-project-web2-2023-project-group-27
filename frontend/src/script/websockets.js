@@ -3,7 +3,7 @@
 
 const socketio = require('socket.io-client');
 const erreur = require('./erreur');
-const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAfficherChargement } = require('./loadingGame');
+const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAfficherChargement, updateLoadingTitle } = require('./loadingGame');
 
 let socket;
 let isGameStarted = false;
@@ -45,8 +45,13 @@ const connectWebSocket = (nickname) => {
             }
         });
 
-        io.on('gameStart', () => {
+        io.on('gameStart', (infos) => {
             isGameStarted = true;
+            setTimeout(() => {
+            if(!infos.joinedAlreadyStartedGame) updateLoadingTitle('La partie va bientôt commencer');
+            else updateLoadingTitle('Vous allez rejoindre une partie déjà commencée');
+            afficherChargement('Chargement du terrain de jeu');
+            }, 1000);
         });
 })
 return io;

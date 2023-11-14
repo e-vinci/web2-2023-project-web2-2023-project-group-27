@@ -39,6 +39,7 @@ function addLobby() {
     stack: [],
     maxPlayers: MAX_PLAYERS_PER_LOBBY,
     humanPlayersCount: 0,
+    hasStarted: false,
   };
   lobbies.push(lobby);
 
@@ -51,7 +52,7 @@ function addLobby() {
       }
       startGame(lobby);
     }
-  }, 20000);
+  }, 19000);
   return lobbies[lobbies.length - 1];
 }
 
@@ -86,11 +87,15 @@ function addPlayerToLobby(player) {
   }
   lobby.humanPlayersCount += 1;
 
-  for (let i = 0; i < lobby.players.length; i += 1) {
-    io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { message: `En attente d'autre joueurs (${lobby.humanPlayersCount}/${MAX_PLAYERS_PER_LOBBY})` });
-  }
-  if (lobby.players.length === MAX_PLAYERS_PER_LOBBY) {
-    startGame(lobby);
+  if (!lobby.hasStarted) {
+    for (let i = 0; i < lobby.players.length; i += 1) {
+      io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { message: `En attente d'autre joueurs (${lobby.humanPlayersCount}/${MAX_PLAYERS_PER_LOBBY})` });
+    }
+    if (lobby.players.length === MAX_PLAYERS_PER_LOBBY) {
+      startGame(lobby);
+    }
+  } else {
+    io.sendSocketToId(player.socketId, 'gameStart', { joinedAlreadyStartedGame: lobby.hasStarted });
   }
   return lobby;
 }
@@ -127,9 +132,10 @@ function getPlayers(lobbyId) {
 function startGame(lobby) {
   console.log(lobby);
   for (let i = 0; i < lobby.players.length; i += 1) {
-    io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { message: 'Partie trouvée' });
-    io.sendSocketToId(lobby.players[i].socketId, 'gameStart');
+    io.sendSocketToId(lobby.players[i].socketId, 'gameStart', { joinedAlreadyStartedGame: lobby.hasStarted });
   }
+  lobby.hasStarted = true;
+
   // Attend que tous les joueurs soient prêts
   let isEveryPlayersReady = false;
 

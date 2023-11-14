@@ -52,6 +52,7 @@ function drawCardFromStack(lobby) {
 function drawCard(lobby, joueur) {
   const card = lobby.stack.pop();
   joueur.deck.push(card);
+  joueur.numberOfCardsDrawned += 1;
   for (let i = 0; i < lobby.players.length; i += 1) {
     const player = lobby.players[i];
     if (player === joueur) io.sendSocketToId(joueur.socketId, 'cardDrawn', { toPlayer: player, card });
@@ -64,8 +65,9 @@ function playCard(lobby, joueur, carteIndex) {
   const card = joueur.deck[carteIndex];
   if (isCardPlayable(card, lobby.currentCard)) {
     lobby.currentCard = card;
-    joueur.deck.splice(carteIndex,1);
     joueur.deck.splice(carteIndex, 1);
+    joueur.numberOfCardsPlayed += 1;
+
     for (let i = 0; i < lobby.players.length; i += 1) {
       const player = lobby.players[i];
       io.sendSocketToId(joueur.socketId, 'cardPlayed', { toPlayer: player, card });
@@ -89,7 +91,6 @@ function isCardPlayable(card, currentCard) {
 // Fonction pour gérer les effets spéciaux des cartes
 function handleSpecialCardEffects(card, lobby) {
   if (card.value === '+2') {
-    
     const currentPlayerIndex = lobby.players.indexOf(lobby.currentPlayer);
     let nextPlayerIndex = currentPlayerIndex + 1;
     if (nextPlayerIndex >= lobby.players.length) {
@@ -100,11 +101,10 @@ function handleSpecialCardEffects(card, lobby) {
       drawCard(lobby, nextPlayer);
     }
   } else if (card.value === 'stop') {
-    
     const currentPlayerIndex = lobby.players.indexOf(lobby.currentPlayer);
     let nextPlayerIndex = currentPlayerIndex + 1;
     if (nextPlayerIndex >= lobby.players.length) {
-      nextPlayerIndex = 0; 
+      nextPlayerIndex = 0;
     }
     lobby.currentPlayer = lobby.players[nextPlayerIndex];
   } else if (card.value === 'reverse') {
@@ -121,10 +121,18 @@ function handleSpecialCardEffects(card, lobby) {
     }
   }
 }
+// Fonction pour passer au joueur suivant
+function nextPlayer(lobby) {
+  const currentPlayerIndex = lobby.players.indexOf(lobby.currentPlayer);
+  let nextPlayerIndex = currentPlayerIndex + 1;
+  if (nextPlayerIndex >= lobby.players.length) {
+    nextPlayerIndex = 0; // Revenir au premier joueur s'il n'y a plus de joueurs suivants
+  }
+  lobby.currentPlayer = lobby.players[nextPlayerIndex];
+}
 
 module.exports = {
   generateCards,
   drawCard,
   playCard,
-  
 };
