@@ -96,10 +96,14 @@ function createMainPlayerDiv(player) {
     const card = document.createElement('div');
     card.className = 'cardMainPlayer';
     card.addEventListener('mouseover', () => {
+        if(!card.classList.contains('notTheTimeToPlay'))
       card.style.transform = 'translateY(-40px)';
     });
     card.addEventListener('mouseout', () => {
-      card.style.transform = 'translateY(0px)';
+    if (card.classList.contains('notTheTimeToPlay'))
+      card.style.transform = 'translateY(70px)';
+    else
+      card.style.transform = 'translate(0px)';
     });
     setCardImage(card, playerDeck[i]);
     divMainPlayer.mainDivCards.appendChild(card);
