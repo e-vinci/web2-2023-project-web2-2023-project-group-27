@@ -91,21 +91,32 @@ function createMainPlayerDiv(player) {
   document.body.appendChild(divMainPlayer.mainDiv);
 
   divMainPlayer.mainDivCards = document.createElement('div');
-  divMainPlayer.mainDivCards.className = 'mainPlayerCards';
+  divMainPlayer.mainDivCards.className = 'mainPlayerCards';  
+  
+  calculateWidthCards(deck.length, divMainPlayer.mainDivCards);
+
   for (let i = 0; i < playerDeck.length; i += 1) {
     const card = document.createElement('div');
     card.className = 'cardMainPlayer';
     card.addEventListener('mouseover', () => {
+        card.style.zIndex = i;
         if(!card.classList.contains('notTheTimeToPlay'))
-      card.style.transform = 'translateY(-40px)';
+      card.style.top = '-40px';
     });
+
     card.addEventListener('mouseout', () => {
+        card.style.zIndex = i;
     if (card.classList.contains('notTheTimeToPlay'))
-      card.style.transform = 'translateY(70px)';
+      card.style.top= '70px';
     else
-      card.style.transform = 'translate(0px)';
+      card.style.top = '0px';
     });
+
+    card.style.zIndex = i;
+    calculateMarginCards(deck.length, card);
     setCardImage(card, playerDeck[i]);
+
+    divMainPlayer.divCardIconCards.push(card);
     divMainPlayer.mainDivCards.appendChild(card);
   }
   document.body.appendChild(divMainPlayer.mainDivCards);
@@ -162,6 +173,22 @@ function calculateFontSize(length) {
   const minFontSize = 10;
   const fontSize = baseFontSize - length;
   return fontSize < minFontSize ? minFontSize : fontSize;
+}
+
+function calculateWidthCards(cardsNumber, element) {
+    const maxWidth = 800;
+    const minWidth = 100;
+    let width = maxWidth - cardsNumber * 20;
+    width = width < minWidth ? minWidth : width;
+    element.style.marginLeft = `${width}px`;
+}
+
+function calculateMarginCards(cardsNumber, element) {
+    const maxMargin = -55;
+    const minMargin = -20;
+    let margin = minMargin + (cardsNumber * 1.2);
+    margin = margin > maxMargin ? maxMargin : margin;
+    element.style.marginLeft = `${margin}px`;
 }
 
 module.exports = {

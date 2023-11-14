@@ -86,8 +86,6 @@
     bottom: 20px;
 }
 
-
-
 .mainPlayerCards{
     position: absolute;
     left: 0;
@@ -95,13 +93,12 @@
     margin: auto;
     bottom: 20px;
     height: 130px;
-    width: 500px;
 }
 
 .cardMainPlayer{
-    transition: 0.4s ease-out;
+    position: relative;
+    transition: 0.3s ease-out;
     display:inline-block;
-    margin-left: -20px;
     background-size: 84px, 130px;
     background-repeat: no-repeat;
     height: 130px;
@@ -112,7 +109,7 @@
 
 
 .notTheTimeToPlay{
-    transform: translateY(70px)
+    top: 70px;
 }
 
 
