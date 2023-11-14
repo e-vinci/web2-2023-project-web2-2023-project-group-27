@@ -100,16 +100,21 @@ function createMainPlayerDiv(player) {
     card.className = 'cardMainPlayer';
     card.addEventListener('mouseover', () => {
         card.style.zIndex = i;
-        if(!card.classList.contains('notTheTimeToPlay'))
-      card.style.top = '-40px';
+        if(!card.classList.contains('notTheTimeToPlay')) {
+          card.style.top = '-40px';
+          card.style.marginRight = '20px';
+        }
     });
 
     card.addEventListener('mouseout', () => {
         card.style.zIndex = i;
-    if (card.classList.contains('notTheTimeToPlay'))
+    if (card.classList.contains('notTheTimeToPlay')) {
       card.style.top= '70px';
-    else
+      card.style.marginRight = '0px';
+    }else{
       card.style.top = '0px';
+      card.style.marginRight = '0px';
+    }
     });
 
     card.style.zIndex = i;
@@ -177,8 +182,8 @@ function calculateFontSize(length) {
 
 function calculateWidthCards(cardsNumber, element) {
     const maxWidth = 800;
-    const minWidth = 100;
-    let width = maxWidth - cardsNumber * 20;
+    const minWidth = 50;
+    let width = maxWidth - cardsNumber * 21;
     width = width < minWidth ? minWidth : width;
     element.style.marginLeft = `${width}px`;
 }

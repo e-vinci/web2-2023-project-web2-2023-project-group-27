@@ -97,7 +97,7 @@
 
 .cardMainPlayer{
     position: relative;
-    transition: 0.3s ease-out;
+    transition: 0.2s ease-out;
     display:inline-block;
     background-size: 84px, 130px;
     background-repeat: no-repeat;
