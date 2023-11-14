@@ -4,8 +4,8 @@
     left: 0;
     right: 0;
     margin: auto;
-    width: 500px;
-    height: 260px;
+    width: 350px;
+    height: 200px;
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -15,21 +15,19 @@
     left:0px;
     background-image: url("../img/cards/card_back.png");
     background-repeat: no-repeat;
-    background-size: 164px 240px;
-    height: 260px;
-    width: 184px;
+    background-size: 134px 200px;
+    height: 200px;
+    width: 134px;
 }
 
 .currentCard{
     flex:1;
     right:0px;
     background-repeat: no-repeat;
-    background-size: 164px 240px;
-    height: 260px;
-    width: 184px; 
+    background-size: 134px 200px;
+    height: 200px;
+    width: 134px; 
 }
-
-
 
 .card {
     display: flex;
@@ -47,7 +45,7 @@
 
 .card-icon {
     position: absolute;
-    top: 10px;
+    top: 15px;
     left: 80px;
     width: 50px; /* Ajuster selon les besoins */
     height: 50px; /* Ajuster selon les besoins */
@@ -56,7 +54,7 @@
 
 .card-count {
     position: absolute;
-    top: -5px;
+    top: 0px;
     left: 130px;
     font-size: 3em;
     color: black;
@@ -80,4 +78,32 @@
     border-radius: 50%;
     border: 2px solid black;
     margin-bottom: 10px;
+}
+
+.mainPlayer{
+    position: absolute;
+    right: 300px;
+    bottom: 20px;
+}
+
+
+
+.mainPlayerCards{
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    bottom: 20px;
+    height: 130px;
+    width: 500px;
+}
+
+.cardMainPlayer{
+    transition:0.4s ease-in-out;
+    display:inline-block;
+    margin-left: -20px;
+    background-size: 84px, 130px;
+    background-repeat: no-repeat;
+    height: 130px;
+    width: 84px;
 }
