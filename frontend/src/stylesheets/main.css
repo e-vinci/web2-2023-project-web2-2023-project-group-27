@@ -140,6 +140,7 @@ input {
 #playButton,
 #loginPath,
 #signInPath,
+#RulesPath,
 #loginButton,
 #signInButton {
     background: rgb(230, 87, 87);
@@ -154,7 +155,8 @@ input {
 }
 
 #loginPath,
-#signInPath {
+#signInPath,
+#RulesPath {
     margin-top: 7%;
     width: 300px;
     box-shadow: 10px 10px 3px 3px rgba(255, 0, 0, 0.3);
@@ -173,8 +175,10 @@ input {
 #playButton:hover,
 #loginPath:hover,
 #signInPath:hover,
+#RulesPath:hover,
 #loginButton:hover,
-#signInButton:hover {
+#signInButton:hover,
+#RulesPath:hover {
     background: rgb(228, 50, 50);
     height: 85px;
     width: 215px;
@@ -182,7 +186,8 @@ input {
 }
 
 #loginPath:hover,
-#signInPath:hover {
+#signInPath:hover,
+#RulesPath:hover {
     margin-top: 25px;
     height: 85px;
     width: 320px;
@@ -222,7 +227,8 @@ input {
 
 #popupSettings,
 #popupLogin,
-#popupSignIn {
+#popupSignIn,
+#popupRules {
     z-index: 10000;
     position: absolute;
     left: 400px;

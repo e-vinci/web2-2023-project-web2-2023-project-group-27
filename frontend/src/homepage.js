@@ -7,14 +7,17 @@ const nicknameForm = document.getElementById("nickname");
 const popupSettings = document.getElementById("popupSettings");
 const popupLogin = document.getElementById("popupLogin");
 const popupSignIn = document.getElementById("popupSignIn");
+const popupRules = document.getElementById("popupRules")
 const settingsButton = document.getElementById("options");
 const loginPath = document.getElementById("loginPath");
 const signInPath = document.getElementById("signInPath");
+const RulesPath = document.getElementById("RulesPath");
 const playForm = document.getElementById("playForm");
 
 let isPopUpDisplayed = false;
 let isPopUpLoginDisplayed = false;
 let isPopUpSignInDisplayed = false;
+let isPopUpRulesDisplayed = false;
 let socket;
 
 nicknameForm.placeholder = uniqueNamesGenerator({
@@ -25,6 +28,7 @@ nicknameForm.placeholder = uniqueNamesGenerator({
 popupSettings.style.display = 'none';
 popupLogin.style.display = 'none';
 popupSignIn.style.display = 'none';
+popupRules.style.display = 'none';
 
 document.getElementById("fullscreen").addEventListener('click', () => {
     const elem = document.documentElement;
@@ -50,10 +54,12 @@ settingsButton.addEventListener('click', () => {
         popupSettings.style.display = 'block';
         popupLogin.style.display = 'none';
         popupSignIn.style.display = 'none';
+        popupRules.style.display = 'none';
     }
     isPopUpDisplayed = !isPopUpDisplayed;
     isPopUpLoginDisplayed = false;
     isPopUpSignInDisplayed = false;
+    isPopUpRulesDisplayed = false;
 });
 
 loginPath.addEventListener('click', () => {
@@ -63,10 +69,12 @@ loginPath.addEventListener('click', () => {
         popupLogin.style.display = 'block';
         popupSettings.style.display = 'none';
         popupSignIn.style.display = 'none';
+        popupRules.style.display = 'none';
     }
     isPopUpLoginDisplayed = !isPopUpLoginDisplayed;
     isPopUpDisplayed = false;
     isPopUpSignInDisplayed = false;
+    isPopUpRulesDisplayed = false;
 });
 
 signInPath.addEventListener('click', () => {
@@ -76,10 +84,26 @@ signInPath.addEventListener('click', () => {
         popupSignIn.style.display = 'block';
         popupSettings.style.display = 'none';
         popupLogin.style.display = 'none';
+        popupRules.style.display = 'none';
     }
     isPopUpSignInDisplayed = !isPopUpSignInDisplayed;
     isPopUpDisplayed = false;
     isPopUpLoginDisplayed = false;
+    isPopUpRulesDisplayed = false;
+});
+RulesPath.addEventListener('click', () => {
+    if (isPopUpRulesDisplayed) {
+        popupRules.style.display = 'none';
+    } else {
+        popupRules.style.display = 'block';
+        popupSettings.style.display = 'none';
+        popupLogin.style.display = 'none';
+        popupSignIn.style.display = 'none';
+    }
+    isPopUpRulesDisplayed = !isPopUpRulesDisplayed;
+    isPopUpDisplayed = false;
+    isPopUpLoginDisplayed = false;
+    isPopUpRulesDisplayed = false;
 });
 
 // Déconnecter le websocket en quittant la page
