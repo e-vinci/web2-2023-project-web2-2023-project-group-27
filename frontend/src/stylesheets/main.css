@@ -93,8 +93,9 @@ button:focus {
             color-stop(0, rgba(0, 0, 0, 1)),
             color-stop(0.5, rgba(0, 0, 0, 0.704)),
             color-stop(1, rgba(0, 0, 0, 0)));
-    -webkit-mask-composite: source-over;
+    
 }
+
 
 .menu {
     margin-left: 0%;
