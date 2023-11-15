@@ -2,7 +2,6 @@ import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-
 import { afficherDivChargement } from './loadingGame';
 import { connectWebSocket } from './websockets';
 
-
 const nicknameForm = document.getElementById("nickname");
 const popupSettings = document.getElementById("popupSettings");
 const popupLogin = document.getElementById("popupLogin");

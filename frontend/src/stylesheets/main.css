@@ -137,6 +137,11 @@ input {
     margin-bottom: 5vh;
 }
 
+#volume {
+    height: 50px;
+    width: 50px;
+}
+
 #playButton,
 #loginPath,
 #signInPath,
@@ -160,6 +165,9 @@ input {
     margin-top: 5%;
     width: 300px;
     box-shadow: 10px 10px 3px 3px rgba(255, 0, 0, 0.3);
+    font-size: 200%;
+    height: 10%;
+    transition: 1s;
 }
 
 #loginButton {
@@ -172,17 +180,58 @@ input {
     box-shadow: 10px 10px 3px 3px rgba(255, 0, 0, 0.3);
 }
 
-input[type="range"] {
-    accent-color: rgb(217, 51, 68);
+#volumeContainer {
+    display:inline-flex;
 }
 
+#volume {
+    width: 10%;
+    height: 10%;
+    margin-left: 7%;
+}
+
+.slidecontainer {
+    width: 100%;
+  }
+  
+  .slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 25px;
+    background: red;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+
+  input[type="range"] {
+    accent-color: rgb(230, 87, 87);
+  }
+  
+  .slider:hover {
+    opacity: 1;
+  }
+  
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: red;
+    cursor: pointer;
+  }
+  
+  .slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: red;
+    cursor: pointer;
+  }
+
 #playButton:hover,
-#loginPath:hover,
-#signInPath:hover,
-#RulesPath:hover,
 #loginButton:hover,
-#signInButton:hover,
-#RulesPath:hover {
+#signInButton:hover {
     background: rgb(228, 50, 50);
     height: 85px;
     width: 215px;
@@ -192,9 +241,9 @@ input[type="range"] {
 #loginPath:hover,
 #signInPath:hover,
 #RulesPath:hover {
-    margin-top: 25px;
-    height: 85px;
+    height: 11%;
     width: 320px;
+    background: rgb(228, 50, 50);
 }
 
 #loginButton:hover {
@@ -468,7 +517,8 @@ h1 {
 
     #popupSettings,
     #popupLogin,
-    #popupSignIn {
+    #popupSignIn,
+    #popupRules {
         top: 0;
         left: 0;
         width: 100vw;
