@@ -102,7 +102,7 @@ function createMainPlayerDiv(player) {
         card.style.zIndex = i;
         if(!card.classList.contains('notTheTimeToPlay')) {
           card.style.top = '-40px';
-          card.style.marginRight = '20px';
+          card.style.marginRight = '25px';
         }
     });
 
@@ -183,17 +183,17 @@ function calculateFontSize(length) {
 function calculateWidthCards(cardsNumber, element) {
     const maxWidth = 50;
     const minWidth = 10;
-    let width = maxWidth - cardsNumber * 0.7;
+    let width = maxWidth - cardsNumber * 1.1;
     width = width < minWidth ? minWidth : width;
     element.style.marginLeft = `${width}%`;
 }
 
 function calculateMarginCards(cardsNumber, element) {
     const maxMargin = -63;
-    const minMargin = -25;
-    let margin = minMargin + (cardsNumber * 1.8);
-    margin = margin > maxMargin ? maxMargin : margin;
-    element.style.marginLeft = `${margin}px`;
+    const minMargin = -30;
+    let margin = minMargin - (cardsNumber * 1.5);
+    margin = margin < maxMargin ? maxMargin : margin;
+    element.style.marginLeft = `${margin}px`
 }
 
 module.exports = {
