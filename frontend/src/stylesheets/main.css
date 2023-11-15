@@ -214,7 +214,7 @@ input {
     background: red;
     cursor: pointer;
   }
-  #volume{
+  .volume{
     color: red;
   }
 
