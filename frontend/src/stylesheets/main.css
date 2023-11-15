@@ -137,6 +137,11 @@ input {
     margin-bottom: 5vh;
 }
 
+#volume {
+    height: 50px;
+    width: 50px;
+}
+
 #playButton,
 #loginPath,
 #signInPath,
@@ -160,6 +165,9 @@ input {
     margin-top: 5%;
     width: 300px;
     box-shadow: 10px 10px 3px 3px rgba(255, 0, 0, 0.3);
+    font-size: 200%;
+    height: 10%;
+    transition: 1s;
 }
 
 #loginButton {
@@ -206,17 +214,16 @@ input {
     background: red;
     cursor: pointer;
   }
-  .volume{
+  #volume{
     color: red;
   }
 
+  #volumeRange {
+  }
+
 #playButton:hover,
-#loginPath:hover,
-#signInPath:hover,
-#RulesPath:hover,
 #loginButton:hover,
-#signInButton:hover,
-#RulesPath:hover {
+#signInButton:hover {
     background: rgb(228, 50, 50);
     height: 85px;
     width: 215px;
@@ -226,9 +233,9 @@ input {
 #loginPath:hover,
 #signInPath:hover,
 #RulesPath:hover {
-    margin-top: 25px;
-    height: 85px;
+    height: 11%;
     width: 320px;
+    background: rgb(228, 50, 50);
 }
 
 #loginButton:hover {
