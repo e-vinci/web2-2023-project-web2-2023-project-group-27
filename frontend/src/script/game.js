@@ -181,17 +181,17 @@ function calculateFontSize(length) {
 }
 
 function calculateWidthCards(cardsNumber, element) {
-    const maxWidth = 800;
-    const minWidth = 50;
-    let width = maxWidth - cardsNumber * 21;
+    const maxWidth = 50;
+    const minWidth = 10;
+    let width = maxWidth - cardsNumber * 0.7;
     width = width < minWidth ? minWidth : width;
-    element.style.marginLeft = `${width}px`;
+    element.style.marginLeft = `${width}%`;
 }
 
 function calculateMarginCards(cardsNumber, element) {
-    const maxMargin = -55;
-    const minMargin = -20;
-    let margin = minMargin + (cardsNumber * 1.2);
+    const maxMargin = -63;
+    const minMargin = -25;
+    let margin = minMargin + (cardsNumber * 1.8);
     margin = margin > maxMargin ? maxMargin : margin;
     element.style.marginLeft = `${margin}px`;
 }

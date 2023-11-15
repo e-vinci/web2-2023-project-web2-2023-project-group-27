@@ -1,6 +1,6 @@
 .cardCenterDiv{
     position: absolute;
-    display: flex;
+    display: inline-block;
     left: 0;
     right: 0;
     margin: auto;
@@ -11,22 +11,45 @@
 }
 
 .cardStack{
-    flex:1;
+    display: inline-block;
     left:0px;
     background-image: url("../img/cards/card_back.png");
     background-repeat: no-repeat;
-    background-size: 134px 200px;
+    background-position: center;
+    background-size: 140px 200px;
+    border: 2px solid rgba(255, 0, 0, 0.375); 
+    border-radius: 10px;
     height: 200px;
-    width: 134px;
+    width: 140px;
+    transition: 1s;
+}
+
+.drawCard{
+    animation: clignotementBordure 1s infinite;
+}
+
+@keyframes clignotementBordure {
+    0%, 100% {
+        border-radius: 10px;
+        border: 2px solid rgba(255, 0, 0, 0.375);
+    }
+    50% {
+        border-radius: 20px;
+        border: 7px solid orange;
+    }
 }
 
 .currentCard{
-    flex:1;
+    border: 2px solid transparent;
+    display: inline-block;
     right:0px;
+    margin-left: 50px;
     background-repeat: no-repeat;
     background-size: 134px 200px;
     height: 200px;
     width: 134px; 
+    border: 2px solid rgba(255, 0, 0, 0.375); 
+    border-radius: 10px;
 }
 
 .card {
@@ -111,5 +134,3 @@
 .notTheTimeToPlay{
     top: 70px;
 }
-
-
