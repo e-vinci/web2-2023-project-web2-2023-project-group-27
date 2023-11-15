@@ -13,6 +13,8 @@ const loginPath = document.getElementById("loginPath");
 const signInPath = document.getElementById("signInPath");
 const RulesPath = document.getElementById("RulesPath");
 const playForm = document.getElementById("playForm");
+const music = document.getElementById("music");
+const volumeControl = document.getElementById("volumeControl");
 
 let isPopUpDisplayed = false;
 let isPopUpLoginDisplayed = false;
@@ -46,6 +48,15 @@ document.getElementById("fullscreen").addEventListener('click', () => {
     }
 }
 );
+
+window.addEventListener('click', () => {
+  const audio = music;
+  audio.play();
+});
+
+volumeControl.addEventListener('input', () => {
+    music.volume = volumeControl.value;
+});
 
 settingsButton.addEventListener('click', () => {
     if (isPopUpDisplayed) {
