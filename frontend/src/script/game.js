@@ -8,6 +8,7 @@ const cardSoundEffect = require('../sound/card.mp3');
 let cardCenterDiv;
 let currentCard;
 let cardStack;
+let directionArrow;
 
 let playerDeck = [];
 
@@ -41,6 +42,7 @@ function generatingGame(lobby) {
   cardCenterDiv.appendChild(cardStack);
   cardCenterDiv.appendChild(currentCard);
   document.body.appendChild(cardCenterDiv);
+
   // setLoadingBarPercentage(mettreLePourcentIci);
 
   for (let i = 0; i < lobby.players.length; i += 1) {
@@ -50,6 +52,12 @@ function generatingGame(lobby) {
       createMainPlayerDiv(player);
     }
   }
+
+  addDirectionArrow();
+  const vinciLogo = document.createElement('div');
+  vinciLogo.className = 'vinciLogo';
+  document.body.appendChild(vinciLogo);
+
 }
 
 function createMainPlayerDiv(player) {
@@ -161,6 +169,24 @@ function setCardImage(element, card) {
   element.title = `${card.value} ${card.color}`;
 }
 
+function addDirectionArrow() {
+  directionArrow = document.createElement('div');
+    directionArrow.className = 'direction-arrow';
+    directionArrow.classList.add('clockwise');
+  document.body.appendChild(directionArrow);
+}
+
+function reverseDirection() {
+  if (directionArrow.classList.contains('clockwise')) {
+    directionArrow.classList.remove('clockwise');
+    directionArrow.classList.add('anticlockwise');
+  }
+  else {
+    directionArrow.classList.remove('anticlockwise');
+    directionArrow.classList.add('clockwise');
+  }
+}
+
 function setCardIcon(element) {
   element.className = 'card-icon';
   element.style.backgroundImage = `url("${getCardIcon()}")`;
@@ -215,6 +241,8 @@ function playSoundEffect(audioSource) {
   });
 }
 
+
 module.exports = {
   generatingGame,
+  reverseDirection,
 };

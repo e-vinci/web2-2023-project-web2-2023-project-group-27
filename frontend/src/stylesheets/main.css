@@ -265,7 +265,7 @@ input[type="range"] {
     right: 20px;
     height: 70px;
     width: 73px;
-    background: url("../img/options.png");
+    background: url("../img/options/options.png");
     background-size: contain;
     background-repeat: no-repeat;
     animation: optionRotate 3s linear infinite;

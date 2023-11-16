@@ -27,7 +27,7 @@
     </div>
   </div>
 
-  <img src="./img/fullscreen.png" id="fullscreen">
+  <img src="./img/fullscreen.png" id="fullscreen" alt="Plein Écran">
   <div id="options"></div>
   <div id="popupSettings">
     <h1 id="param">Paramètres</h1>
@@ -38,9 +38,9 @@
     <input type="submit" id="RulesPath" value="Règles">
     <br>
     <div id="volumeContainer">
-      <img id="volume" src="../src/img/volume.png">
+      <img id="volume" src="../src/img/options/volume.png">
       <div class="slidecontainer">
-        <input id="volumeControl" type="range" min="0" max="1" step="0.01" value="0.5">
+        <input id="volumeControl" type="range" min="0" max="1" step="0.01" value="0.5" title="volume" placeholder="0.5" >
       </div>
     </div>
 
@@ -48,9 +48,9 @@
   <div id="popupLogin">
     <h1>Se connecter</h1>
     <form method="post" id="loginForm">
-      <input type="text" id="email" placeholder="Email">
+      <input type="text" id="emailLogin" placeholder="Email">
       <br>
-      <input type="password" id="password" placeholder="Mot de passe">
+      <input type="password" id="passwordLogin" placeholder="Mot de passe">
       <br>
       <input type="submit" id="loginButton" value="Se connecter">
     </form>
@@ -58,11 +58,11 @@
   <div id="popupSignIn">
     <h1>S'inscrire</h1>
     <form method="post" id="signInForm">
-      <input type="text" id="nickname" placeholder="Pseudo">
+      <input type="text" id="nicknameSignIn" placeholder="Pseudo">
       <br>
-      <input type="text" id="email" placeholder="Email">
+      <input type="text" id="emailSignIn" placeholder="Email">
       <br>
-      <input type="password" id="password" placeholder="Mot de passe">
+      <input type="password" id="passwordSignIn" placeholder="Mot de passe">
       <br>
       <input type="password" id="passwordConfirmation" placeholder="Confirmation">
       <br>

@@ -134,3 +134,68 @@
 .notTheTimeToPlay{
     top: 70px;
 }
+
+.direction-arrow{
+    height: 600px;
+    width: 600px;
+    z-index: -4;
+    position: absolute;
+    display: inline-block;
+    margin: auto;
+    opacity: 0.45;
+    filter: blur(3px);
+    left: 0;
+    right: 0;
+    transition: 0.5s;
+}
+
+.clockwise{
+    background: url("../img/directions/direction_clockwise.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    animation: rotateClockWise 20s linear infinite;
+}
+
+.anticlockwise{
+    animation: rotateAntiClockWise 20s linear infinite;
+    background: url("../img/directions/direction_anticlockwise.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    transform: scaleY(-1);
+}
+
+
+@keyframes rotateClockWise {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotateAntiClockWise {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
+.vinciLogo{
+    background: url("../img/logo_vinci.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 900px;
+    width: 900px;
+    z-index: -5;
+    position: absolute;
+    margin: auto;
+    opacity: 0.1;
+    filter: blur(7px);
+    left: 0;
+    right: 0;
+}
