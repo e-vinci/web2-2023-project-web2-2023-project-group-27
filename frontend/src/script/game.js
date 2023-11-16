@@ -3,6 +3,8 @@
 const { debugCacherChargement } = require('./loadingGame');
 const { getCardImage, getCardIcon, getUserIcon } = require('./images');
 
+const cardSoundEffect = require('../sound/card.mp3');
+
 let cardCenterDiv;
 let currentCard;
 let cardStack;
@@ -21,6 +23,9 @@ const divMainPlayer = {
 };
 
 function generatingGame(lobby) {
+  // pour le debug
+  document.getElementById('options').style.display = 'block';
+
   debugCacherChargement();
   cardCenterDiv = document.createElement('div');
   cardCenterDiv.className = 'cardCenterDiv';
@@ -103,6 +108,7 @@ function createMainPlayerDiv(player) {
         if(!card.classList.contains('notTheTimeToPlay')) {
           card.style.top = '-40px';
           card.style.marginRight = '25px';
+          playSoundEffect(cardSoundEffect);
         }
     });
 
@@ -194,6 +200,19 @@ function calculateMarginCards(cardsNumber, element) {
     let margin = minMargin - (cardsNumber * 1.5);
     margin = margin < maxMargin ? maxMargin : margin;
     element.style.marginLeft = `${margin}px`
+}
+
+
+function playSoundEffect(audioSource) {
+  const soundEffect = new Audio(audioSource);
+  soundEffect.volume = document.getElementById('volumeControl').value;
+  document.body.appendChild(soundEffect);
+  soundEffect.play();
+
+  soundEffect.addEventListener('ended', () => {
+      soundEffect.pause();
+      document.body.removeChild(soundEffect);
+  });
 }
 
 module.exports = {
