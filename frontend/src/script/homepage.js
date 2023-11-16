@@ -24,7 +24,7 @@ let socket;
 nicknameForm.placeholder = uniqueNamesGenerator({
     dictionaries: [adjectives, animals, colors],
     length: 2
-  });
+});
 
 popupSettings.style.display = 'none';
 popupLogin.style.display = 'none';
@@ -49,8 +49,8 @@ document.getElementById("fullscreen").addEventListener('click', () => {
 );
 
 window.addEventListener('click', () => {
-  const audio = music;
-  audio.play();
+    const audio = music;
+    audio.play();
 });
 
 volumeControl.addEventListener('input', () => {
@@ -144,10 +144,10 @@ playForm.addEventListener('submit', (e) => {
     // Div chargement
     afficherDivChargement();
 
-    
+
     setTimeout(() => {
         let nickname = nicknameForm.value;
-        if(nickname === '' || nickname === undefined) nickname = nicknameForm.placeholder;
+        if (nickname === '' || nickname === undefined) nickname = nicknameForm.placeholder;
         connectWebSocket(nickname, null, null);
     }, 2900);
 });
