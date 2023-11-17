@@ -25,12 +25,33 @@
         <input type="submit" id="playButton" value="Jouer">
       </form>
     </div>
-
   </div>
-  </div>   
-  <div id="playerBanner">
-      <img id="playerBannerImage" src="./img/profile_banner.png" alt="Player Banner Image" style="width: 150px; height: 50px;">
+  </div>  
+
+  <div id="Banner">
+      <img id="BannerImage" src="./img/profile_banner.png" alt="Player Banner Image" style="width: 150px; height: 50px;">
+      <p id="playerName" class="diagonalText">abcd</p>
   </div> 
+  <script>
+    function ajusterTaillePolice() {
+      var playerNameElement = document.getElementById('playerName');
+      var playerNameLength = playerNameElement.textContent.length;
+
+      // Ajouter une condition : ajuster la taille de la police seulement si la longueur du nom dépasse 10 caractères
+      if (playerNameLength > 10) {
+        var playerBannerWidth = playerNameElement.offsetWidth;
+        var fontSize = playerBannerWidth / playerNameLength * 2;
+        playerNameElement.style.fontSize = fontSize + 'px';
+      }
+    }
+
+    // Appeler la fonction lors du chargement de la page et lors du redimensionnement de la fenêtre
+    window.addEventListener('load', ajusterTaillePolice);
+    window.addEventListener('resize', ajusterTaillePolice);
+  </script>
+
+
+
   <img src="./img/fullscreen.png" id="fullscreen">
   <div id="options"></div>
   <div id="popupSettings">

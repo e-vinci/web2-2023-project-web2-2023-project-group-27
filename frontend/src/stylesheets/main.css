@@ -654,22 +654,36 @@ h1 {
     align-items: center;
 }
 
-#playerBanner {
+#Banner {
     position: absolute;
-    top: 40px; /* Ajustez la valeur selon vos besoins pour définir la distance par rapport au haut */
-    right: 260px; /* Ajustez la valeur selon vos besoins pour définir la distance par rapport à la droite */
+    top: 40px; 
+    right: 260px; 
   }
   
-  /* Ajoutez d'autres styles au besoin */
-  
 
-#playerBannerImage {
+#BannerImage {
     width: 550px !important;
     height: 180px !important;
   }
+  #playerName {
+    top: 100px;
+    right: 100px;
+  }
+
+  .diagonalText {
+    transform-origin: left bottom;
+    font-weight: bold;
+    color: black;
+    font-size: 36px;
+    white-space: nowrap;
+    position: absolute;
+    bottom: 50%; /* Centre le texte verticalement */
+    left: 50%; /* Centre le texte horizontalement */
+    transform: translate(-50%, 50%) rotate(-30deg); /* Ajuste la position et la rotation */
+    text-fit: contain;
+}
+
   
-  
-  /* Ajoutez d'autres styles au besoin */
   
   
 
