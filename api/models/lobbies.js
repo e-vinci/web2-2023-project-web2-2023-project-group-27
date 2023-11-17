@@ -96,6 +96,7 @@ function addPlayerToLobby(player) {
     }
   } else {
     io.sendSocketToId(player.socketId, 'gameStart', { hasStarted: lobby.hasStarted });
+
     for (let i = 0; i < lobby.players.length; i += 1) {
       if (lobby.players[i].socketId !== player.socketId) {
         io.sendSocketToId(lobby.players[i].socketId, 'newPlayer', {
@@ -120,6 +121,7 @@ function removePlayer(socketId) {
   player.isHuman = false;
   player.socketId = null;
   player.isReady = true;
+  player.username = 'Bot';
 
   lobby.humanPlayersCount -= 1;
   for (let i = 0; i < lobby.players.length; i += 1) {
@@ -152,9 +154,7 @@ function getPlayers(lobbyId) {
 }
 
 function startGame(lobby) {
-  console.log(lobby);
   // retirer la ligne en dessous plus tard
-  game.generateCards(lobby);
 
   for (let i = 0; i < lobby.players.length; i += 1) {
     io.sendSocketToId(lobby.players[i].socketId, 'gameStart', { hasStarted: lobby.hasStarted });
@@ -168,10 +168,9 @@ function startGame(lobby) {
     for (let i = 0; i < lobby.players.length; i += 1) {
       if (!lobby.players[i].isReady) isEveryPlayersReady = false;
     }
-
     if (isEveryPlayersReady) {
-      clearInterval(interval);
       game.generateCards(lobby);
+      clearInterval(interval);
     }
   }, 1000);
 }
@@ -228,4 +227,5 @@ module.exports = {
   deleteLobby,
   getPlayers,
   getLobbyInformation,
+  getLobbyByPlayer,
 };

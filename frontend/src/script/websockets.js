@@ -2,14 +2,15 @@
 /* eslint-disable no-param-reassign */
 
 const socketio = require('socket.io-client');
-const { generatingGame } = require('./game');
+const { generatingGame, displayPlayerWhoPlay, addCard, setLastCard } = require('./game');
 
-// const erreur = require('./erreur');
+const erreur = require('./erreur');
 const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAfficherChargement, updateLoadingTitle } = require('./loadingGame');
 const { updatePlayer } = require('./game');
 
 let socket;
 let isGameStarted = false;
+let hasStarted = false;
 
 const isConnected = () => {
     return socket.connected;
@@ -51,6 +52,7 @@ const connectWebSocket = (nickname) => {
         io.on('gameStart', (lobby) => {
             isGameStarted = true;
             setTimeout(() => {
+            hasStarted = lobby.hasStarted;
             if(!lobby.hasStarted) updateLoadingTitle('La partie va bientôt commencer');
             else updateLoadingTitle('Vous allez rejoindre une partie déjà commencée');
             afficherChargement('Chargement du terrain de jeu');
@@ -60,11 +62,27 @@ const connectWebSocket = (nickname) => {
 
         io.on('lobbyInfo', (lobby) => {
             generatingGame(lobby);
+            // debug
+            setTimeout(() => sendSocketToServer('readyToStart'), 1000);
+            setTimeout(() => {
+                if(hasStarted) sendSocketToServer('whoPlay');
+            }, 4000);
         });
 
         io.on('newPlayer', (player) => {
-            console.log(player);
             updatePlayer(player);
+        })
+
+        io.on('nextPlayer', (playerId) => {
+            displayPlayerWhoPlay(playerId);
+        })
+
+        io.on('cardDrawn', (infos) => {
+            addCard(infos.toPlayer, infos.card);
+        })
+
+        io.on('cardPlayed', (infos) => {
+            setLastCard(infos.card);
         })
 })
 return io;
@@ -73,7 +91,7 @@ return io;
 function checkForConnection() {
     const connectionCheckInterval = setInterval(() => {
         if (!isConnected()) {
-            // erreur.afficherErreur("La connexion au serveur a été perdue", socket);
+            erreur.afficherErreur("La connexion au serveur a été perdue", socket);
             clearInterval(connectionCheckInterval);
         }
     }, 3000)
@@ -89,10 +107,14 @@ function addPlayerToServer(nickname) {
     if (socket.connected) socket.emit('addPlayer', nickname, socket.id);
 }
 
-
+function sendSocketToServer(type, value) {
+    if(socket === null ||type === null) return;
+    socket.emit(type, value);
+}
 
 module.exports = {
     connectWebSocket,
     checkForConnection,
     addPlayerToServer,
+    sendSocketToServer,
 }
