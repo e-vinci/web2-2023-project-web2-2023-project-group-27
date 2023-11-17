@@ -1,10 +1,9 @@
 /* eslint-disable no-multi-assign */
 /* eslint-disable no-param-reassign */
-const { debugCacherChargement } = require('./loadingGame');
+const { debugCacherChargement, setLoadingBarPercentage } = require('./loadingGame');
 const { getCardImage, getCardIcon, getUserIcon } = require('./images');
-const { setLoadingBarPercentage } = require('./loadingGame');
 
-const cardSoundEffect = require('../sound/card.mp3');
+const cardSoundEffect = require('../sound/card.mp3')
 
 let cardCenterDiv;
 let currentCard;
@@ -25,27 +24,28 @@ const divMainPlayer = {
 };
 
 function generatingGame(lobby) {
-  // pour le debug
+  // pour le debug, à modifier une fois fini
   document.getElementById('options').style.display = 'block';
-
   debugCacherChargement();
-  cardCenterDiv = document.createElement('div');
-  cardCenterDiv.className = 'cardCenterDiv';
 
+  // carte actuelle
+  cardCenterDiv = document.createElement('div');
+    cardCenterDiv.className = 'cardCenterDiv';
   currentCard = document.createElement('div');
-  currentCard.className = 'currentCard';
+    currentCard.className = 'currentCard';
   if (lobby.currentCard === null) currentCard.src = '';
   setCardImage(currentCard, lobby.currentCard);
 
+  // pioche
   cardStack = document.createElement('div');
   cardStack.className = 'cardStack';
 
   cardCenterDiv.appendChild(cardStack);
   cardCenterDiv.appendChild(currentCard);
   document.body.appendChild(cardCenterDiv);
-
   setLoadingBarPercentage(50);
 
+  // affichage des joueurs
   for (let i = 0; i < lobby.players.length; i += 1) {
     const player = lobby.players[i];
     const { deck } = player;
@@ -54,49 +54,45 @@ function generatingGame(lobby) {
     }
   }
 
+  // flèche de direction
   addDirectionArrow();
+
+  // logo vinci arrière plan
   const vinciLogo = document.createElement('div');
   vinciLogo.className = 'vinciLogo';
   document.body.appendChild(vinciLogo);
   setLoadingBarPercentage(55);
+
 }
 
 function createMainPlayerDiv(player) {
   const { deck } = player;
   playerDeck = deck;
   sortDeck(playerDeck);
-  for (let j = 0; j < deck.length; j += 1) {
-    /*
-        const card = document.createElement('div');
-            card.className = 'cardMainPlayer';
-            setCardImage(card, deck[j]);
-        divMainPlayer.appendChild(card);
-        */
-  }
 
   divMainPlayer.mainDiv = document.createElement('div');
-  divMainPlayer.mainDiv.className = 'card mainPlayer';
+    divMainPlayer.mainDiv.className = 'card mainPlayer';
 
   // Create card icon
   divMainPlayer.divCardIcon = document.createElement('div');
-  divMainPlayer.divCardIcon.title = `Nombre de cartes: ${deck.length}`;
-  setCardIcon(divMainPlayer.divCardIcon);
+    divMainPlayer.divCardIcon.title = `Nombre de cartes: ${deck.length}`;
+    setCardIcon(divMainPlayer.divCardIcon);
 
   // Create card count
   divMainPlayer.textCardCount = document.createElement('div');
-  divMainPlayer.textCardCount.className = 'card-count';
-  divMainPlayer.textCardCount.textContent = deck.length;
+    divMainPlayer.textCardCount.className = 'card-count';
+    divMainPlayer.textCardCount.textContent = deck.length;
 
   // Create nickname
   divMainPlayer.textNickname = document.createElement('div');
-  divMainPlayer.textNickname.className = 'nickname';
-  divMainPlayer.textNickname.style.marginLeft = `${calculateMargin(player.username.length)}px`;
-  divMainPlayer.textNickname.textContent = player.username;
-  divMainPlayer.textNickname.fontSize = `${calculateFontSize(player.username.length)}px`;
+    divMainPlayer.textNickname.className = 'nickname';
+    divMainPlayer.textNickname.style.marginLeft = `${calculateMargin(player.username.length)}px`;
+    divMainPlayer.textNickname.textContent = player.username;
+    divMainPlayer.textNickname.fontSize = `${calculateFontSize(player.username.length)}px`;
 
   // Create user icon
   divMainPlayer.imageUserIcon = document.createElement('img');
-  setUserIcon(divMainPlayer.imageUserIcon);
+    setUserIcon(divMainPlayer.imageUserIcon);
 
   divMainPlayer.mainDiv.appendChild(divMainPlayer.divCardIcon);
   divMainPlayer.mainDiv.appendChild(divMainPlayer.textCardCount);
@@ -105,41 +101,59 @@ function createMainPlayerDiv(player) {
   document.body.appendChild(divMainPlayer.mainDiv);
 
   divMainPlayer.mainDivCards = document.createElement('div');
-  divMainPlayer.mainDivCards.className = 'mainPlayerCards';  
+    divMainPlayer.mainDivCards.className = 'mainPlayerCards';  
   
-  calculateWidthCards(deck.length, divMainPlayer.mainDivCards);
 
+  // affichage des cartes du joueur principal
   for (let i = 0; i < playerDeck.length; i += 1) {
-    const card = document.createElement('div');
-    card.className = 'cardMainPlayer';
-    card.addEventListener('mouseover', () => {
-        card.style.zIndex = i;
-        if(!card.classList.contains('notTheTimeToPlay')) {
-          card.style.top = '-40px';
-          card.style.marginRight = '25px';
+    // DEBUG à modifier plus tard
+    // eslint-disable-next-line no-loop-func
+    setTimeout(() => {
+      addCardToMainPlayer(playerDeck[i]);
+    }, i * 200)
+  } 
+
+  document.body.appendChild(divMainPlayer.mainDivCards);
+}
+
+function addCardToMainPlayer(card) {
+    const carddiv = document.createElement('div');
+    carddiv.className = 'cardMainPlayer';
+    carddiv.style.zIndex = divMainPlayer.divCardIconCards.length + 1;
+    carddiv.addEventListener('mouseover', () => {
+        if(!carddiv.classList.contains('notTheTimeToPlay')) {
+          carddiv.style.top = '-40px';
+          carddiv.style.marginRight = '25px';
           playSoundEffect(cardSoundEffect);
         }
     });
 
-    card.addEventListener('mouseout', () => {
-        card.style.zIndex = i;
-    if (card.classList.contains('notTheTimeToPlay')) {
-      card.style.top= '70px';
-      card.style.marginRight = '0px';
+    carddiv.addEventListener('mouseout', () => {
+    if (carddiv.classList.contains('notTheTimeToPlay')) {
+      carddiv.style.top= '70px';
+      carddiv.style.marginRight = '0px';
     }else{
-      card.style.top = '0px';
-      card.style.marginRight = '0px';
+      carddiv.style.top = '0px';
+      carddiv.style.marginRight = '0px';
     }
     });
 
-    card.style.zIndex = i;
-    calculateMarginCards(deck.length, card);
-    setCardImage(card, playerDeck[i]);
+    setCardImage(carddiv, card);
 
-    divMainPlayer.divCardIconCards.push(card);
-    divMainPlayer.mainDivCards.appendChild(card);
-  }
-  document.body.appendChild(divMainPlayer.mainDivCards);
+    divMainPlayer.divCardIconCards.push(carddiv);
+    divMainPlayer.mainDivCards.appendChild(carddiv);
+
+    calculateMarginCards(divMainPlayer.divCardIconCards, true);
+    calculateWidthCards(divMainPlayer.divCardIconCards.length, divMainPlayer.mainDivCards, true);
+}
+
+function removeCardToMainPlayer(index) {
+  const cardDiv = divMainPlayer.divCardIconCards[index];
+  divMainPlayer.mainDivCards.removeChild(cardDiv);
+  divMainPlayer.divCardIconCards.splice(index, 1);
+
+  calculateMarginCards(divMainPlayer.divCardIconCards, true);
+  calculateWidthCards(divMainPlayer.divCardIconCards.length, divMainPlayer.mainDivCards, true);
 }
 
 function sortDeck(deck) {
@@ -213,20 +227,28 @@ function calculateFontSize(length) {
   return fontSize < minFontSize ? minFontSize : fontSize;
 }
 
-function calculateWidthCards(cardsNumber, element) {
-    const maxWidth = 50;
-    const minWidth = 10;
-    let width = maxWidth - cardsNumber * 1.1;
-    width = width < minWidth ? minWidth : width;
-    element.style.marginLeft = `${width}%`;
+function calculateWidthCards(cardsNumber, element, isHorizontal) {
+    if(isHorizontal) {
+      const maxWidth = 50;
+      const minWidth = 10;
+      let width = maxWidth - cardsNumber * 1.1;
+      width = width < minWidth ? minWidth : width;
+      element.style.marginLeft = `${width}%`;
+    }
 }
 
-function calculateMarginCards(cardsNumber, element) {
+function calculateMarginCards(cardsDiv, isHorizontal) {
+  if(isHorizontal) {
     const maxMargin = -63;
     const minMargin = -30;
-    let margin = minMargin - (cardsNumber * 1.5);
+    let margin = minMargin - (cardsDiv.length * 1.5);
     margin = margin < maxMargin ? maxMargin : margin;
-    element.style.marginLeft = `${margin}px`
+
+    for(let i = 0; i < cardsDiv.length ; i += 1) {
+      cardsDiv[i].style.marginLeft = `${margin}px`
+    }
+      
+  }
 }
 
 
@@ -246,4 +268,6 @@ function playSoundEffect(audioSource) {
 module.exports = {
   generatingGame,
   reverseDirection,
+  addCardToMainPlayer,
+  removeCardToMainPlayer,
 };
