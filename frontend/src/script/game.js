@@ -113,6 +113,14 @@ function createMainPlayerDiv(player) {
     }, i * 200)
   } 
 
+  setTimeout(() => {
+    setTimeToPlay(false);
+  }, 2000)
+
+  setTimeout(() => {
+    setTimeToPlay(true);
+  }, 6000)
+
   document.body.appendChild(divMainPlayer.mainDivCards);
 }
 
@@ -130,7 +138,7 @@ function addCardToMainPlayer(card) {
 
     carddiv.addEventListener('mouseout', () => {
     if (carddiv.classList.contains('notTheTimeToPlay')) {
-      carddiv.style.top= '70px';
+      carddiv.style.top= '90px';
       carddiv.style.marginRight = '0px';
     }else{
       carddiv.style.top = '0px';
@@ -145,6 +153,21 @@ function addCardToMainPlayer(card) {
 
     calculateMarginCards(divMainPlayer.divCardIconCards, true);
     calculateWidthCards(divMainPlayer.divCardIconCards.length, divMainPlayer.mainDivCards, true);
+}
+
+function setTimeToPlay(boolean) {
+  if(!boolean) {
+    for(let i = 0; i < divMainPlayer.divCardIconCards.length; i += 1) {
+      
+      divMainPlayer.divCardIconCards[i].classList.add('notTheTimeToPlay');
+      divMainPlayer.divCardIconCards[i].style.top = '90px';
+    }
+  } else {
+    for(let i = 0; i < divMainPlayer.divCardIconCards.length; i += 1) {
+      divMainPlayer.divCardIconCards[i].classList.remove('notTheTimeToPlay');
+      divMainPlayer.divCardIconCards[i].style.top= '0px';
+    }
+  }
 }
 
 function removeCardToMainPlayer(index) {
