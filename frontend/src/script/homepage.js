@@ -14,6 +14,7 @@ const RulesPath = document.getElementById("RulesPath");
 const playForm = document.getElementById("playForm");
 const music = document.getElementById("music");
 const volumeControlMusic = document.getElementById("volumeControlMusic");
+const volumeImage = document.getElementById("volume");
 
 let isPopUpDisplayed = false;
 let isPopUpLoginDisplayed = false;
@@ -56,6 +57,14 @@ window.addEventListener('click', () => {
 volumeControlMusic.addEventListener('input', () => {
     music.volume = volumeControlMusic.value;
 });
+
+volumeImage.addEventListener('click', () => {
+    if(music.volume === 0) {
+        music.volume = parseFloat(volumeControlMusic.value);
+    }else {
+        music.volume = 0;
+    }
+})
 
 settingsButton.addEventListener('click', () => {
     if (isPopUpDisplayed) {

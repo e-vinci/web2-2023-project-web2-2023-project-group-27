@@ -1,7 +1,7 @@
 /* eslint-disable no-multi-assign */
 /* eslint-disable no-param-reassign */
 const { debugCacherChargement, setLoadingBarPercentage } = require('./loadingGame');
-const { getCardImage, getCardIcon, getUserIcon } = require('./images');
+const { getCardImage, getCardIcon, getUserIcon, getBotIcon } = require('./images');
 
 const cardSoundEffect = require('../sound/card.mp3')
 
@@ -22,6 +22,39 @@ const divMainPlayer = {
   mainDivCards: null,
   divCardIconCards: [],
 };
+
+const divOpponentPlayers = [
+  {
+    playerId: null,
+    mainDiv: null,
+    divCardIcon: null,
+    textCardCount: null,
+    textNickname: null,
+    imageUserIcon: null,
+    mainDivCards: null,
+    divCardIconCards: [],
+  },
+  {
+    playerId: null,
+    mainDiv: null,
+    divCardIcon: null,
+    textCardCount: null,
+    textNickname: null,
+    imageUserIcon: null,
+    mainDivCards: null,
+    divCardIconCards: [],
+  }, {
+    playerId: null,
+    mainDiv: null,
+    divCardIcon: null,
+    textCardCount: null,
+    textNickname: null,
+    imageUserIcon: null,
+    mainDivCards: null,
+    divCardIconCards: [],
+  },
+]
+
 
 function generatingGame(lobby) {
   // pour le debug, à modifier une fois fini
@@ -46,11 +79,17 @@ function generatingGame(lobby) {
   setLoadingBarPercentage(50);
 
   // affichage des joueurs
+
+  let number = 2;
+
   for (let i = 0; i < lobby.players.length; i += 1) {
     const player = lobby.players[i];
     const { deck } = player;
-    if (typeof deck !== 'number') {
+    if (typeof deck !== 'number') { // joueur principal
       createMainPlayerDiv(player);
+    }else{
+      createOpponentPlayerDiv(player, number);
+      number += 1;
     }
   }
 
@@ -179,6 +218,58 @@ function removeCardToMainPlayer(index) {
   calculateWidthCards(divMainPlayer.divCardIconCards.length, divMainPlayer.mainDivCards, true);
 }
 
+function createOpponentPlayerDiv(player, number) {
+  const divOpponentPlayer = divOpponentPlayers[number - 2];
+
+  divOpponentPlayer.playerId = player.playerId;
+  divOpponentPlayer.mainDiv = document.createElement('div');
+  divOpponentPlayer.mainDiv.className = `card player${number}`;
+
+// Create card icon
+divOpponentPlayer.divCardIcon = document.createElement('div');
+divOpponentPlayer.divCardIcon.title = `Nombre de cartes: ${player.deck}`;
+  setCardIcon(divOpponentPlayer.divCardIcon);
+
+// Create card count
+divOpponentPlayer.textCardCount = document.createElement('div');
+divOpponentPlayer.textCardCount.className = 'card-count';
+divOpponentPlayer.textCardCount.textContent = player.deck;
+
+// Create nickname
+divOpponentPlayer.textNickname = document.createElement('div');
+divOpponentPlayer.textNickname.className = 'nickname';
+divOpponentPlayer.textNickname.style.marginLeft = `${calculateMargin(player.username.length)}px`;
+divOpponentPlayer.textNickname.textContent = player.username;
+divOpponentPlayer.textNickname.fontSize = `${calculateFontSize(player.username.length)}px`;
+
+// Create user icon
+divOpponentPlayer.imageUserIcon = document.createElement('img');
+  if(player.isHuman) setUserIcon(divOpponentPlayer.imageUserIcon);
+  else setBotIcon(divOpponentPlayer.imageUserIcon);
+
+  divOpponentPlayer.mainDiv.appendChild(divOpponentPlayer.divCardIcon);
+  divOpponentPlayer.mainDiv.appendChild(divOpponentPlayer.textCardCount);
+  divOpponentPlayer.mainDiv.appendChild(divOpponentPlayer.textNickname);
+  divOpponentPlayer.mainDiv.appendChild(divOpponentPlayer.imageUserIcon);
+document.body.appendChild(divOpponentPlayer .mainDiv);
+
+divOpponentPlayer.mainDivCards = document.createElement('div');
+divOpponentPlayer.mainDivCards.className = 'mainPlayerCards';  
+/*
+
+// affichage des cartes du joueur principal
+for (let i = 0; i < playerDeck.length; i += 1) {
+  // DEBUG à modifier plus tard
+  // eslint-disable-next-line no-loop-func
+  setTimeout(() => {
+    addCardToMainPlayer(playerDeck[i]);
+  }, i * 200)
+} 
+
+document.body.appendChild(divMainPlayer.mainDivCards);
+*/
+}
+
 function sortDeck(deck) {
     const colorOrder = ['red', 'blue', 'green', 'yellow', 'black'];
     const valueOrder = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'block', 'reverse', '+2', 'multicolor black', '+4 black'];
@@ -207,6 +298,15 @@ function setCardImage(element, card) {
   element.title = `${card.value} ${card.color}`;
 }
 
+function getOpponent(id) {
+  for (let i = 0; i < divOpponentPlayers.length; i += 1) {
+    if (divOpponentPlayers[i].playerId === id) {
+      return divOpponentPlayers[i];
+    }
+  }
+  return null;
+}
+
 function addDirectionArrow() {
   directionArrow = document.createElement('div');
     directionArrow.className = 'direction-arrow';
@@ -225,14 +325,36 @@ function reverseDirection() {
   }
 }
 
+
+function updatePlayer(opponent) {
+  const divPlayer = getOpponent(opponent.player.playerId);
+  if(divPlayer === null) return;
+
+  if(opponent.player.isHuman) setUserIcon(divPlayer.imageUserIcon);
+  else setBotIcon(divPlayer.imageUserIcon);
+
+  divPlayer.textNickname.style.marginLeft = `${calculateMargin(opponent.player.username.length)}px`;
+  divPlayer.textNickname.textContent = opponent.player.username;
+  divPlayer.textNickname.fontSize = `${calculateFontSize(opponent.player.username.length)}px`;
+
+  divPlayer.mainDiv.style.backgroundColor = opponent.player.color;
+  setTimeout(() => { divPlayer.mainDiv.style.backgroundColor = 'orange';}, 1000)
+}
+
+
 function setCardIcon(element) {
   element.className = 'card-icon';
   element.style.backgroundImage = `url("${getCardIcon()}")`;
 }
 
 function setUserIcon(element) {
-  element.className = 'user-icon';
+  element.className = 'icon';
   element.src = getUserIcon();
+}
+
+function setBotIcon(element) {
+  element.className = 'icon';
+  element.src = getBotIcon();
 }
 
 function calculateMargin(length) {
@@ -293,4 +415,5 @@ module.exports = {
   reverseDirection,
   addCardToMainPlayer,
   removeCardToMainPlayer,
+  updatePlayer,
 };

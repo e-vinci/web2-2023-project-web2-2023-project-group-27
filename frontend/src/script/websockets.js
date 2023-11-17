@@ -6,6 +6,7 @@ const { generatingGame } = require('./game');
 
 // const erreur = require('./erreur');
 const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAfficherChargement, updateLoadingTitle } = require('./loadingGame');
+const { updatePlayer } = require('./game');
 
 let socket;
 let isGameStarted = false;
@@ -58,9 +59,13 @@ const connectWebSocket = (nickname) => {
         });
 
         io.on('lobbyInfo', (lobby) => {
-            console.log(lobby);
             generatingGame(lobby);
         });
+
+        io.on('newPlayer', (player) => {
+            console.log(player);
+            updatePlayer(player);
+        })
 })
 return io;
 }

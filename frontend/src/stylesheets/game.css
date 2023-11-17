@@ -64,6 +64,7 @@
     padding: 10px;
     box-sizing: border-box;
     position: relative;
+    transition: 2s;
 }
 
 .card-icon {
@@ -92,7 +93,7 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.user-icon {
+.icon {
     position: absolute;
     left: 10px;
     top: 10px;
@@ -200,6 +201,22 @@
     filter: blur(7px);
     left: 0;
     right: 0;
+}
+
+.player2{
+    position: absolute;
+    margin-left: 20px;
+}
+
+.player3{
+    position: absolute;
+    left:20%;
+    top: 30px;
+}
+
+.player4{
+    position: absolute;
+    right:30px
 }
 
 @media (max-width: 900px) {
