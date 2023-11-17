@@ -11,6 +11,7 @@ const settingsButton = document.getElementById("options");
 const loginPath = document.getElementById("loginPath");
 const signInPath = document.getElementById("signInPath");
 const RulesPath = document.getElementById("RulesPath");
+const closeRules = document.getElementById("closeRules");
 const playForm = document.getElementById("playForm");
 const music = document.getElementById("music");
 const volumeControl = document.getElementById("volumeControl");
@@ -115,6 +116,10 @@ RulesPath.addEventListener('click', () => {
     isPopUpLoginDisplayed = false;
     isPopUpRulesDisplayed = false;
 });
+
+closeRules.addEventListener('click', () => {
+    popupRules.style.display = 'none';
+})
 
 // Déconnecter le websocket en quittant la page
 window.addEventListener('unload', () => {

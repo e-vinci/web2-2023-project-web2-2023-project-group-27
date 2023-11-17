@@ -70,12 +70,14 @@ button:focus {
     height: 70px;
     transition: ease-out 0.5s;
     z-index: 1001;
+    filter: brightness(110%);
 }
 
 #fullscreen:hover {
     width: 80px;
     height: 80px;
     cursor: pointer;
+    filter:brightness(112%);
 }
 
 .background {
@@ -147,6 +149,7 @@ input {
 #signInPath,
 #RulesPath,
 #loginButton,
+#closeRules,
 #signInButton {
     background: rgb(230, 87, 87);
     border: 0px;
@@ -161,6 +164,7 @@ input {
 
 #loginPath,
 #signInPath,
+#closeRules,
 #RulesPath {
     margin-top: 5%;
     width: 300px;
@@ -168,6 +172,7 @@ input {
     font-size: 200%;
     height: 10%;
     transition: 1s;
+    margin-bottom: 3%;
 }
 
 #loginButton {
@@ -244,6 +249,7 @@ input[type="range"] {
 
 #loginPath:hover,
 #signInPath:hover,
+#closeRules:hover,
 #RulesPath:hover {
     height: 11%;
     width: 320px;
