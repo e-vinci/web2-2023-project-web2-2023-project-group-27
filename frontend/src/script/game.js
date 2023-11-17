@@ -328,6 +328,7 @@ function reverseDirection() {
 
 function updatePlayer(opponent) {
   const divPlayer = getOpponent(opponent.player.playerId);
+  if(divPlayer === null) return;
 
   if(opponent.player.isHuman) setUserIcon(divPlayer.imageUserIcon);
   else setBotIcon(divPlayer.imageUserIcon);
@@ -335,6 +336,9 @@ function updatePlayer(opponent) {
   divPlayer.textNickname.style.marginLeft = `${calculateMargin(opponent.player.username.length)}px`;
   divPlayer.textNickname.textContent = opponent.player.username;
   divPlayer.textNickname.fontSize = `${calculateFontSize(opponent.player.username.length)}px`;
+
+  divPlayer.mainDiv.style.backgroundColor = opponent.player.color;
+  setTimeout(() => { divPlayer.mainDiv.style.backgroundColor = 'orange';}, 1000)
 }
 
 

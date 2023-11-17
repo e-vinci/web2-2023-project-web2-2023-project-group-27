@@ -97,7 +97,16 @@ function addPlayerToLobby(player) {
   } else {
     io.sendSocketToId(player.socketId, 'gameStart', { hasStarted: lobby.hasStarted });
     for (let i = 0; i < lobby.players.length; i += 1) {
-      if (lobby.players[i].socketId !== player.socketId) io.sendSocketToId(lobby.players[i].socketId, 'newPlayer', { player: { username: player.username, isHuman: player.isHuman, playerId: playerToUpdate.playerId } });
+      if (lobby.players[i].socketId !== player.socketId) {
+        io.sendSocketToId(lobby.players[i].socketId, 'newPlayer', {
+          player: {
+            username: player.username,
+            isHuman: player.isHuman,
+            playerId: playerToUpdate.playerId,
+            color: 'lime',
+          },
+        });
+      }
     }
   }
   return lobby;
@@ -115,7 +124,11 @@ function removePlayer(socketId) {
   lobby.humanPlayersCount -= 1;
   for (let i = 0; i < lobby.players.length; i += 1) {
     if (!lobby.hasStarted) io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { message: `En attente d'autre joueurs (${lobby.humanPlayersCount}/${MAX_PLAYERS_PER_LOBBY})` });
-    io.sendSocketToId(lobby.players[i].socketId, 'newPlayer', { player: { username: 'Bot', isHuman: false, playerId: player.playerId } });
+    io.sendSocketToId(lobby.players[i].socketId, 'newPlayer', {
+      player: {
+        username: 'Bot', isHuman: false, playerId: player.playerId, color: 'red',
+      },
+    });
   }
   if (lobby.humanPlayersCount === 0) deleteLobby(lobby);
 }
