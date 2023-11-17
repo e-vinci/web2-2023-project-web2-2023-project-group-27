@@ -57,7 +57,7 @@ function generatingGame(lobby) {
   const vinciLogo = document.createElement('div');
   vinciLogo.className = 'vinciLogo';
   document.body.appendChild(vinciLogo);
-
+  // setLoadingBarPercentage(mettreLePourcentIci);
 }
 
 function createMainPlayerDiv(player) {
@@ -231,7 +231,7 @@ function calculateMarginCards(cardsNumber, element) {
 
 function playSoundEffect(audioSource) {
   const soundEffect = new Audio(audioSource);
-  soundEffect.volume = document.getElementById('volumeControl').value;
+  soundEffect.volume = document.getElementById('volumeControlSFX').value;
   document.body.appendChild(soundEffect);
   soundEffect.play();
 

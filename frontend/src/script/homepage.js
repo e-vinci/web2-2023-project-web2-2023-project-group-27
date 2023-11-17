@@ -13,7 +13,7 @@ const signInPath = document.getElementById("signInPath");
 const RulesPath = document.getElementById("RulesPath");
 const playForm = document.getElementById("playForm");
 const music = document.getElementById("music");
-const volumeControl = document.getElementById("volumeControl");
+const volumeControlMusic = document.getElementById("volumeControlMusic");
 
 let isPopUpDisplayed = false;
 let isPopUpLoginDisplayed = false;
@@ -53,8 +53,8 @@ window.addEventListener('click', () => {
     audio.play();
 });
 
-volumeControl.addEventListener('input', () => {
-    music.volume = volumeControl.value;
+volumeControlMusic.addEventListener('input', () => {
+    music.volume = volumeControlMusic.value;
 });
 
 settingsButton.addEventListener('click', () => {
