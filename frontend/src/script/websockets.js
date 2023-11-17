@@ -22,7 +22,7 @@ const connectWebSocket = (nickname) => {
     let timerPartie;
     // Afficher erreur si pas connecté dans les 150 secondes
     const interval = setTimeout(() => {
-        if(!socket.connected) {
+        if (!socket.connected) {
             erreur.afficherErreur("Impossible de se connecter au serveur, veuillez réessayer", socket);
         }
     }, 15000);
@@ -39,27 +39,27 @@ const connectWebSocket = (nickname) => {
 
         io.on('gameUpdate', (infos) => {
             clearInterval(timerPartie);
-            if(!isGameStarted) {
-            if(infos.message === 'Partie trouvée') setLoadingBarPercentage(30);
-            afficherChargement(infos.message);
+            if (!isGameStarted) {
+                if (infos.message === 'Partie trouvée') setLoadingBarPercentage(30);
+                afficherChargement(infos.message);
             }
         });
 
         io.on('gameStart', (infos) => {
             isGameStarted = true;
             setTimeout(() => {
-            if(!infos.joinedAlreadyStartedGame) updateLoadingTitle('La partie va bientôt commencer');
-            else updateLoadingTitle('Vous allez rejoindre une partie déjà commencée');
-            afficherChargement('Chargement du terrain de jeu');
+                if (!infos.joinedAlreadyStartedGame) updateLoadingTitle('La partie va bientôt commencer');
+                else updateLoadingTitle('Vous allez rejoindre une partie déjà commencée');
+                afficherChargement('Chargement du terrain de jeu');
             }, 1000);
         });
-})
-return io;
+    })
+    return io;
 }
 
 function checkForConnection() {
     const connectionCheckInterval = setInterval(() => {
-        if(!isConnected()) {
+        if (!isConnected()) {
             erreur.afficherErreur("La connexion au serveur a été perdue", socket);
             clearInterval(connectionCheckInterval);
         }
@@ -72,8 +72,8 @@ function checkForConnection() {
  * @returns rien
  */
 function addPlayerToServer(nickname) {
-    if(nickname === undefined) return;
-    if(socket.connected) socket.emit('addPlayer', nickname, socket.id);
+    if (nickname === undefined) return;
+    if (socket.connected) socket.emit('addPlayer', nickname, socket.id);
 }
 
 

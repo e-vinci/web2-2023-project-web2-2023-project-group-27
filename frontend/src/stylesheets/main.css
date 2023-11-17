@@ -70,12 +70,14 @@ button:focus {
     height: 70px;
     transition: ease-out 0.5s;
     z-index: 1001;
+    filter: brightness(110%);
 }
 
 #fullscreen:hover {
     width: 80px;
     height: 80px;
     cursor: pointer;
+    filter:brightness(112%);
 }
 
 .background {
@@ -147,6 +149,7 @@ input {
 #signInPath,
 #RulesPath,
 #loginButton,
+#closeRules,
 #signInButton {
     background: rgb(230, 87, 87);
     border: 0px;
@@ -161,6 +164,7 @@ input {
 
 #loginPath,
 #signInPath,
+#closeRules,
 #RulesPath {
     margin-top: 5%;
     width: 300px;
@@ -168,6 +172,7 @@ input {
     font-size: 200%;
     height: 10%;
     transition: 1s;
+    margin-bottom: 3%;
 }
 
 #loginButton {
@@ -182,12 +187,13 @@ input {
 
 #volumeContainer {
     display: inline-flex;
+    padding-left: -10%;
 }
 
 #volume {
     width: 10%;
     height: 10%;
-    margin-left: 7%;
+    margin-left: 8%;
 }
 
 .slidecontainer {
@@ -206,7 +212,10 @@ input {
 }
 
 input[type="range"] {
+    margin-top: 3%;
     accent-color: rgb(230, 87, 87);
+    border: none;
+    cursor: pointer;
 }
 
 .slider:hover {
@@ -223,7 +232,7 @@ input[type="range"] {
 }
 
 .slider::-moz-range-thumb {
-    width: 25px;
+    width: 250px;
     height: 25px;
     background: red;
     cursor: pointer;
@@ -240,6 +249,7 @@ input[type="range"] {
 
 #loginPath:hover,
 #signInPath:hover,
+#closeRules:hover,
 #RulesPath:hover {
     height: 11%;
     width: 320px;
@@ -296,41 +306,46 @@ input[type="range"] {
     border-color: rgb(230, 87, 87);
     border-style: ridge;
 }
+
 #popupRules {
     overflow-y: auto;
     max-height: 1000px;
-  }
-  
-  #popupRules::-webkit-scrollbar {
+}
+
+#popupRules::-webkit-scrollbar {
     width: 12px;
 
-  }
-  
-  #popupRules::-webkit-scrollbar-track {
-    background-color: black; /* Couleur de fond de la barre de défilement */
-  }
-  
-  #popupRules::-webkit-scrollbar-thumb {
+}
+
+#popupRules::-webkit-scrollbar-track {
+    background-color: black;
+    /* Couleur de fond de la barre de défilement */
+}
+
+#popupRules::-webkit-scrollbar-thumb {
     background-color: rgb(230, 87, 87);
     border-radius: 6px;
-  }
-  
-  #popupRules .rule {
+}
+
+#popupRules .rule {
     display: flex;
-    align-items: center; /* Pour aligner le texte verticalement avec l'image */
-  }
-  
-  #popupRules img {
+    align-items: center;
+    /* Pour aligner le texte verticalement avec l'image */
+}
+
+#popupRules img {
     width: 100px;
-    margin-right: 10px; /* Ajustez cette valeur selon vos besoins pour l'espace entre l'image et le texte */
+    margin-right: 10px;
+    /* Ajustez cette valeur selon vos besoins pour l'espace entre l'image et le texte */
     border: 2px solid white;
     border-radius: 5px;
-  }
-  
-  #popupRules p {
-    line-height: 1.4; /* Pour une meilleure lisibilité, ajustez selon vos préférences */
-  }
-  
+}
+
+#popupRules p {
+    line-height: 1.4;
+    /* Pour une meilleure lisibilité, ajustez selon vos préférences */
+}
+
 
 #loginForm,
 #signInForm {
