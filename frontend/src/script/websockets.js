@@ -19,7 +19,7 @@ const isConnected = () => {
  * Connexion au serveur websocket
  */
 const connectWebSocket = (nickname) => {
-    // return socketio.io('ws://unovinci.alwaysdata.net');
+    // const io = socketio.io('tcp://0.tcp.eu.ngrok.io:14755');
     const io = socketio.io('ws://localhost:8082');
     socket = io;
     let timerPartie;
