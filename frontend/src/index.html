@@ -37,16 +37,22 @@
     <br>
     <input type="submit" id="RulesPath" value="Règles">
     <br>
-    <div id="volumeContainer">
-      <img id="volume" src="../src/img/options/volume.png">
-      <div class="slidecontainer">
-        <label for="volumeControlMusic">Musique</label>
-            <input id="volumeControlMusic" type="range" min="0" max="1" step="0.01" value="0.5" title="volume" placeholder="0.5" >
-        <label for="volumeControlMusic">Effets sonore</label>
-            <input id="volumeControlSFX" type="range" min="0" max="1" step="0.01" value="0.5" title="volume" placeholder="0.5" >
+    <div class="volume-container">
+      <div class="volume-sous-container">
+        <img id="volume" src="../src/img/options/volume.png">
+        <div class="slider-container">
+          <label for="volumeControlMusic">Musique</label><br>
+          <input id="volumeControlMusic" type="range" min="0" max="1" step="0.01" value="0.5" title="volume" placeholder="0.5" >
+        </div>
       </div>
+     <div class="volume-sous-container">
+        <img id="volume" src="../src/img/options/volume.png">
+        <div class="slider-container">
+          <label for="volumeControlMusic">Effets sonore</label><br>
+          <input id="volumeControlSFX" type="range" min="0" max="1" step="0.01" value="0.5" title="volume" placeholder="0.5">
+        </div>
+     </div>
     </div>
-
   </div>
   <div id="popupLogin">
     <h1>Se connecter</h1>
