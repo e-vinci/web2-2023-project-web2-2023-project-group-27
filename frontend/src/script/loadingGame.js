@@ -19,19 +19,19 @@ let loadingScreen;
  */
 const displayLoadingStatus = (text) => {
     let textElement = loadingInformation.innerText;
-    switch(textElement) {
-    case `${text}.`:
-        textElement = `${text}..`;
-        break;
-    case `${text}..`:
-        textElement = `${text}...`;
-        break;
-    case `${text}...`:
-        textElement = `${text}.`;
-        break;
-    default:
-        textElement = `${text}.`;
-        break;
+    switch (textElement) {
+        case `${text}.`:
+            textElement = `${text}..`;
+            break;
+        case `${text}..`:
+            textElement = `${text}...`;
+            break;
+        case `${text}...`:
+            textElement = `${text}.`;
+            break;
+        default:
+            textElement = `${text}.`;
+            break;
     }
     loadingInformation.innerText = textElement;
 }
@@ -53,7 +53,7 @@ const cacherDivQuiCacheLeChargement = () => {
 
 
 const afficherChargement = (text) => {
-    if(interval_Display !== undefined) {
+    if (interval_Display !== undefined) {
         stopAfficherChargement();
     }
     interval_Display = setInterval(() => displayLoadingStatus(text), 1000);
@@ -73,25 +73,25 @@ const afficherDivChargement = () => {
         loadingScreen.style.animation = 'startingPlay2 3s forwards';
 
     loadingTitle = document.createElement('h1');
-        loadingTitle.id = 'loadingTitle';
-        loadingTitle.textContent = 'Nous recherchons une partie pour vous';
+    loadingTitle.id = 'loadingTitle';
+    loadingTitle.textContent = 'Nous recherchons une partie pour vous';
 
     loadingInformation = document.createElement('h2');
-        loadingInformation.style.cursor = 'default';
-        loadingInformation.id = 'loadingInformation';
-        loadingInformation.innerText = "Connexion au serveur";
+    loadingInformation.style.cursor = 'default';
+    loadingInformation.id = 'loadingInformation';
+    loadingInformation.innerText = "Connexion au serveur";
 
     divLoadingBar = document.createElement('div');
-        divLoadingBar.id = 'loadingBar'
+    divLoadingBar.id = 'loadingBar'
 
     divColorBar = document.createElement('div');
-        divColorBar.id = 'loadingColorBar';
-        divColorBar.style.width = '2%';
+    divColorBar.id = 'loadingColorBar';
+    divColorBar.style.width = '2%';
 
     divChargement = document.createElement('div');
-        divChargement.id = 'divChargement';
+    divChargement.id = 'divChargement';
     divChargement2 = document.createElement('div');
-        divChargement2.id = 'divChargement2';
+    divChargement2.id = 'divChargement2';
 
     loadingScreen.appendChild(loadingTitle);
     loadingScreen.appendChild(loadingInformation);

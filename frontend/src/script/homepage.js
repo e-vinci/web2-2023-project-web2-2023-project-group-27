@@ -13,7 +13,7 @@ const signInPath = document.getElementById("signInPath");
 const RulesPath = document.getElementById("RulesPath");
 const playForm = document.getElementById("playForm");
 const music = document.getElementById("music");
-const volumeControl = document.getElementById("volumeControl");
+const volumeControlMusic = document.getElementById("volumeControlMusic");
 
 let isPopUpDisplayed = false;
 let isPopUpLoginDisplayed = false;
@@ -24,7 +24,7 @@ let socket;
 nicknameForm.placeholder = uniqueNamesGenerator({
     dictionaries: [adjectives, animals, colors],
     length: 2
-  });
+});
 
 popupSettings.style.display = 'none';
 popupLogin.style.display = 'none';
@@ -49,12 +49,12 @@ document.getElementById("fullscreen").addEventListener('click', () => {
 );
 
 window.addEventListener('click', () => {
-  const audio = music;
-  audio.play();
+    const audio = music;
+    audio.play();
 });
 
-volumeControl.addEventListener('input', () => {
-    music.volume = volumeControl.value;
+volumeControlMusic.addEventListener('input', () => {
+    music.volume = volumeControlMusic.value;
 });
 
 settingsButton.addEventListener('click', () => {
@@ -139,16 +139,15 @@ playForm.addEventListener('submit', (e) => {
     popupSettings.style.display = 'none';
     popupLogin.style.display = 'none';
     popupSignIn.style.display = 'none';
-    loginPath.style.display = 'none';
-    signInPath.style.display = 'none';
+    popupRules.style.display = 'none';
 
     // Div chargement
     afficherDivChargement();
 
-    
+
     setTimeout(() => {
         let nickname = nicknameForm.value;
-        if(nickname === '' || nickname === undefined) nickname = nicknameForm.placeholder;
+        if (nickname === '' || nickname === undefined) nickname = nicknameForm.placeholder;
         connectWebSocket(nickname, null, null);
     }, 2900);
 });
