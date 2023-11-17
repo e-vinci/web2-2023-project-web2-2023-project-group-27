@@ -141,6 +141,10 @@ input {
     height: 50px;
     width: 50px;
 }
+#volume-soundeffect{
+    height: 50px;
+    width: 50px;
+}
 
 #playButton,
 #loginPath,
@@ -183,11 +187,20 @@ input {
 #volumeContainer {
     display: inline-flex;
     padding-left: -10%;
+    padding-right: 15%;
 }
+
 
 #volume {
     width: 10%;
     height: 10%;
+    margin-left: 8%;
+    margin-top: 3%;
+}
+.volume-sous-container{
+    display: flex;
+}
+.slider-container{
     margin-left: 8%;
 }
 
