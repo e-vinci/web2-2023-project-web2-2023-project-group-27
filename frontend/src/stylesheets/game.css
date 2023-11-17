@@ -132,7 +132,9 @@
 
 
 .notTheTimeToPlay{
-    top: 70px;
+    top: 90px;
+    transition: 0.2s ease-out;
+    filter: grayscale(60%);
 }
 
 .direction-arrow{
