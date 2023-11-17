@@ -2,6 +2,7 @@
 /* eslint-disable no-param-reassign */
 const { debugCacherChargement } = require('./loadingGame');
 const { getCardImage, getCardIcon, getUserIcon } = require('./images');
+const { setLoadingBarPercentage } = require('./loadingGame');
 
 const cardSoundEffect = require('../sound/card.mp3');
 
@@ -43,7 +44,7 @@ function generatingGame(lobby) {
   cardCenterDiv.appendChild(currentCard);
   document.body.appendChild(cardCenterDiv);
 
-  // setLoadingBarPercentage(mettreLePourcentIci);
+  setLoadingBarPercentage(50);
 
   for (let i = 0; i < lobby.players.length; i += 1) {
     const player = lobby.players[i];
@@ -57,7 +58,7 @@ function generatingGame(lobby) {
   const vinciLogo = document.createElement('div');
   vinciLogo.className = 'vinciLogo';
   document.body.appendChild(vinciLogo);
-  // setLoadingBarPercentage(mettreLePourcentIci);
+  setLoadingBarPercentage(55);
 }
 
 function createMainPlayerDiv(player) {
