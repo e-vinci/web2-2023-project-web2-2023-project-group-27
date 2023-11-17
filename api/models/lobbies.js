@@ -76,8 +76,8 @@ function getNextAvailableLobby() {
 function addPlayerToLobby(player) {
   if (isPlayerInLobby(player)) return false;
   const lobby = getNextAvailableLobby();
+  const playerToUpdate = lobby.players.find((play) => !play.isHuman);
   if (lobby.players.length !== lobby.humanPlayersCount) {
-    const playerToUpdate = lobby.players.find((play) => !play.isHuman);
     playerToUpdate.isHuman = true;
     playerToUpdate.socketId = player.socketId;
     playerToUpdate.username = player.username;
@@ -96,6 +96,9 @@ function addPlayerToLobby(player) {
     }
   } else {
     io.sendSocketToId(player.socketId, 'gameStart', { hasStarted: lobby.hasStarted });
+    for (let i = 0; i < lobby.players.length; i += 1) {
+      if (lobby.players[i].socketId !== player.socketId) io.sendSocketToId(lobby.players[i].socketId, 'newPlayer', { player: { username: player.username, isHuman: player.isHuman, playerId: playerToUpdate.playerId } });
+    }
   }
   return lobby;
 }
@@ -111,7 +114,8 @@ function removePlayer(socketId) {
 
   lobby.humanPlayersCount -= 1;
   for (let i = 0; i < lobby.players.length; i += 1) {
-    io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { message: `En attente d'autre joueurs (${lobby.humanPlayersCount}/${MAX_PLAYERS_PER_LOBBY})` });
+    if (!lobby.hasStarted) io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { message: `En attente d'autre joueurs (${lobby.humanPlayersCount}/${MAX_PLAYERS_PER_LOBBY})` });
+    io.sendSocketToId(lobby.players[i].socketId, 'newPlayer', { player: { username: 'Bot', isHuman: false, playerId: player.playerId } });
   }
   if (lobby.humanPlayersCount === 0) deleteLobby(lobby);
 }
@@ -178,6 +182,7 @@ function getLobbyInformation(player) {
     const plr = lobby.players[i];
     if (plr === player) {
       informations.players.push({
+        playerId: plr.playerId,
         username: plr.username,
         deck: plr.deck,
         numberOfCardsPlayed: plr.numberOfCardsPlayed,
@@ -188,6 +193,7 @@ function getLobbyInformation(player) {
       });
     } else {
       informations.players.push({
+        playerId: plr.playerId,
         username: plr.username,
         deck: plr.deck.length,
         numberOfCardsPlayed: plr.numberOfCardsPlayed,

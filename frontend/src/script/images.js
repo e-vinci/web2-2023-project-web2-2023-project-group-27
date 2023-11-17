@@ -1,6 +1,7 @@
 const cardImagesContext = require.context('../img/cards', false, /\.png$/);
 const cardIcon = require("../img/icons/card_icon.png");
 const userIcon = require("../img/icons/user_icon.png");
+const botIcon = require("../img/icons/bot_icon.png");
 
 function getCardIcon() {
     return cardIcon;
@@ -8,6 +9,10 @@ function getCardIcon() {
 
 function getUserIcon() {
     return userIcon;
+}
+
+function getBotIcon() {
+    return botIcon;
 }
 
 function getCardImage(color, value)  {
@@ -22,4 +27,5 @@ module.exports = {
     getCardImage,
     getCardIcon,
     getUserIcon,
+    getBotIcon,
 }
