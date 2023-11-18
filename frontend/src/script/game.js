@@ -3,7 +3,8 @@
 const { debugCacherChargement, setLoadingBarPercentage } = require('./loadingGame');
 const { getCardImage, getCardIcon, getUserIcon, getBotIcon } = require('./images');
 
-const cardSoundEffect = require('../sound/card.mp3');
+const cardHoverSFX = require('../sound/card_hover.mp3');
+const cardPickSFX = require('../sound/card_pick.mp3');
 
 let cardCenterDiv;
 let currentCard;
@@ -167,7 +168,8 @@ function addCard(playerId, card){
   if(card === null) return;
   if(playerId === divMainPlayer.playerId) addCardToMainPlayer(card);
   // addCardToOpponent
-  playerDeck.push(card);
+  // playerDeck.push(card);
+  playSoundEffect(cardPickSFX);
 }
 
 function addCardToMainPlayer(card) {
@@ -178,7 +180,7 @@ function addCardToMainPlayer(card) {
         if(!carddiv.classList.contains('notTheTimeToPlay')) {
           carddiv.style.top = '-40px';
           carddiv.style.marginRight = '25px';
-          playSoundEffect(cardSoundEffect);
+          playSoundEffect(cardHoverSFX);
         }
     });
 
