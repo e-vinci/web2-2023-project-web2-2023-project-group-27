@@ -677,8 +677,7 @@ h1 {
     font-size: 36px;
     white-space: nowrap;
     position: absolute;
-    transform: rotate(-30deg); /* Ajuste la position et la rotation */
-    text-fit: contain;
+    transform: rotate(-30deg); 
 }
 
   
