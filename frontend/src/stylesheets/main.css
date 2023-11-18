@@ -666,8 +666,8 @@ h1 {
     height: 180px !important;
   }
   #playerName {
-    top: 100px;
-    right: 100px;
+    top: px;
+    right: px;
   }
 
   .diagonalText {
@@ -677,9 +677,7 @@ h1 {
     font-size: 36px;
     white-space: nowrap;
     position: absolute;
-    bottom: 50%; /* Centre le texte verticalement */
-    left: 50%; /* Centre le texte horizontalement */
-    transform: translate(-50%, 50%) rotate(-30deg); /* Ajuste la position et la rotation */
+    transform: rotate(-30deg); /* Ajuste la position et la rotation */
     text-fit: contain;
 }
 
