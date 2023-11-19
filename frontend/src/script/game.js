@@ -158,7 +158,7 @@ function createMainPlayerDiv(player) {
   for (let i = 0; i < playerDeck.length; i += 1) {
     // DEBUG à modifier plus tard
     // eslint-disable-next-line no-loop-func
-    setTimeout(() => { addCardToMainPlayer(playerDeck[i]); }, i * 200)
+    setTimeout(() => { addCard(player.playerId, playerDeck[i]) }, i * 200)
   } 
 
   document.body.appendChild(divMainPlayer.mainDivCards);

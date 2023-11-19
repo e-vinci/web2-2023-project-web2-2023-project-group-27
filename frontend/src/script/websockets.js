@@ -8,6 +8,9 @@ const erreur = require('./erreur');
 const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAfficherChargement, updateLoadingTitle } = require('./loadingGame');
 const { updatePlayer } = require('./game');
 
+const link = 'ws://155.248.239.223:25568';
+// const link = 'ws://localhost:25568';
+
 let socket;
 let isGameStarted = false;
 let hasStarted = false;
@@ -20,8 +23,8 @@ const isConnected = () => {
  * Connexion au serveur websocket
  */
 const connectWebSocket = (nickname) => {
-    // const io = socketio.io('tcp://0.tcp.eu.ngrok.io:14755');
-    const io = socketio.io('ws://localhost:8082');
+    const io = socketio.io(link);
+
     socket = io;
     let timerPartie;
     // Afficher erreur si pas connecté dans les 150 secondes

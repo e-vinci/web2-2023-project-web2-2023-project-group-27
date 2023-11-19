@@ -33,9 +33,9 @@ io.on('connection', (socket) => {
   });
 });
 
-// Ouverture du serveur sur le port 8082
+// Ouverture du serveur sur le port 25568 (celui du serveur)
 // eslint-disable-next-line no-console
-http.listen(8082, () => console.log(`WebSockets server listening on ${http.address().address}:${http.address().port}`));
+http.listen(25568, () => console.log(`WebSockets server listening on ${http.address().address}:${http.address().port}`));
 
 exports.sendSocketToId = (id, type, content) => {
   if (id !== null || id !== undefined) {
