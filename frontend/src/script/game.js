@@ -82,7 +82,6 @@ function generatingGame(lobby) {
 
   // affichage des joueurs
 
-  
   let indexMainPlayer;
   let number = 2;
   for (let i = 0; i < lobby.players.length; i += 1) {
@@ -165,11 +164,34 @@ function createMainPlayerDiv(player) {
 }
 
 function addCard(playerId, card){
-  if(card === null) return;
   if(playerId === divMainPlayer.playerId) addCardToMainPlayer(card);
-  // addCardToOpponent
-  // playerDeck.push(card);
+  else addCardToOpponent(playerId);
   playSoundEffect(cardPickSFX);
+}
+
+function addCardToOpponent(playerId) {
+  const divOpponentPlayer = getOpponent(playerId);
+  const playerIndex = getOpponentIndex(playerId);
+
+  if(divOpponentPlayer === null) return;
+
+  const card = { value: 'card', color: 'back' };
+
+  const carddiv = document.createElement('div');
+  carddiv.className = `cardOpponentPlayer cardOpponentPlayer${playerIndex}`;
+
+  setCardImage(carddiv, card);
+  carddiv.zIndex = divOpponentPlayer.divCardIconCards.length + 1;
+
+  divOpponentPlayer.divCardIconCards.push(carddiv);
+  divOpponentPlayer.mainDivCards.appendChild(carddiv);
+
+  divOpponentPlayer.textCardCount.textContent = divOpponentPlayer.divCardIconCards.length;
+
+  calculateMarginCards(divOpponentPlayer.divCardIconCards, playerIndex === 1);
+  calculateWidthCards(divOpponentPlayer.divCardIconCards.length, divOpponentPlayer.mainDivCards, playerIndex === 1);
+
+  divOpponentPlayer.divCardIcon.title = `Nombre de cartes: ${divOpponentPlayer.divCardIconCards.length}`;
 }
 
 function addCardToMainPlayer(card) {
@@ -202,20 +224,20 @@ function addCardToMainPlayer(card) {
     divMainPlayer.mainDivCards.insertBefore(carddiv, divMainPlayer.mainDivCards.children[index]);
 
     carddiv.zIndex = index + 1;
-    /*
-    divMainPlayer.divCardIconCards.push(carddiv);
-    divMainPlayer.mainDivCards.appendChild(carddiv);
-    */
 
     divMainPlayer.textCardCount.textContent = divMainPlayer.divCardIconCards.length;
 
     calculateMarginCards(divMainPlayer.divCardIconCards, true);
     calculateWidthCards(divMainPlayer.divCardIconCards.length, divMainPlayer.mainDivCards, true);
+
+    divMainPlayer.divCardIcon.title = `Nombre de cartes: ${divMainPlayer.divCardIconCards.length}`;
 }
+
+
 
 function findInsertIndex(newCard) {
   const colorOrder = ['red', 'blue', 'green', 'yellow', 'black'];
-  const valueOrder = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'block', 'reverse', '+2', 'multicolor black', '+4 black'];
+  const valueOrder = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'block', 'reverse', '+2', '+4 black', 'multicolor black', ];
 
   for (let i = 0; i < divMainPlayer.divCardIconCards.length; i += 1) {
       const {card} = divMainPlayer.divCardIconCards[i];
@@ -258,6 +280,7 @@ function removeCardToMainPlayer(index) {
 }
 
 
+
 function createOpponentPlayerDiv(player, number) {
   const divOpponentPlayer = divOpponentPlayers[number - 2];
 
@@ -294,18 +317,19 @@ divOpponentPlayer.imageUserIcon = document.createElement('img');
 document.body.appendChild(divOpponentPlayer .mainDiv);
 
 divOpponentPlayer.mainDivCards = document.createElement('div');
-divOpponentPlayer.mainDivCards.className = 'mainPlayerCards';  
-/*
-// affichage des cartes du joueur principal
+divOpponentPlayer.mainDivCards.className = `opponentPlayerCards${number}`;  
+
+document.body.appendChild(divOpponentPlayer.mainDivCards)
+
+// affichage des cartes du joueur
 for (let i = 0; i < playerDeck.length; i += 1) {
-  // DEBUG à modifier plus tard
   // eslint-disable-next-line no-loop-func
   setTimeout(() => {
-    addCardToMainPlayer(playerDeck[i]);
+    addCardToOpponent(player.playerId);
   }, i * 200)
 } 
 document.body.appendChild(divMainPlayer.mainDivCards);
-*/
+
 }
 
 function displayPlayerWhoPlay(playerId) {
@@ -322,6 +346,13 @@ function displayPlayerWhoPlay(playerId) {
   }
 
   setTimeToPlay(playerDiv === divMainPlayer);
+}
+
+function getOpponentIndex(playerId) {
+  for(let i = 0; i < divOpponentPlayers.length; i += 1) {
+    if(divOpponentPlayers[i].playerId === playerId) return i;
+  }
+  return null;
 }
 
 function sortDeck(deck) {
@@ -349,7 +380,7 @@ function sortDeck(deck) {
 function setCardImage(element, card) {
   if (card === null) card = { value: 'card', color: 'back' };
   element.style.backgroundImage = `url("${getCardImage(card.color, card.value)}")`;
-  element.title = `${card.value} ${card.color}`;
+  if(card.color === 'back') element.title = `${card.value} ${card.color}`;
 }
 
 function getOpponent(id) {
@@ -434,24 +465,38 @@ function calculateFontSize(length) {
 function calculateWidthCards(cardsNumber, element, isHorizontal) {
     if(isHorizontal) {
       const maxWidth = 50;
-      const minWidth = 10;
+      const minWidth = 43;
       let width = maxWidth - cardsNumber * 1.1;
       width = width < minWidth ? minWidth : width;
       element.style.marginLeft = `${width}%`;
+    } else {
+      const maxWidth = 40;
+      const minWidth = 23;
+      let width = maxWidth - cardsNumber * 1.1;
+      width = width < minWidth ? minWidth : width;
+      element.style.top = `${width}%`;
     }
 }
 
 function calculateMarginCards(cardsDiv, isHorizontal) {
   if(isHorizontal) {
-    const maxMargin = -63;
+    const maxMargin = -70;
     const minMargin = -30;
-    let margin = minMargin - (cardsDiv.length * 1.5);
+    let margin = minMargin - (cardsDiv.length * 1.6);
     margin = margin < maxMargin ? maxMargin : margin;
 
     for(let i = 0; i < cardsDiv.length ; i += 1) {
       cardsDiv[i].style.marginLeft = `${margin}px`
     }
-      
+  } else {
+    const maxMargin = -115;
+    const minMargin = -90;
+    let margin = minMargin - (cardsDiv.length * 1.6);
+    margin = margin < maxMargin ? maxMargin : margin;
+
+    for(let i = 0; i < cardsDiv.length ; i += 1) {
+      cardsDiv[i].style.marginBottom = `${margin}px`
+    }
   }
 }
 
@@ -472,7 +517,6 @@ function playSoundEffect(audioSource) {
 module.exports = {
   generatingGame,
   reverseDirection,
-  addCardToMainPlayer,
   removeCardToMainPlayer,
   updatePlayer,
   displayPlayerWhoPlay,

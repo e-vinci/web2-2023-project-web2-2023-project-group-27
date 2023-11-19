@@ -65,9 +65,8 @@ function giveCardsToPlayers(lobby) {
     for (let i = 0; i < lobby.players.length; i += 1) {
       time += 1;
       setTimeout(() => {
-        const player = lobby.players[i];
-        drawCard(lobby, player);
-      }, time * 100);
+        drawCard(lobby, lobby.players[i]);
+      }, time * 150);
     }
   }
 }
@@ -90,8 +89,8 @@ function drawCard(lobby, joueur) {
   joueur.numberOfCardsDrawned += 1;
   for (let i = 0; i < lobby.players.length; i += 1) {
     const player = lobby.players[i];
-    if (player === joueur) io.sendSocketToId(joueur.socketId, 'cardDrawn', { toPlayer: player.playerId, card });
-    else io.sendSocketToId(joueur.socketId, 'cardDrawn', { toPlayer: player.PlayerId, card: null });
+    if (player === joueur) io.sendSocketToId(player.socketId, 'cardDrawn', { toPlayer: joueur.playerId, card });
+    else io.sendSocketToId(player.socketId, 'cardDrawn', { toPlayer: joueur.playerId, card: null });
   }
 }
 
