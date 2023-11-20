@@ -1,7 +1,9 @@
+/* eslint-disable global-require */
 /* eslint-disable no-multi-assign */
 /* eslint-disable no-param-reassign */
-const { debugCacherChargement, setLoadingBarPercentage } = require('./loadingGame');
+const { setLoadingBarPercentage } = require('./loadingGame');
 const { getCardImage, getCardIcon, getUserIcon, getBotIcon } = require('./images');
+const { afficherInformation } = require('./loadingGame');
 
 const cardHoverSFX = require('../sound/card_hover.mp3');
 const cardPickSFX = require('../sound/card_pick.mp3');
@@ -61,7 +63,7 @@ const divOpponentPlayers = [
 function generatingGame(lobby) {
   // pour le debug, à modifier une fois fini
   document.getElementById('options').style.display = 'block';
-  debugCacherChargement();
+  // debugCacherChargement();
 
   // carte actuelle
   cardCenterDiv = document.createElement('div');
@@ -109,7 +111,12 @@ function generatingGame(lobby) {
   const vinciLogo = document.createElement('div');
   vinciLogo.className = 'vinciLogo';
   document.body.appendChild(vinciLogo);
-  setLoadingBarPercentage(55);
+  setLoadingBarPercentage(90);
+  setTimeout(() => {
+  afficherInformation("Chargement d'autres joueurs");
+  const {sendSocketToServer} = require('./websockets');
+  sendSocketToServer('readyToStart');
+  }, 500);
 }
 
 function createMainPlayerDiv(player) {
@@ -157,7 +164,7 @@ function createMainPlayerDiv(player) {
   for (let i = 0; i < playerDeck.length; i += 1) {
     // DEBUG à modifier plus tard
     // eslint-disable-next-line no-loop-func
-    setTimeout(() => { addCard(player.playerId, playerDeck[i]) }, i * 200)
+    setTimeout(() => { addCard(player.playerId, playerDeck[i]) }, i * 500)
   } 
 
   document.body.appendChild(divMainPlayer.mainDivCards);
@@ -326,7 +333,7 @@ for (let i = 0; i < playerDeck.length; i += 1) {
   // eslint-disable-next-line no-loop-func
   setTimeout(() => {
     addCardToOpponent(player.playerId);
-  }, i * 200)
+  }, i * 500)
 } 
 document.body.appendChild(divMainPlayer.mainDivCards);
 
@@ -380,7 +387,7 @@ function sortDeck(deck) {
 function setCardImage(element, card) {
   if (card === null) card = { value: 'card', color: 'back' };
   element.style.backgroundImage = `url("${getCardImage(card.color, card.value)}")`;
-  if(card.color === 'back') element.title = `${card.value} ${card.color}`;
+  if(card.color !== 'back') element.title = `${card.value} ${card.color}`;
 }
 
 function getOpponent(id) {

@@ -5,11 +5,13 @@ const socketio = require('socket.io-client');
 const { generatingGame, displayPlayerWhoPlay, addCard, setLastCard } = require('./game');
 
 const erreur = require('./erreur');
-const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAfficherChargement, updateLoadingTitle } = require('./loadingGame');
+const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAfficherChargement, updateLoadingTitle, cacherDivQuiCacheLeChargement, fairePartirLeChargement } = require('./loadingGame');
 const { updatePlayer } = require('./game');
+const { generateChatBox, addMessage } = require('./chat');
 
-const link = 'ws://155.248.239.223:25568';
-// const link = 'ws://localhost:25568';
+// const link = 'ws://155.248.239.223:25568';
+
+const link = 'ws://localhost:25568';
 
 let socket;
 let isGameStarted = false;
@@ -27,10 +29,10 @@ const connectWebSocket = (nickname) => {
 
     socket = io;
     let timerPartie;
-    // Afficher erreur si pas connecté dans les 150 secondes
+    // Afficher erreur si pas connecté dans les 15 secondes
     const interval = setTimeout(() => {
         if (!socket.connected) {
-            // erreur.afficherErreur("Impossible de se connecter au serveur, veuillez réessayer", socket);
+            erreur.afficherErreur("Impossible de se connecter au serveur, veuillez réessayer", socket);
         }
     }, 15000);
 
@@ -54,22 +56,29 @@ const connectWebSocket = (nickname) => {
 
         io.on('gameStart', (lobby) => {
             isGameStarted = true;
-            setTimeout(() => {
             hasStarted = lobby.hasStarted;
             if(!lobby.hasStarted) updateLoadingTitle('La partie va bientôt commencer');
             else updateLoadingTitle('Vous allez rejoindre une partie déjà commencée');
             afficherChargement('Chargement du terrain de jeu');
             socket.emit('getLobbyInfo');
-            }, 1000);
         });
 
         io.on('lobbyInfo', (lobby) => {
             generatingGame(lobby);
+            generateChatBox();
             // debug
-            setTimeout(() => sendSocketToServer('readyToStart'), 1000);
+            setLoadingBarPercentage(100);
+
             setTimeout(() => {
+            updateLoadingTitle('Bonne partie !');
+            fairePartirLeChargement();
+            }, 1000);
+
+            cacherDivQuiCacheLeChargement();
+            setTimeout(() => {
+                stopAfficherChargement();
                 if(hasStarted) sendSocketToServer('whoPlay');
-            }, 4000);
+            }, 6000);
         });
 
         io.on('newPlayer', (player) => {
@@ -87,6 +96,10 @@ const connectWebSocket = (nickname) => {
         io.on('cardPlayed', (infos) => {
             setLastCard(infos.card);
         })
+
+        io.on('chatMessage', (message) => {
+            addMessage(message.message);
+        });
 })
 return io;
 }
@@ -110,10 +123,11 @@ function addPlayerToServer(nickname) {
     if (socket.connected) socket.emit('addPlayer', nickname, socket.id);
 }
 
-function sendSocketToServer(type, value) {
+function sendSocketToServer (type, value) {
     if(socket === null ||type === null) return;
     socket.emit(type, value);
 }
+
 
 module.exports = {
     connectWebSocket,

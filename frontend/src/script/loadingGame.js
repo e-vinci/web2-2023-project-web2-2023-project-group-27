@@ -47,8 +47,17 @@ const afficherDivQuiCacheLeChargement = () => {
 }
 
 const cacherDivQuiCacheLeChargement = () => {
-    divChargement.style.opacity = 0;
-    divChargement2.style.opacity = 0;
+    document.getElementById("divChargement").style.animation = 'hideDivAnimation 5s forwards';
+    document.getElementById("divChargement2").style.animation = 'hideDivAnimation 5s forwards';
+
+    setTimeout(() => {
+        document.getElementById("divChargement").style.display = "none";
+        document.getElementById("divChargement2").style.display = "none";
+    }, 5000);
+}
+
+function fairePartirLeChargement() {
+    loadingScreen.style.animation = 'readyToPlay 5s ease-in forwards';
 }
 
 
@@ -118,6 +127,7 @@ function debugCacherChargement() {
     divChargement2.style.display = "none";
 }
 
+
 module.exports = {
     afficherChargement,
     stopAfficherChargement,
@@ -128,4 +138,5 @@ module.exports = {
     afficherDivQuiCacheLeChargement,
     cacherDivQuiCacheLeChargement,
     debugCacherChargement,
+    fairePartirLeChargement,
 };

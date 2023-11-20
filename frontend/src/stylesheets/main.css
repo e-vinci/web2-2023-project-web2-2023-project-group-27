@@ -37,6 +37,11 @@ body {
     z-index: 999;
 }
 
+@keyframes hideDivAnimation {
+    0% { opacity: 1;}
+    100% {opacity: 0;}
+}
+
 @keyframes gradientAnimation {
 
     0%,
@@ -401,6 +406,17 @@ input[type="range"] {
         transform: translateY(0%);
     }
 }
+
+@keyframes readyToPlay {
+    0% {
+        transform: translateY(0%);
+    }
+
+    100% {
+        transform: translateY(-1000%);
+    }
+}
+
 
 .loadingScreen {
     z-index: 1001;

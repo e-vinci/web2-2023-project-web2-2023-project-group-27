@@ -197,7 +197,7 @@
     z-index: -5;
     position: absolute;
     margin: auto;
-    opacity: 0.3;
+    opacity: 0.15;
     filter: blur(7px);
     left: 0;
     right: 0;
@@ -343,4 +343,24 @@
     transform: rotate(270deg);
     display: block;
     background-size: 84px, 84px ;
+}
+
+.chatbox{
+    position: absolute;
+    left: 0px;
+    bottom: 5px;
+    margin-bottom: 50px;
+    z-index: 2;
+    left: 10px;
+}
+
+.chatMessage{
+    background-color: rgba(0, 0, 0, 0.544);
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    color: white;
+    height:30px;
+    width: 350px;
+    margin-bottom: 0px;
+    left: 10px;
 }

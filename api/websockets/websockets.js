@@ -1,3 +1,4 @@
+/* eslint-disable no-continue */
 const http = require('http').createServer();
 const io = require('socket.io')(http, { cors: { origin: 'http://localhost:8080' } });
 
@@ -30,6 +31,16 @@ io.on('connection', (socket) => {
   socket.on('whoPlay', () => {
     const lobby = lobbies.getLobbyByPlayer(players.getPlayerBySocket(socket.id));
     io.to(socket.id).emit('nextPlayer', lobby.players[lobby.currentPlayer].playerId);
+  });
+
+  socket.on('messageSent', (message) => {
+    const player = players.getPlayerBySocket(socket.id);
+    const lobby = lobbies.getLobbyByPlayer(player);
+    const messageFormat = `${player.username} ➪ ${message}`;
+    for (let i = 0; i < lobby.players.length; i += 1) {
+      if (lobby.players[i].socketId === null || lobby.players[i].socketId === undefined) continue;
+      io.to(lobby.players[i].socketId).emit('chatMessage', { message: messageFormat });
+    }
   });
 });
 
