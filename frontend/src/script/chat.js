@@ -5,7 +5,6 @@ let chatForm;
 let messageInput;
 let divMessages;
 
-
 function generateChatBox() {
   // Supprimez l'ancien formulaire s'il existe
   if (chatbox) {
@@ -13,7 +12,7 @@ function generateChatBox() {
   }
 
   divMessages = document.createElement('div');
-    divMessages.id = 'divMessages';
+  divMessages.id = 'divMessages';
   document.body.appendChild(divMessages);
 
   chatbox = document.createElement('div');
@@ -33,24 +32,24 @@ function generateChatBox() {
   chatForm.appendChild(messageInput);
   chatbox.appendChild(chatForm);
 
-
   chatForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const message = messageInput.value;
     messageInput.value = '';
     sendMessage(message);
+
     setTimeout(() => {
-        messageInput.focus();
-      }, 10);
+      messageInput.focus();
+    }, 10);
 
   });
-  
+
   document.body.appendChild(chatbox);
 }
 
 function sendMessage(message) {
-    if(message === null || message === '') return;
-    const { sendSocketToServer } = require('./websockets');
+  if (message === null || message === '') return;
+  const { sendSocketToServer } = require('./websockets');
   sendSocketToServer('messageSent', message);
 }
 
@@ -60,7 +59,7 @@ const messages = [];
 
 function addMessage(message) {
   messages.push(message);
-  
+
   if (messages.length > maxMessages) {
     messages.shift(); // Supprime le message le plus ancien
   }
@@ -75,6 +74,11 @@ function renderMessages() {
     chatText.className = 'chatMessage';
     chatText.innerText = message;
     chatbox.appendChild(chatText);
+
+    // Supprimer le message après 10 secondes
+    setTimeout(() => {
+      chatText.remove();
+    }, 10000);
   }
 
   divMessages.appendChild(chatForm); // Réajouter le formulaire
