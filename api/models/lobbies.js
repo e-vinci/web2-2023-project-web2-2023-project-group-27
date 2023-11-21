@@ -230,13 +230,12 @@ function getLobbyInformation(player) {
 }
 
 function reverse(lobby) {
-  if(lobby.direction === 'clockwise') lobby.direction === 'anticlockwise';
-  else lobby.direction === 'clockwise';
-  for(let i = 0; i < lobby.players.length; i+=1) {
-    io.sendSocketToId(lobby.players[i], "newDirection", lobby.direction);
+  if (lobby.direction === 'clockwise') lobby.direction = 'anticlockwise';
+  else lobby.direction = 'clockwise';
+  for (let i = 0; i < lobby.players.length; i += 1) {
+    io.sendSocketToId(lobby.players[i], 'newDirection', lobby.direction);
   }
 }
-
 
 module.exports = {
   addPlayerToLobby,

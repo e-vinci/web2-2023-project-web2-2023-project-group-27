@@ -218,6 +218,13 @@ function addCardToMainPlayer(card) {
         }
     });
 
+    carddiv.addEventListener('click', () => {
+      if(!carddiv.classList.contains('notTheTimeToPlay')) {
+       const {sendSocketToServer} = require('./websockets');
+        sendSocketToServer('playCard', carddiv.card);
+      }
+    });
+
     carddiv.addEventListener('mouseout', () => {
     if (carddiv.classList.contains('notTheTimeToPlay')) {
       carddiv.style.top= '90px';

@@ -99,6 +99,10 @@ const connectWebSocket = (nickname) => {
         io.on('chatMessage', (message) => {
             addMessage(message.message);
         });
+
+        io.on('invalidCard', () => {
+           // mettre ici un son pour dire que la carte est invalide 
+        });
 })
 return io;
 }

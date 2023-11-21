@@ -2,6 +2,7 @@
 const http = require('http').createServer();
 const io = require('socket.io')(http, { cors: { origin: 'http://localhost:8080' } });
 
+const { playCard } = require('../models/game');
 const lobbies = require('../models/lobbies');
 const players = require('../models/players');
 
@@ -41,6 +42,12 @@ io.on('connection', (socket) => {
       if (lobby.players[i].socketId === null || lobby.players[i].socketId === undefined) continue;
       io.to(lobby.players[i].socketId).emit('chatMessage', { message: messageFormat });
     }
+  });
+
+  socket.on('playCard', (card) => {
+    const player = players.getPlayerBySocket(socket.id);
+    const lobby = lobbies.getLobbyByPlayer(players.getPlayerBySocket(socket.id));
+    playCard(lobby, player, card);
   });
 });
 

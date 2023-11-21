@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 /* eslint-disable no-loop-func */
 /* eslint-disable no-shadow */
 /* eslint-disable no-param-reassign */
@@ -99,7 +100,7 @@ function drawCard(lobby, joueur) {
 
 // Fonction pour jouer une carte
 function playCard(lobby, joueur, card) {
-  if(lobby.players[lobby.currentPlayer] !== joueur) return;
+  if (lobby.players[lobby.currentPlayer] !== joueur) return;
 
   const cardIndex = joueur.deck[card];
   if (isCardPlayable(card, lobby.currentCard)) {
@@ -109,10 +110,12 @@ function playCard(lobby, joueur, card) {
 
     for (let i = 0; i < lobby.players.length; i += 1) {
       const player = lobby.players[i];
-      io.sendSocketToId(joueur.socketId, 'cardPlayed', { toPlayer: player.playerId, card });
+      io.sendSocketToId(player.socketId, 'cardPlayed', { toPlayer: player.playerId, card });
     }
 
     handleSpecialCardEffects(card, lobby);
+    nextPlayer(lobby);
+    socketWhoPlay(lobby);
   } else {
     io.sendSocketToId(joueur.socketId, 'invalidCard');
   }
@@ -122,7 +125,7 @@ function isCardPlayable(card, currentCard) {
   if (card.color === 'black') {
     return true;
   }
-  return card.color === currentCard.color || card.value === currentCard.value
+  return card.color === currentCard.color || card.value === currentCard.value;
 }
 // Fonction pour gérer les effets spéciaux des cartes
 function handleSpecialCardEffects(card, lobby) {
@@ -144,7 +147,8 @@ function handleSpecialCardEffects(card, lobby) {
     }
     lobby.currentPlayer = lobby.players[nextPlayerIndex];
   } else if (card.value === 'reverse') {
-    lobby.reverse();
+    const { reverse } = require('./lobbies');
+    reverse(lobby);
   } else if (card.value === '+4') {
     const currentPlayerIndex = lobby.players.indexOf(lobby.currentPlayer);
     let nextPlayerIndex = currentPlayerIndex + 1;
@@ -160,12 +164,13 @@ function handleSpecialCardEffects(card, lobby) {
 
 // Fonction pour passer au joueur suivant
 function nextPlayer(lobby) {
-  const currentPlayerIndex = lobby.players.indexOf(lobby.currentPlayer);
-  let nextPlayerIndex = currentPlayerIndex + 1;
-  if (nextPlayerIndex >= lobby.players.length) {
-    nextPlayerIndex = 0; // Revenir au premier joueur s'il n'y a plus de joueurs suivants
+  if (lobby.direction === 'clockwise') {
+    lobby.nextPlayer += 1;
+    if (lobby.nextPlayer >= lobby.players.length) lobby.nextPlayer = 0;
+  } else {
+    lobby.nextPlayer -= 1;
+    if (lobby.nextPlayer < 0) lobby.nextPlayer = lobby.players.length - 1;
   }
-  lobby.currentPlayer = lobby.players[nextPlayerIndex];
 }
 
 module.exports = {

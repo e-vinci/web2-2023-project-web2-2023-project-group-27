@@ -10,5 +10,7 @@ router.post('/add', (req, res) => {
     email: req.body.emailSignIn,
     password: req.body.passwordSignIn,
   });
-  res.sendStatus(200)
+  res.sendStatus(200);
 });
+
+module.exports = router;
