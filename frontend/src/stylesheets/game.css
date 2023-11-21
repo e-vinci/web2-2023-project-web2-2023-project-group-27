@@ -352,15 +352,18 @@
     margin-bottom: 50px;
     z-index: 2;
     left: 10px;
+    
 }
 
-.chatMessage{
+.chatMessage {
     background-color: rgba(0, 0, 0, 0.544);
     border-left: 2px solid black;
     border-right: 2px solid black;
     color: white;
-    height:30px;
-    width: 350px;
-    margin-bottom: 0px;
-    left: 10px;
+    min-height: 30px; /* Utilisation de min-height au lieu de height */
+    width: 500px;
+    margin-bottom: 5px; /* Ajout de margin-bottom pour séparer les messages */
+    padding: 5px; /* Ajout de padding pour améliorer la lisibilité */
+    box-sizing: border-box; /* Inclure les bordures et le padding dans la largeur et la hauteur */
+    word-wrap: break-word;
 }
