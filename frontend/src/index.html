@@ -33,21 +33,22 @@
       <div id="BannerImage">
       <p id="playerName" class="diagonalText">vunoci</p>
   </div> 
-  -->
-  <script>
+-->
+  <!--<script>
     function ajusterTaillePolice() {
-      var playerNameElement = document.getElementById('playerName');
-      var playerNameLength = playerNameElement.textContent.length;
+      //var playerNameElement = document.getElementById('playerName');
+      var nicknameFormInput = document.getElementById('playForm');
+      var playerNameLength = nicknameFormInput.value;
       var top = 55 + 4.2*playerNameLength;
       var right = 270 - 7*playerNameLength;
       var fontSize = 43 - playerNameLength;
-      playerNameElement.style.fontSize = fontSize + 'px';
-      playerNameElement.style.top = top + 'px';
-      playerNameElement.style.right = right + 'px';
+      nicknameFormInput.style.fontSize = fontSize + 'px';
+      nicknameFormInput.style.top = top + 'px';
+      nicknameFormInput.style.right = right + 'px';
     }
     window.addEventListener('load', ajusterTaillePolice);
     window.addEventListener('resize', ajusterTaillePolice);
-  </script>
+  </script>-->
 
   <img src="./img/fullscreen.png" id="fullscreen" alt="Plein Écran">
 
@@ -90,14 +91,14 @@
   </div>
   <div id="popupSignIn">
     <h1>S'inscrire</h1>
-    <form method="post" id="signInForm">
-      <input type="text" id="nicknameSignIn" placeholder="Pseudo">
+    <form method="post" id="signInForm" action="/api/routes/route.js/add">
+      <input type="text" id="nicknameSignIn" name="nicknameSignIn" value="" placeholder="Pseudo">
       <br>
-      <input type="text" id="emailSignIn" placeholder="Email">
+      <input type="text" id="emailSignIn" name="emailSignIn" value="" placeholder="Email">
       <br>
-      <input type="password" id="passwordSignIn" placeholder="Mot de passe">
+      <input type="password" id="passwordSignIn" name="passwordSignIn" value="" placeholder="Mot de passe">
       <br>
-      <input type="password" id="passwordConfirmation" placeholder="Confirmation">
+      <input type="password" id="passwordConfirmation" value="" placeholder="Confirmation">
       <br>
       <input type="submit" id="signInButton" value="S'inscrire">
     </form>
