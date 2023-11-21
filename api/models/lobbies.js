@@ -229,6 +229,15 @@ function getLobbyInformation(player) {
   return informations;
 }
 
+function reverse(lobby) {
+  if(lobby.direction === 'clockwise') lobby.direction === 'anticlockwise';
+  else lobby.direction === 'clockwise';
+  for(let i = 0; i < lobby.players.length; i+=1) {
+    io.sendSocketToId(lobby.players[i], "newDirection", lobby.direction);
+  }
+}
+
+
 module.exports = {
   addPlayerToLobby,
   removePlayer,
@@ -238,4 +247,5 @@ module.exports = {
   getPlayers,
   getLobbyInformation,
   getLobbyByPlayer,
+  reverse,
 };
