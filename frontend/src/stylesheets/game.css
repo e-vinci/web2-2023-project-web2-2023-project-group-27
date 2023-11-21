@@ -361,7 +361,7 @@
     border-right: 2px solid black;
     color: white;
     min-height: 30px; /* Utilisation de min-height au lieu de height */
-    width: 500px;
+    width: 450px;
     margin-bottom: 5px; /* Ajout de margin-bottom pour séparer les messages */
     padding: 5px; /* Ajout de padding pour améliorer la lisibilité */
     box-sizing: border-box; /* Inclure les bordures et le padding dans la largeur et la hauteur */
