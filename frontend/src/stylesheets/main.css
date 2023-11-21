@@ -683,17 +683,9 @@ h1 {
     align-items: center;
 }
 
-#Banner {
-    position: absolute;
-    top: 40px; 
-    right: 260px; 
-  }
+
   
 
-#BannerImage {
-    width: 550px !important;
-    height: 180px !important;
-  }
   #playerName {
     top: px;
     right: px;
@@ -709,8 +701,16 @@ h1 {
     transform: rotate(-30deg); 
 }
 
-  
-  
-  
+#BannerImage{
+    background: url("../img/profile_banner.png");
+    width: 520px;
+    height: 190px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
 
-  
+#Banner {
+    position: absolute;
+    top: 40px; 
+    right: 260px; 
+  }
