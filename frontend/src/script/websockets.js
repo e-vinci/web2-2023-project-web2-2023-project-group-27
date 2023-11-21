@@ -77,7 +77,6 @@ const connectWebSocket = (nickname) => {
             cacherDivQuiCacheLeChargement();
             setTimeout(() => {
                 stopAfficherChargement();
-                if(hasStarted) sendSocketToServer('whoPlay');
             }, 6000);
         });
 
@@ -102,6 +101,10 @@ const connectWebSocket = (nickname) => {
         });
 })
 return io;
+}
+
+function whoPlayIfALreadyStarted() {
+        if(hasStarted) sendSocketToServer('whoPlay');
 }
 
 function checkForConnection() {
@@ -134,4 +137,5 @@ module.exports = {
     checkForConnection,
     addPlayerToServer,
     sendSocketToServer,
+    whoPlayIfALreadyStarted,
 }

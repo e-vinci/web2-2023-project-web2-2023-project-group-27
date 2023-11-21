@@ -167,6 +167,11 @@ function createMainPlayerDiv(player) {
     setTimeout(() => { addCard(player.playerId, playerDeck[i]) }, i * 500)
   } 
 
+  setTimeout(() => {
+    const {whoPlayIfALreadyStarted} = require('./websockets');
+    whoPlayIfALreadyStarted();
+  },playerDeck.length * 500 + 100);
+  
   document.body.appendChild(divMainPlayer.mainDivCards);
 }
 
