@@ -90,6 +90,38 @@
       <input type="submit" id="loginButton" value="Se connecter">
     </form>
   </div>
+
+  <div id="popupSignIn">
+    <h1>S'inscrire</h1>
+  <form id="signInForm" method="post">
+
+    <label for="nickname">Pseudo:</label>
+    <span id="nicknameError" class="error"></span>
+    <input type="text" id="nicknameSignIn" name="pseudo">
+      <br>
+      
+    <label for="email">Email:</label>
+    <span id="emailError" class="error"></span>
+    <input type="email" id="emailSignIn" name="email">
+      <br>
+      
+    <label for="password">Mot de passe:</label>
+    <span id="passwordError" class="error"></span>
+    <input type="password" id="passwordSignIn" name="password">
+      <br>
+      
+    <label for="confirmPassword">Confirmer le mot de passe: </label>
+    <span id="confirmPasswordError" class="error"></span>
+    <input type="password" id="passwordConfirmation" name="confirmPassword">
+      <br>
+
+    <input type="submit" id="signInButton" value="S'inscrire">
+  </form>
+  <script src="./script/user.js"></script>
+  </div>
+
+  
+ <!-- 
   <div id="popupSignIn">
     <h1>S'inscrire</h1>
     <form method="post" id="signInForm" action="localhost:8081/routes/routes.js/add">
@@ -104,6 +136,7 @@
       <input type="submit" id="signInButton" value="S'inscrire">
     </form>
   </div>
+-->
   <div id="popupRules">
     <h1>Règles</h1>
     <p class="rulesParagraph">Le but du jeu est simple ! Débarassez-vous de toutes vos cartes.</p> <br>
