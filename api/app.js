@@ -9,8 +9,7 @@ const corsOptions = {
   origin: 'http://localhost:8080',
 };
 
-
-const userRouter = require("./routes/route.js");
+const userRouter = require('./routes/route');
 
 const app = express();
 

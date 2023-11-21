@@ -28,7 +28,7 @@ function generateChatBox() {
   messageInput.style.position = 'absolute';
   messageInput.style.bottom = '10px';
   messageInput.style.left = '10px';
-  messageInput.style.width = '350px';
+  messageInput.style.width = '450px';
   chatForm.appendChild(messageInput);
   chatbox.appendChild(chatForm);
 

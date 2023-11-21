@@ -3,6 +3,8 @@
 /* eslint-disable no-param-reassign */
 const io = require('../websockets/websockets');
 
+const numberOfCardsToDraw = 7;
+
 function shuffleStack(lobby) {
   let currentIndex = lobby.stack.length;
   let temporaryValue;
@@ -52,7 +54,6 @@ function socketWhoPlay(lobby) {
 
 function giveCardsToPlayers(lobby) {
   let time = 0;
-  const numberOfCardsToDraw = 7;
 
   for (let j = 0; j < numberOfCardsToDraw; j += 1) {
     for (let i = 0; i < lobby.players.length; i += 1) {
