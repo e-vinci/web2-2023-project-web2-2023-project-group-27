@@ -7,6 +7,7 @@ let loadingInformation;
 let loadingTitle;
 let divChargement;
 let divChargement2;
+let loadingScreen;
 
 /**
  * Anime un message en ajoutant des points sur un élément HTML. 
@@ -46,8 +47,17 @@ const afficherDivQuiCacheLeChargement = () => {
 }
 
 const cacherDivQuiCacheLeChargement = () => {
-    divChargement.style.opacity = 0;
-    divChargement2.style.opacity = 0;
+    document.getElementById("divChargement").style.animation = 'hideDivAnimation 5s forwards';
+    document.getElementById("divChargement2").style.animation = 'hideDivAnimation 5s forwards';
+
+    setTimeout(() => {
+        document.getElementById("divChargement").style.display = "none";
+        document.getElementById("divChargement2").style.display = "none";
+    }, 5000);
+}
+
+function fairePartirLeChargement() {
+    loadingScreen.style.animation = 'readyToPlay 5s ease-in forwards';
 }
 
 
@@ -67,9 +77,9 @@ const setLoadingBarPercentage = (percentage) => {
 }
 
 const afficherDivChargement = () => {
-    const loadingScreen = document.createElement('div');
-    loadingScreen.className = 'loadingScreen';
-    loadingScreen.style.animation = 'startingPlay2 3s forwards';
+    loadingScreen = document.createElement('div');
+        loadingScreen.className = 'loadingScreen';
+        loadingScreen.style.animation = 'startingPlay2 3s forwards';
 
     loadingTitle = document.createElement('h1');
     loadingTitle.id = 'loadingTitle';
@@ -101,14 +111,22 @@ const afficherDivChargement = () => {
     setTimeout(() => {
         loadingScreen.style.animation = 'logoMove 2s infinite';
         afficherDivQuiCacheLeChargement();
-        // Démarrer connexion websocket
         afficherChargement('Connexion au serveur');
-    }, 2900)
+        document.querySelector(".homepage").style.display = "none";
+}, 2900)
 };
 
 const updateLoadingTitle = (text) => {
     loadingTitle.textContent = text;
 }
+
+
+function debugCacherChargement() {
+    loadingScreen.style.display = "none";
+    divChargement.style.display = "none";
+    divChargement2.style.display = "none";
+}
+
 
 module.exports = {
     afficherChargement,
@@ -118,5 +136,7 @@ module.exports = {
     afficherDivChargement,
     updateLoadingTitle,
     afficherDivQuiCacheLeChargement,
-    cacherDivQuiCacheLeChargement
+    cacherDivQuiCacheLeChargement,
+    debugCacherChargement,
+    fairePartirLeChargement,
 };

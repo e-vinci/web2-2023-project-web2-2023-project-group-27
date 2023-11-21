@@ -2,11 +2,20 @@
 /* eslint-disable no-param-reassign */
 
 const socketio = require('socket.io-client');
+const { generatingGame, displayPlayerWhoPlay, addCard, setLastCard } = require('./game');
+
 const erreur = require('./erreur');
-const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAfficherChargement, updateLoadingTitle } = require('./loadingGame');
+const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAfficherChargement, updateLoadingTitle, cacherDivQuiCacheLeChargement, fairePartirLeChargement } = require('./loadingGame');
+const { updatePlayer } = require('./game');
+const { generateChatBox, addMessage } = require('./chat');
+
+// const link = 'ws://155.248.239.223:25568';
+
+const link = 'ws://localhost:25568';
 
 let socket;
 let isGameStarted = false;
+let hasStarted = false;
 
 const isConnected = () => {
     return socket.connected;
@@ -16,11 +25,11 @@ const isConnected = () => {
  * Connexion au serveur websocket
  */
 const connectWebSocket = (nickname) => {
-    // return socketio.io('ws://unovinci.alwaysdata.net');
-    const io = socketio.io('ws://localhost:8082');
+    const io = socketio.io(link);
+
     socket = io;
     let timerPartie;
-    // Afficher erreur si pas connecté dans les 150 secondes
+    // Afficher erreur si pas connecté dans les 15 secondes
     const interval = setTimeout(() => {
         if (!socket.connected) {
             erreur.afficherErreur("Impossible de se connecter au serveur, veuillez réessayer", socket);
@@ -45,16 +54,57 @@ const connectWebSocket = (nickname) => {
             }
         });
 
-        io.on('gameStart', (infos) => {
+        io.on('gameStart', (lobby) => {
             isGameStarted = true;
-            setTimeout(() => {
-                if (!infos.joinedAlreadyStartedGame) updateLoadingTitle('La partie va bientôt commencer');
-                else updateLoadingTitle('Vous allez rejoindre une partie déjà commencée');
-                afficherChargement('Chargement du terrain de jeu');
-            }, 1000);
+            hasStarted = lobby.hasStarted;
+            if(!lobby.hasStarted) updateLoadingTitle('La partie va bientôt commencer');
+            else updateLoadingTitle('Vous allez rejoindre une partie déjà commencée');
+            afficherChargement('Chargement du terrain de jeu');
+            socket.emit('getLobbyInfo');
         });
-    })
-    return io;
+
+        io.on('lobbyInfo', (lobby) => {
+            generatingGame(lobby);
+            generateChatBox();
+            // debug
+            setLoadingBarPercentage(100);
+
+            setTimeout(() => {
+            updateLoadingTitle('Bonne partie !');
+            fairePartirLeChargement();
+            }, 1000);
+
+            cacherDivQuiCacheLeChargement();
+            setTimeout(() => {
+                stopAfficherChargement();
+            }, 6000);
+        });
+
+        io.on('newPlayer', (player) => {
+            updatePlayer(player);
+        })
+
+        io.on('nextPlayer', (playerId) => {
+            displayPlayerWhoPlay(playerId);
+        })
+
+        io.on('cardDrawn', (infos) => {
+            addCard(infos.toPlayer, infos.card);
+        })
+
+        io.on('cardPlayed', (infos) => {
+            setLastCard(infos.card);
+        })
+
+        io.on('chatMessage', (message) => {
+            addMessage(message.message);
+        });
+})
+return io;
+}
+
+function whoPlayIfALreadyStarted() {
+        if(hasStarted) sendSocketToServer('whoPlay');
 }
 
 function checkForConnection() {
@@ -76,9 +126,16 @@ function addPlayerToServer(nickname) {
     if (socket.connected) socket.emit('addPlayer', nickname, socket.id);
 }
 
+function sendSocketToServer (type, value) {
+    if(socket === null ||type === null) return;
+    socket.emit(type, value);
+}
+
 
 module.exports = {
     connectWebSocket,
     checkForConnection,
     addPlayerToServer,
+    sendSocketToServer,
+    whoPlayIfALreadyStarted,
 }

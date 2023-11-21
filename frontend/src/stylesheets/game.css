@@ -1,0 +1,366 @@
+.cardCenterDiv{
+    position: absolute;
+    display: inline-block;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 350px;
+    height: 200px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.cardStack{
+    display: inline-block;
+    left:0px;
+    background-image: url("../img/cards/card_back.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 140px 200px;
+    border: 2px solid rgba(255, 0, 0, 0.375); 
+    border-radius: 10px;
+    height: 200px;
+    width: 140px;
+    transition: 1s;
+}
+
+.drawCard{
+    animation: clignotementBordure 1s infinite;
+}
+
+@keyframes clignotementBordure {
+    0%, 100% {
+        border-radius: 10px;
+        border: 2px solid rgba(255, 0, 0, 0.375);
+    }
+    50% {
+        border-radius: 20px;
+        border: 13px solid orange;
+    }
+}
+
+.currentCard{
+    border: 2px solid transparent;
+    display: inline-block;
+    right:0px;
+    margin-left: 50px;
+    background-repeat: no-repeat;
+    background-size: 134px 200px;
+    height: 200px;
+    width: 134px; 
+    border: 2px solid rgba(255, 0, 0, 0.375); 
+    border-radius: 10px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: orange;
+    border: 5px solid rgb(34, 34, 34);
+    width: 190px; /* Ajuster selon les besoins */
+    height: 110px; /* Ajuster selon les besoins */
+    padding: 10px;
+    box-sizing: border-box;
+    position: relative;
+    transition: 2s;
+}
+
+.card-icon {
+    position: absolute;
+    top: 15px;
+    left: 80px;
+    width: 50px; /* Ajuster selon les besoins */
+    height: 50px; /* Ajuster selon les besoins */
+    background-size: 50px 50px;
+}
+
+.card-count {
+    position: absolute;
+    top: 0px;
+    left: 130px;
+    font-size: 3em;
+    color: black;
+    margin: 0;
+}
+
+.nickname {
+    position: absolute;
+    top: 68px;
+    color: black;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.icon {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 60px; /* Ajuster selon les besoins */
+    height: 60px; /* Ajuster selon les besoins */
+    border-radius: 50%;
+    border: 2px solid black;
+    margin-bottom: 10px;
+}
+
+.mainPlayer{
+    position: absolute;
+    right: 240px;
+    bottom: 20px;
+}
+
+.mainPlayerCards{
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    bottom: 20px;
+    height: 130px;
+}
+
+.cardMainPlayer{
+    position: relative;
+    transition: 0.2s ease-out;
+    display:inline-block;
+    background-size: 84px, 130px;
+    background-repeat: no-repeat;
+    height: 130px;
+    width: 84px;
+    border: 3px solid rgba(255, 0, 0, 0.375);
+    border-radius: 10px;
+}
+
+
+.notTheTimeToPlay{
+    top: 90px;
+    transition: 0.2s ease-out;
+    filter: grayscale(60%);
+}
+
+.direction-arrow{
+    height: 600px;
+    width: 600px;
+    z-index: -4;
+    position: absolute;
+    display: inline-block;
+    margin: auto;
+    opacity: 0.45;
+    filter: blur(3px);
+    left: 0;
+    right: 0;
+    transition: 0.5s;
+}
+
+.clockwise{
+    background: url("../img/directions/direction_clockwise.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    animation: rotateClockWise 20s linear infinite;
+}
+
+.anticlockwise{
+    animation: rotateAntiClockWise 20s linear infinite;
+    background: url("../img/directions/direction_anticlockwise.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    transform: scaleY(-1);
+}
+
+
+@keyframes rotateClockWise {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotateAntiClockWise {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
+.vinciLogo{
+    background: url("../img/logo_vinci.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 900px;
+    width: 900px;
+    z-index: -5;
+    position: absolute;
+    margin: auto;
+    opacity: 0.15;
+    filter: blur(7px);
+    left: 0;
+    right: 0;
+}
+
+.player2{
+    position: absolute;
+    margin-left: 20px;
+}
+
+.player3{
+    position: absolute;
+    left: 300px;
+    top: 30px;
+}
+
+.player4{
+    position: absolute;
+    right:30px
+}
+
+@media (max-width: 900px) {
+    body {
+        background-repeat: no-repeat;
+        height: 100%;
+        width: 100%;
+    }
+
+    .homepage {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .vinciLogo {
+        background-size: auto;
+        background-position-y: center;
+        background-position-x: center;
+        height: 100%;
+        width: 100%;
+    }
+
+    .direction-arrow {
+        background-size:contain;
+        background-position-y: center;
+        background-position-x: center;
+        height: 70%;
+        width: 70%;
+    }
+
+    .cardMainPlayer {
+        background-size: 60%;
+        width: 25%;
+        border: none;
+    }
+
+    .cardMainPlayer:hover {
+        
+    }
+
+    .card {
+        margin-left: 10%;
+        border: none;
+        background: none;
+    }
+
+    .user-icon {
+        display: none;
+    }
+
+    .card-count {
+        display: flex;
+    }
+
+    .cardStack, .currentCard {
+        background-position: center;
+        border: none;
+        background-size: 60%;
+        margin-top: 0;
+        padding-top: 0;
+        margin: 0;
+    }
+
+    .cardCenterDiv {
+        margin-left: 17%;
+    }
+
+    .currentCard {
+        margin-left: 0;
+    }
+}
+
+
+.cardOpponentPlayer{
+    position: relative;
+    transition: 0.2s ease-out;
+    background-size: 84px, 130px;
+    background-repeat: no-repeat;
+    height: 130px;
+    width: 84px;
+    border: 3px solid rgba(255, 0, 0, 0.375);
+    border-radius: 10px;
+    filter: grayscale(40%)
+}
+
+.opponentPlayerCards3{
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 20px;
+    height: 130px;
+}
+
+.opponentPlayerCards2{
+    position: absolute;
+    left: 18%;
+    height: 800px;
+    width: 130px;
+}
+
+.opponentPlayerCards4{
+    position: absolute;
+    right: 15%;
+    height: 800px;
+    width: 130px;
+}
+
+.cardOpponentPlayer0{
+    transform: rotate(90deg);
+    display: block;
+    background-size: 84px, 84px ;
+}
+
+.cardOpponentPlayer1{
+    transform: rotate(180deg);
+    display:inline-block;
+}
+
+.cardOpponentPlayer2{
+    transform: rotate(270deg);
+    display: block;
+    background-size: 84px, 84px ;
+}
+
+.chatbox{
+    position: absolute;
+    left: 0px;
+    bottom: 5px;
+    margin-bottom: 50px;
+    z-index: 2;
+    left: 10px;
+}
+
+.chatMessage{
+    background-color: rgba(0, 0, 0, 0.544);
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    color: white;
+    height:30px;
+    width: 350px;
+    margin-bottom: 0px;
+    left: 10px;
+}
