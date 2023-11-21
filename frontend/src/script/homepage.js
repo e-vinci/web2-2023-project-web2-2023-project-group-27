@@ -2,7 +2,6 @@ import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-
 import { afficherDivChargement } from './loadingGame';
 import { connectWebSocket } from './websockets';
 
-
 const nicknameForm = document.getElementById("nickname");
 const popupSettings = document.getElementById("popupSettings");
 const popupLogin = document.getElementById("popupLogin");
@@ -12,7 +11,11 @@ const settingsButton = document.getElementById("options");
 const loginPath = document.getElementById("loginPath");
 const signInPath = document.getElementById("signInPath");
 const RulesPath = document.getElementById("RulesPath");
+const closeRules = document.getElementById("closeRules");
 const playForm = document.getElementById("playForm");
+const music = document.getElementById("music");
+const volumeControlMusic = document.getElementById("volumeControlMusic");
+const volumeImage = document.getElementById("volume");
 
 let isPopUpDisplayed = false;
 let isPopUpLoginDisplayed = false;
@@ -23,7 +26,7 @@ let socket;
 nicknameForm.placeholder = uniqueNamesGenerator({
     dictionaries: [adjectives, animals, colors],
     length: 2
-  });
+});
 
 popupSettings.style.display = 'none';
 popupLogin.style.display = 'none';
@@ -46,6 +49,23 @@ document.getElementById("fullscreen").addEventListener('click', () => {
     }
 }
 );
+
+window.addEventListener('click', () => {
+    const audio = music;
+    audio.play();
+});
+
+volumeControlMusic.addEventListener('input', () => {
+    music.volume = volumeControlMusic.value;
+});
+
+volumeImage.addEventListener('click', () => {
+    if(music.volume === 0) {
+        music.volume = parseFloat(volumeControlMusic.value);
+    }else {
+        music.volume = 0;
+    }
+})
 
 settingsButton.addEventListener('click', () => {
     if (isPopUpDisplayed) {
@@ -106,6 +126,10 @@ RulesPath.addEventListener('click', () => {
     isPopUpRulesDisplayed = false;
 });
 
+closeRules.addEventListener('click', () => {
+    popupRules.style.display = 'none';
+})
+
 // Déconnecter le websocket en quittant la page
 window.addEventListener('unload', () => {
     socket.disconnect();
@@ -129,16 +153,15 @@ playForm.addEventListener('submit', (e) => {
     popupSettings.style.display = 'none';
     popupLogin.style.display = 'none';
     popupSignIn.style.display = 'none';
-    loginPath.style.display = 'none';
-    signInPath.style.display = 'none';
+    popupRules.style.display = 'none';
 
     // Div chargement
     afficherDivChargement();
 
-    
+
     setTimeout(() => {
         let nickname = nicknameForm.value;
-        if(nickname === '' || nickname === undefined) nickname = nicknameForm.placeholder;
+        if (nickname === '' || nickname === undefined) nickname = nicknameForm.placeholder;
         connectWebSocket(nickname, null, null);
     }, 2900);
 });

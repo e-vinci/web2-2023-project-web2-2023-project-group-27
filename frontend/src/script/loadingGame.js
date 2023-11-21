@@ -7,6 +7,7 @@ let loadingInformation;
 let loadingTitle;
 let divChargement;
 let divChargement2;
+let loadingScreen;
 
 /**
  * Anime un message en ajoutant des points sur un élément HTML. 
@@ -18,19 +19,19 @@ let divChargement2;
  */
 const displayLoadingStatus = (text) => {
     let textElement = loadingInformation.innerText;
-    switch(textElement) {
-    case `${text}.`:
-        textElement = `${text}..`;
-        break;
-    case `${text}..`:
-        textElement = `${text}...`;
-        break;
-    case `${text}...`:
-        textElement = `${text}.`;
-        break;
-    default:
-        textElement = `${text}.`;
-        break;
+    switch (textElement) {
+        case `${text}.`:
+            textElement = `${text}..`;
+            break;
+        case `${text}..`:
+            textElement = `${text}...`;
+            break;
+        case `${text}...`:
+            textElement = `${text}.`;
+            break;
+        default:
+            textElement = `${text}.`;
+            break;
     }
     loadingInformation.innerText = textElement;
 }
@@ -46,13 +47,22 @@ const afficherDivQuiCacheLeChargement = () => {
 }
 
 const cacherDivQuiCacheLeChargement = () => {
-    divChargement.style.opacity = 0;
-    divChargement2.style.opacity = 0;
+    document.getElementById("divChargement").style.animation = 'hideDivAnimation 5s forwards';
+    document.getElementById("divChargement2").style.animation = 'hideDivAnimation 5s forwards';
+
+    setTimeout(() => {
+        document.getElementById("divChargement").style.display = "none";
+        document.getElementById("divChargement2").style.display = "none";
+    }, 5000);
+}
+
+function fairePartirLeChargement() {
+    loadingScreen.style.animation = 'readyToPlay 5s ease-in forwards';
 }
 
 
 const afficherChargement = (text) => {
-    if(interval_Display !== undefined) {
+    if (interval_Display !== undefined) {
         stopAfficherChargement();
     }
     interval_Display = setInterval(() => displayLoadingStatus(text), 1000);
@@ -67,30 +77,30 @@ const setLoadingBarPercentage = (percentage) => {
 }
 
 const afficherDivChargement = () => {
-    const loadingScreen = document.createElement('div');
+    loadingScreen = document.createElement('div');
         loadingScreen.className = 'loadingScreen';
         loadingScreen.style.animation = 'startingPlay2 3s forwards';
 
     loadingTitle = document.createElement('h1');
-        loadingTitle.id = 'loadingTitle';
-        loadingTitle.textContent = 'Nous recherchons une partie pour vous';
+    loadingTitle.id = 'loadingTitle';
+    loadingTitle.textContent = 'Nous recherchons une partie pour vous';
 
     loadingInformation = document.createElement('h2');
-        loadingInformation.style.cursor = 'default';
-        loadingInformation.id = 'loadingInformation';
-        loadingInformation.innerText = "Connexion au serveur";
+    loadingInformation.style.cursor = 'default';
+    loadingInformation.id = 'loadingInformation';
+    loadingInformation.innerText = "Connexion au serveur";
 
     divLoadingBar = document.createElement('div');
-        divLoadingBar.id = 'loadingBar'
+    divLoadingBar.id = 'loadingBar'
 
     divColorBar = document.createElement('div');
-        divColorBar.id = 'loadingColorBar';
-        divColorBar.style.width = '2%';
+    divColorBar.id = 'loadingColorBar';
+    divColorBar.style.width = '2%';
 
     divChargement = document.createElement('div');
-        divChargement.id = 'divChargement';
+    divChargement.id = 'divChargement';
     divChargement2 = document.createElement('div');
-        divChargement2.id = 'divChargement2';
+    divChargement2.id = 'divChargement2';
 
     loadingScreen.appendChild(loadingTitle);
     loadingScreen.appendChild(loadingInformation);
@@ -101,14 +111,22 @@ const afficherDivChargement = () => {
     setTimeout(() => {
         loadingScreen.style.animation = 'logoMove 2s infinite';
         afficherDivQuiCacheLeChargement();
-        // Démarrer connexion websocket
         afficherChargement('Connexion au serveur');
+        document.querySelector(".homepage").style.display = "none";
 }, 2900)
 };
 
 const updateLoadingTitle = (text) => {
     loadingTitle.textContent = text;
 }
+
+
+function debugCacherChargement() {
+    loadingScreen.style.display = "none";
+    divChargement.style.display = "none";
+    divChargement2.style.display = "none";
+}
+
 
 module.exports = {
     afficherChargement,
@@ -118,5 +136,7 @@ module.exports = {
     afficherDivChargement,
     updateLoadingTitle,
     afficherDivQuiCacheLeChargement,
-    cacherDivQuiCacheLeChargement
+    cacherDivQuiCacheLeChargement,
+    debugCacherChargement,
+    fairePartirLeChargement,
 };

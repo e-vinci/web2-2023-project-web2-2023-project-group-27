@@ -10,7 +10,7 @@ const afficherErreur = (message, socket) => {
     const popupSignIn = document.getElementById('popupSignIn');
 
     socket.disconnect();
-    
+
     const divErreur = document.createElement('div');
     divErreur.className = 'erreur-message';
     divErreur.style.zIndex = 100;

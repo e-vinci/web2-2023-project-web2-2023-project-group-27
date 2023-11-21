@@ -52,7 +52,7 @@ function addLobby() {
       }
       startGame(lobby);
     }
-  }, 19000);
+  }, 5 * 1000);
   return lobbies[lobbies.length - 1];
 }
 
@@ -76,8 +76,8 @@ function getNextAvailableLobby() {
 function addPlayerToLobby(player) {
   if (isPlayerInLobby(player)) return false;
   const lobby = getNextAvailableLobby();
+  const playerToUpdate = lobby.players.find((play) => !play.isHuman);
   if (lobby.players.length !== lobby.humanPlayersCount) {
-    const playerToUpdate = lobby.players.find((play) => !play.isHuman);
     playerToUpdate.isHuman = true;
     playerToUpdate.socketId = player.socketId;
     playerToUpdate.username = player.username;
@@ -95,23 +95,53 @@ function addPlayerToLobby(player) {
       startGame(lobby);
     }
   } else {
-    io.sendSocketToId(player.socketId, 'gameStart', { joinedAlreadyStartedGame: lobby.hasStarted });
+    io.sendSocketToId(player.socketId, 'gameStart', { hasStarted: lobby.hasStarted });
+
+    for (let i = 0; i < lobby.players.length; i += 1) {
+      if (lobby.players[i].socketId !== player.socketId) {
+        io.sendSocketToId(lobby.players[i].socketId, 'newPlayer', {
+          player: {
+            username: player.username,
+            isHuman: player.isHuman,
+            playerId: playerToUpdate.playerId,
+            color: 'lime',
+          },
+        });
+      }
+    }
+
+    for (let i = 0; i < lobby.players.length; i += 1) {
+      if (lobby.players[i].socketId !== player.socketId) io.sendSocketToId(lobby.players[i].socketId, 'chatMessage', { message: `${player.username} a rejoint la partie` });
+    }
   }
   return lobby;
 }
 
 function removePlayer(socketId) {
   const player = players.getPlayerBySocket(socketId);
+  const playerUsername = player.username;
   const lobby = lobbies.find((lob) => lob.players.includes(player));
   if (lobby === undefined) return;
 
   player.isHuman = false;
   player.socketId = null;
+  player.isReady = true;
+  player.username = 'Bot';
 
   lobby.humanPlayersCount -= 1;
   for (let i = 0; i < lobby.players.length; i += 1) {
-    io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { message: `En attente d'autre joueurs (${lobby.humanPlayersCount}/${MAX_PLAYERS_PER_LOBBY})` });
+    if (!lobby.hasStarted) io.sendSocketToId(lobby.players[i].socketId, 'gameUpdate', { message: `En attente d'autre joueurs (${lobby.humanPlayersCount}/${MAX_PLAYERS_PER_LOBBY})` });
+    io.sendSocketToId(lobby.players[i].socketId, 'newPlayer', {
+      player: {
+        username: 'Bot', isHuman: false, playerId: player.playerId, color: 'red',
+      },
+    });
   }
+
+  for (let i = 0; i < lobby.players.length; i += 1) {
+    io.sendSocketToId(lobby.players[i].socketId, 'chatMessage', { message: `${playerUsername} a quitté la partie` });
+  }
+
   if (lobby.humanPlayersCount === 0) deleteLobby(lobby);
 }
 
@@ -124,18 +154,22 @@ function getLobbyById(lobbyId) {
   return lobbies.find((lobby) => lobby.id === lobbyId);
 }
 
+function getLobbyByPlayer(player) {
+  return lobbies.find((lobby) => lobby.players.includes(player));
+}
+
 function getPlayers(lobbyId) {
   const lobby = getLobbyById(lobbyId);
   return lobby.players;
 }
 
 function startGame(lobby) {
-  console.log(lobby);
+  // retirer la ligne en dessous plus tard
+
   for (let i = 0; i < lobby.players.length; i += 1) {
-    io.sendSocketToId(lobby.players[i].socketId, 'gameStart', { joinedAlreadyStartedGame: lobby.hasStarted });
+    io.sendSocketToId(lobby.players[i].socketId, 'gameStart', { hasStarted: lobby.hasStarted });
   }
   lobby.hasStarted = true;
-
   // Attend que tous les joueurs soient prêts
   let isEveryPlayersReady = false;
 
@@ -144,12 +178,55 @@ function startGame(lobby) {
     for (let i = 0; i < lobby.players.length; i += 1) {
       if (!lobby.players[i].isReady) isEveryPlayersReady = false;
     }
-
     if (isEveryPlayersReady) {
-      clearInterval(interval);
       game.generateCards(lobby);
+      clearInterval(interval);
     }
   }, 1000);
+}
+
+/**
+ * Affiche toute les infos de la partie, en masquant les cartes des adversaires
+ * @param {*} player Le joueur
+ * @returns les informations de la partie
+ */
+function getLobbyInformation(player) {
+  const lobby = getLobbyByPlayer(player);
+  if (lobby === undefined) return undefined;
+  const informations = {
+    players: [],
+    direction: lobby.direction,
+    currentPlayer: lobby.currentPlayer,
+    currentCard: lobby.currentCard,
+  };
+
+  for (let i = 0; i < lobby.players.length; i += 1) {
+    const plr = lobby.players[i];
+    if (plr === player) {
+      informations.players.push({
+        playerId: plr.playerId,
+        username: plr.username,
+        deck: plr.deck,
+        numberOfCardsPlayed: plr.numberOfCardsPlayed,
+        numberOfCardsDrawned: plr.numberOfCardsDrawned,
+        score: plr.score,
+        isReady: plr.isReady,
+        isHuman: plr.isHuman,
+      });
+    } else {
+      informations.players.push({
+        playerId: plr.playerId,
+        username: plr.username,
+        deck: plr.deck.length,
+        numberOfCardsPlayed: plr.numberOfCardsPlayed,
+        numberOfCardsDrawned: plr.numberOfCardsDrawned,
+        score: plr.score,
+        isReady: plr.isReady,
+        isHuman: plr.isHuman,
+      });
+    }
+  }
+  return informations;
 }
 
 module.exports = {
@@ -159,4 +236,6 @@ module.exports = {
   getLobbyById,
   deleteLobby,
   getPlayers,
+  getLobbyInformation,
+  getLobbyByPlayer,
 };
