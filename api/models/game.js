@@ -41,15 +41,6 @@ function beginningGame(lobby) {
   setTimeout(() => {
     giveCardsToPlayers(lobby);
   }, 500);
-
-  setTimeout(() => {
-    drawCardFromStack(lobby);
-    for (let i = 0; i < lobby.players.length; i += 1) {
-      const player = lobby.players[i];
-      io.sendSocketToId(player.socketId, 'cardPlayed', { toPlayer: null, card: lobby.currentCard });
-    }
-    socketWhoPlay(lobby);
-  }, 5000);
 }
 
 function socketWhoPlay(lobby) {
@@ -61,15 +52,25 @@ function socketWhoPlay(lobby) {
 
 function giveCardsToPlayers(lobby) {
   let time = 0;
-  for (let j = 0; j < 7; j += 1) {
+  const numberOfCardsToDraw = 7;
+
+  for (let j = 0; j < numberOfCardsToDraw; j += 1) {
     for (let i = 0; i < lobby.players.length; i += 1) {
       time += 1;
       setTimeout(() => {
-        const player = lobby.players[i];
-        drawCard(lobby, player);
-      }, time * 100);
+        drawCard(lobby, lobby.players[i]);
+      }, time * 150);
     }
   }
+
+  setTimeout(() => {
+    drawCardFromStack(lobby);
+    for (let i = 0; i < lobby.players.length; i += 1) {
+      const player = lobby.players[i];
+      io.sendSocketToId(player.socketId, 'cardPlayed', { toPlayer: null, card: lobby.currentCard });
+    }
+    socketWhoPlay(lobby);
+  }, ((numberOfCardsToDraw * 4) * 150) + 1000);
 }
 
 function generateCard(lobby, color, value) {
@@ -90,8 +91,8 @@ function drawCard(lobby, joueur) {
   joueur.numberOfCardsDrawned += 1;
   for (let i = 0; i < lobby.players.length; i += 1) {
     const player = lobby.players[i];
-    if (player === joueur) io.sendSocketToId(joueur.socketId, 'cardDrawn', { toPlayer: player.playerId, card });
-    else io.sendSocketToId(joueur.socketId, 'cardDrawn', { toPlayer: player.PlayerId, card: null });
+    if (player === joueur) io.sendSocketToId(player.socketId, 'cardDrawn', { toPlayer: joueur.playerId, card });
+    else io.sendSocketToId(player.socketId, 'cardDrawn', { toPlayer: joueur.playerId, card: null });
   }
 }
 

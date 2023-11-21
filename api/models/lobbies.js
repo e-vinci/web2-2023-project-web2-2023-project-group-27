@@ -52,7 +52,7 @@ function addLobby() {
       }
       startGame(lobby);
     }
-  }, 1 * 1000);
+  }, 5 * 1000);
   return lobbies[lobbies.length - 1];
 }
 
@@ -109,12 +109,17 @@ function addPlayerToLobby(player) {
         });
       }
     }
+
+    for (let i = 0; i < lobby.players.length; i += 1) {
+      if (lobby.players[i].socketId !== player.socketId) io.sendSocketToId(lobby.players[i].socketId, 'chatMessage', { message: `${player.username} a rejoint la partie` });
+    }
   }
   return lobby;
 }
 
 function removePlayer(socketId) {
   const player = players.getPlayerBySocket(socketId);
+  const playerUsername = player.username;
   const lobby = lobbies.find((lob) => lob.players.includes(player));
   if (lobby === undefined) return;
 
@@ -132,6 +137,11 @@ function removePlayer(socketId) {
       },
     });
   }
+
+  for (let i = 0; i < lobby.players.length; i += 1) {
+    io.sendSocketToId(lobby.players[i].socketId, 'chatMessage', { message: `${playerUsername} a quitté la partie` });
+  }
+
   if (lobby.humanPlayersCount === 0) deleteLobby(lobby);
 }
 

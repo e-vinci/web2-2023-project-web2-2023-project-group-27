@@ -37,6 +37,11 @@ body {
     z-index: 999;
 }
 
+@keyframes hideDivAnimation {
+    0% { opacity: 1;}
+    100% {opacity: 0;}
+}
+
 @keyframes gradientAnimation {
 
     0%,
@@ -85,7 +90,7 @@ button:focus {
     width: 100%;
     height: 100%;
     z-index: -1;
-    background: url("../img/background.jpg");
+    background: url("../img/background2.jpg");
     background-size: cover;
     mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.704), rgba(0, 0, 0, 0));
     /*For Edge*/
@@ -401,6 +406,17 @@ input[type="range"] {
         transform: translateY(0%);
     }
 }
+
+@keyframes readyToPlay {
+    0% {
+        transform: translateY(0%);
+    }
+
+    100% {
+        transform: translateY(-1000%);
+    }
+}
+
 
 .loadingScreen {
     z-index: 1001;

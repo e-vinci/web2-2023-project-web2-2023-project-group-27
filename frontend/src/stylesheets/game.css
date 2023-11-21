@@ -106,7 +106,7 @@
 
 .mainPlayer{
     position: absolute;
-    right: 300px;
+    right: 240px;
     bottom: 20px;
 }
 
@@ -197,7 +197,7 @@
     z-index: -5;
     position: absolute;
     margin: auto;
-    opacity: 0.3;
+    opacity: 0.15;
     filter: blur(7px);
     left: 0;
     right: 0;
@@ -210,7 +210,7 @@
 
 .player3{
     position: absolute;
-    left:20%;
+    left: 300px;
     top: 30px;
 }
 
@@ -290,4 +290,77 @@
     .currentCard {
         margin-left: 0;
     }
+}
+
+
+.cardOpponentPlayer{
+    position: relative;
+    transition: 0.2s ease-out;
+    background-size: 84px, 130px;
+    background-repeat: no-repeat;
+    height: 130px;
+    width: 84px;
+    border: 3px solid rgba(255, 0, 0, 0.375);
+    border-radius: 10px;
+    filter: grayscale(40%)
+}
+
+.opponentPlayerCards3{
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 20px;
+    height: 130px;
+}
+
+.opponentPlayerCards2{
+    position: absolute;
+    left: 18%;
+    height: 800px;
+    width: 130px;
+}
+
+.opponentPlayerCards4{
+    position: absolute;
+    right: 15%;
+    height: 800px;
+    width: 130px;
+}
+
+.cardOpponentPlayer0{
+    transform: rotate(90deg);
+    display: block;
+    background-size: 84px, 84px ;
+}
+
+.cardOpponentPlayer1{
+    transform: rotate(180deg);
+    display:inline-block;
+}
+
+.cardOpponentPlayer2{
+    transform: rotate(270deg);
+    display: block;
+    background-size: 84px, 84px ;
+}
+
+.chatbox{
+    position: absolute;
+    left: 0px;
+    bottom: 5px;
+    margin-bottom: 50px;
+    z-index: 2;
+    left: 10px;
+}
+
+.chatMessage{
+    background-color: rgba(0, 0, 0, 0.544);
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    color: white;
+    height:30px;
+    width: 350px;
+    margin-bottom: 0px;
+    left: 10px;
 }
