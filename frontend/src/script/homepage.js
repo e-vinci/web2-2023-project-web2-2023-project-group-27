@@ -128,6 +128,7 @@ RulesPath.addEventListener('click', () => {
 
 closeRules.addEventListener('click', () => {
     popupRules.style.display = 'none';
+    popupSettings.style.display = 'block';
 })
 
 // Déconnecter le websocket en quittant la page

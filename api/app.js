@@ -9,6 +9,9 @@ const corsOptions = {
   origin: 'http://localhost:8080',
 };
 
+
+const userRouter = require("./routes/route.js");
+
 const app = express();
 
 require('./websockets/websockets');
@@ -17,6 +20,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use("/routes", userRouter);
 
 app.use(cors(corsOptions));
 
