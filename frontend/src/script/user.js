@@ -36,6 +36,16 @@ document.getElementById('signInForm').addEventListener('submit', (event) => {
     } else {
       document.getElementById('confirmPasswordError').innerText = '';
     }
+
+    // Validation des conditions générales
+    const cg = document.getElementById('conditionsGenerales');
+    if (cg.checked === false) {
+      document.getElementById('CGError').innerText = 'Veuillez confirmer les condition générales';
+      valid = false
+    } else {
+      document.getElementById('CGError').innerText = '';
+      valid = false
+    }
   
     if (!valid) {
       event.preventDefault(); // Empêche l'envoi du formulaire si la validation échoue

@@ -322,7 +322,8 @@ input[type="range"] {
 #popupSettings,
 #popupLogin,
 #popupSignIn,
-#popupRules {
+#popupRules,
+#popupCG {
     z-index: 10000;
     position: absolute;
     left: 400px;
@@ -336,6 +337,18 @@ input[type="range"] {
     border: 30px;
     border-color: rgb(230, 87, 87);
     border-style: ridge;
+}
+
+#popupCG {
+    color: white;
+    text-align: justify;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    margin-left: 0;
+    padding: 0.8%;
+    font-size: 92%;
 }
 
 #popupRules {

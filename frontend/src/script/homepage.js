@@ -16,6 +16,7 @@ const playForm = document.getElementById("playForm");
 const music = document.getElementById("music");
 const volumeControlMusic = document.getElementById("volumeControlMusic");
 const volumeImage = document.getElementById("volume");
+const popupCG = document.getElementById("popupCG");
 
 let isPopUpDisplayed = false;
 let isPopUpLoginDisplayed = false;
@@ -75,6 +76,7 @@ settingsButton.addEventListener('click', () => {
         popupLogin.style.display = 'none';
         popupSignIn.style.display = 'none';
         popupRules.style.display = 'none';
+        popupCG.style.display = 'none';
     }
     isPopUpDisplayed = !isPopUpDisplayed;
     isPopUpLoginDisplayed = false;
@@ -128,7 +130,7 @@ RulesPath.addEventListener('click', () => {
 
 closeRules.addEventListener('click', () => {
     popupRules.style.display = 'none';
-    popupSettings.style.display = 'block';
+    popupSettings.style.display = 'none';
 })
 
 // Déconnecter le websocket en quittant la page
