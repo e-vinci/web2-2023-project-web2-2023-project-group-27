@@ -110,7 +110,7 @@ function playCard(lobby, joueur, card) {
 
     for (let i = 0; i < lobby.players.length; i += 1) {
       const player = lobby.players[i];
-      io.sendSocketToId(player.socketId, 'cardPlayed', { toPlayer: player.playerId, card });
+      io.sendSocketToId(player.socketId, 'cardPlayed', { toPlayer: joueur.playerId, card });
     }
 
     handleSpecialCardEffects(card, lobby);
@@ -122,6 +122,7 @@ function playCard(lobby, joueur, card) {
 }
 // Fonction pour vérifier si une carte est jouable
 function isCardPlayable(card, currentCard) {
+  if (currentCard === null) return true;
   if (card.color === 'black') {
     return true;
   }
@@ -131,10 +132,15 @@ function isCardPlayable(card, currentCard) {
 function handleSpecialCardEffects(card, lobby) {
   if (card.value === '+2') {
     const currentPlayerIndex = lobby.players.indexOf(lobby.currentPlayer);
-    let nextPlayerIndex = currentPlayerIndex + 1;
-    if (nextPlayerIndex >= lobby.players.length) {
-      nextPlayerIndex = 0; // Revenir au premier joueur s'il n'y a plus de joueurs suivants
+    let nextPlayerIndex;
+    if (lobby.direction === 'clockwise') {
+      nextPlayerIndex = currentPlayerIndex + 1;
+    } else {
+      nextPlayerIndex = currentPlayerIndex - 1;
     }
+    if (nextPlayerIndex >= lobby.players.length) nextPlayerIndex = 0;
+    if (nextPlayerIndex < 0) nextPlayerIndex = lobby.players.length - 1;
+
     const nextPlayer = lobby.players[nextPlayerIndex];
     for (let i = 0; i < 2; i += 1) {
       drawCard(lobby, nextPlayer);
@@ -150,11 +156,16 @@ function handleSpecialCardEffects(card, lobby) {
     const { reverse } = require('./lobbies');
     reverse(lobby);
   } else if (card.value === '+4') {
-    const currentPlayerIndex = lobby.players.indexOf(lobby.currentPlayer);
-    let nextPlayerIndex = currentPlayerIndex + 1;
-    if (nextPlayerIndex >= lobby.players.length) {
-      nextPlayerIndex = 0;
+    const currentPlayerIndex = lobby.currentPlayer;
+    let nextPlayerIndex;
+    if (lobby.direction === 'clockwise') {
+      nextPlayerIndex = currentPlayerIndex + 1;
+    } else {
+      nextPlayerIndex = currentPlayerIndex - 1;
     }
+    if (nextPlayerIndex >= lobby.players.length) nextPlayerIndex = 0;
+    if (nextPlayerIndex < 0) nextPlayerIndex = lobby.players.length - 1;
+
     const nextPlayer = lobby.players[nextPlayerIndex];
     for (let i = 0; i < 4; i += 1) {
       drawCard(lobby, nextPlayer);
@@ -165,11 +176,11 @@ function handleSpecialCardEffects(card, lobby) {
 // Fonction pour passer au joueur suivant
 function nextPlayer(lobby) {
   if (lobby.direction === 'clockwise') {
-    lobby.nextPlayer += 1;
-    if (lobby.nextPlayer >= lobby.players.length) lobby.nextPlayer = 0;
+    lobby.currentPlayer += 1;
+    if (lobby.currentPlayer >= lobby.players.length) lobby.currentPlayer = 0;
   } else {
-    lobby.nextPlayer -= 1;
-    if (lobby.nextPlayer < 0) lobby.nextPlayer = lobby.players.length - 1;
+    lobby.currentPlayer -= 1;
+    if (lobby.currentPlayer < 0) lobby.currentPlayer = lobby.players.length - 1;
   }
 }
 

@@ -6,7 +6,7 @@ const { generatingGame, displayPlayerWhoPlay, addCard, setLastCard } = require('
 
 const erreur = require('./erreur');
 const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAfficherChargement, updateLoadingTitle, cacherDivQuiCacheLeChargement, fairePartirLeChargement } = require('./loadingGame');
-const { updatePlayer } = require('./game');
+const { updatePlayer, removeCard } = require('./game');
 const { generateChatBox, addMessage } = require('./chat');
 
 // const link = 'ws://155.248.239.223:25568';
@@ -94,6 +94,7 @@ const connectWebSocket = (nickname) => {
 
         io.on('cardPlayed', (infos) => {
             setLastCard(infos.card);
+            removeCard(infos.toPlayer, infos.card);
         })
 
         io.on('chatMessage', (message) => {

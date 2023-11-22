@@ -291,8 +291,11 @@ function setTimeToPlay(boolean) {
 
 function removeCardToMainPlayer(index) {
   const cardDiv = divMainPlayer.divCardIconCards[index];
+  if(cardDiv === undefined) return; 
   divMainPlayer.mainDivCards.removeChild(cardDiv);
   divMainPlayer.divCardIconCards.splice(index, 1);
+
+  divMainPlayer.textCardCount.textContent = divMainPlayer.divCardIconCards.length;
 
   calculateMarginCards(divMainPlayer.divCardIconCards, true);
   calculateWidthCards(divMainPlayer.divCardIconCards.length, divMainPlayer.mainDivCards, true);
@@ -519,6 +522,28 @@ function calculateMarginCards(cardsDiv, isHorizontal) {
   }
 }
 
+function removeCard(playerId, card) {
+  if(playerId === null) return;
+  if(playerId === divMainPlayer.playerId) {
+    const index = divMainPlayer.divCardIconCards.findIndex((cardDiv) => cardDiv.title === `${card.value} ${card.color}`);
+    removeCardToMainPlayer(index);
+  } else {
+      const divPlayer = divOpponentPlayers.find((div) => div.playerId === playerId);
+      removeCardToOpponent(divPlayer);
+  }
+}
+
+function removeCardToOpponent(divPlayer) {
+  if(divPlayer === null) return;
+  divPlayer.mainDivCards.removeChild(divPlayer.divCardIconCards[0]);
+  divPlayer.divCardIconCards.splice(0, 1);
+
+  divPlayer.textCardCount.textContent = divPlayer.divCardIconCards.length;
+
+  calculateMarginCards(divPlayer.divCardIconCards, false);
+  calculateWidthCards(divPlayer.divCardIconCards.length, divPlayer.mainDivCards, false);
+}
+
 
 function playSoundEffect(audioSource) {
   const soundEffect = new Audio(audioSource);
@@ -541,4 +566,5 @@ module.exports = {
   displayPlayerWhoPlay,
   addCard,
   setLastCard,
+  removeCard,
 };
