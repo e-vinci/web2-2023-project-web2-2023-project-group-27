@@ -21,14 +21,20 @@ body {
 
 label {
     display: inline-block;
-    width: 90%; /* Ajustez la largeur selon vos besoins */
+    width: 90%;
+    /* Ajustez la largeur selon vos besoins */
     text-align: left;
-    margin-right: 10px; /* Ajoutez un espace entre le libellé et le champ */
+    margin-right: 10px;
+    /* Ajoutez un espace entre le libellé et le champ */
 }
 
 span {
     margin-left: 20%;
     float: left;
+}
+
+p {
+    cursor: default;
 }
 
 #divChargement {
@@ -54,8 +60,13 @@ span {
 }
 
 @keyframes hideDivAnimation {
-    0% { opacity: 1;}
-    100% {opacity: 0;}
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }
 
 @keyframes gradientAnimation {
@@ -98,7 +109,7 @@ button:focus {
     width: 80px;
     height: 80px;
     cursor: pointer;
-    filter:brightness(112%);
+    filter: brightness(112%);
 }
 
 .background {
@@ -116,7 +127,7 @@ button:focus {
             color-stop(0, rgba(0, 0, 0, 1)),
             color-stop(0.5, rgba(0, 0, 0, 0.704)),
             color-stop(1, rgba(0, 0, 0, 0)));
-    
+
 }
 
 
@@ -160,11 +171,15 @@ input {
     width: 250px;
 }
 
-#volume {
-    height: 50px;
-    width: 50px;
+#volumeMusic,
+#volumeSFX {
+    width: 10%;
+    height: 10%;
+    margin-left: 8%;
+    margin-top: 3%;
 }
-#volume-soundeffect{
+
+#volume-soundeffect {
     height: 50px;
     width: 50px;
 }
@@ -190,20 +205,23 @@ input {
     transition: 1s;
 }
 
+#playButton {
+    margin-top: 5%;
+}
+
 #acceptRefuseCU {
     display: inline-flex;
     width: auto;
     float: right;
     margin: 3%;
     padding-bottom: 3%;
-    right: 1;
 }
 
 #acceptCU,
 #refuseCU {
-    font-size:x-large;
+    font-size: x-large;
     margin-right: 10%;
-    position:static;
+    position: static;
     height: auto;
     width: auto;
     box-shadow: 3px 3px 2px 2px rgba(255, 0, 0, 0.3);
@@ -233,7 +251,6 @@ input {
 }
 
 #signInButton {
-
     width: 60%;
     margin-right: 20%;
     box-shadow: 10px 10px 3px 3px rgba(255, 0, 0, 0.3);
@@ -255,6 +272,7 @@ input {
     margin-left: 20%;
     width: 30px;
     height: 30px;
+    cursor: pointer;
 }
 
 #volumeContainer {
@@ -263,17 +281,11 @@ input {
     padding-right: 15%;
 }
 
-
-#volume {
-    width: 10%;
-    height: 10%;
-    margin-left: 8%;
-    margin-top: 3%;
-}
-.volume-sous-container{
+.volume-sous-container {
     display: flex;
 }
-.slider-container{
+
+.slider-container {
     margin-left: 8%;
 }
 
@@ -325,7 +337,6 @@ input[type="range"] {
     background: rgb(228, 50, 50);
     height: 85px;
     width: 215px;
-    margin-top: -5px;
 }
 
 #loginPath:hover,
@@ -374,6 +385,7 @@ input[type="range"] {
 #popupSignIn,
 #popupRules,
 #popupCU {
+    overflow-y: auto;
     z-index: 10000;
     position: absolute;
     left: 400px;
@@ -390,7 +402,6 @@ input[type="range"] {
 }
 
 #popupCU {
-    overflow-y: auto;
     display: none;
     color: white;
     text-align: justify;
@@ -403,16 +414,28 @@ input[type="range"] {
     font-size: large;
 }
 
-#popupCU::-webkit-scrollbar {
+#popupCU::-webkit-scrollbar,
+#popupSettings::-webkit-scrollbar,
+#popupLogin::-webkit-scrollbar,
+#popupSignIn::-webkit-scrollbar,
+#popupRules::-webkit-scrollbar {
     width: 12px;
 }
 
-#popupCU::-webkit-scrollbar-track {
+#popupCU::-webkit-scrollbar-track,
+#popupSettings::-webkit-scrollbar-track,
+#popupLogin::-webkit-scrollbar-track,
+#popupSignIn::-webkit-scrollbar-track,
+#popupRules::-webkit-scrollbar-track {
     background-color: black;
     /* Couleur de fond de la barre de défilement */
 }
 
-#popupCU::-webkit-scrollbar-thumb {
+#popupCU::-webkit-scrollbar-thumb,
+#popupSettings::-webkit-scrollbar-thumb,
+#popupLogin::-webkit-scrollbar-thumb,
+#popupSignIn::-webkit-scrollbar-thumb,
+#popupRules::-webkit-scrollbar-thumb {
     background-color: rgb(230, 87, 87);
     border-radius: 6px;
 }
@@ -425,22 +448,7 @@ input[type="range"] {
 }
 
 #popupRules {
-    overflow-y: auto;
     max-height: 1000px;
-}
-
-#popupRules::-webkit-scrollbar {
-    width: 12px;
-}
-
-#popupRules::-webkit-scrollbar-track {
-    background-color: black;
-    /* Couleur de fond de la barre de défilement */
-}
-
-#popupRules::-webkit-scrollbar-thumb {
-    background-color: rgb(230, 87, 87);
-    border-radius: 6px;
 }
 
 #popupRules .rule {
@@ -462,16 +470,14 @@ input[type="range"] {
     /* Pour une meilleure lisibilité, ajustez selon vos préférences */
 }
 
-
-#loginForm input,
-.inputSignIn {
+.inputForm {
     float: right;
     width: 60%;
     margin-right: 20%;
     margin-bottom: 5%;
 }
 
-#loginForm input:hover,
+#loginButton:hover,
 #signInButton:hover {
     width: 65%;
     margin-right: 17.5%;
@@ -645,7 +651,7 @@ h1 {
 }
 
 .error {
-    position:inherit;
+    position: inherit;
 }
 
 .error-image {
@@ -795,9 +801,9 @@ h1 {
 }
 
 
-  
 
- /* #playerName {
+
+/* #playerName {
     top: px;
     right: px;
   }
