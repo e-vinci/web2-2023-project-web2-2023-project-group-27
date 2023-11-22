@@ -2,6 +2,8 @@ import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-
 import { afficherDivChargement } from './loadingGame';
 import { connectWebSocket } from './websockets';
 
+const { playRandomMusic, setMusicVolume } = require('./audio');
+
 const nicknameForm = document.getElementById("nickname");
 const popupSettings = document.getElementById("popupSettings");
 const popupLogin = document.getElementById("popupLogin");
@@ -55,12 +57,11 @@ document.getElementById("fullscreen").addEventListener('click', () => {
 );
 
 window.addEventListener('click', () => {
-    const audio = music;
-    audio.play();
+    playRandomMusic();     
 });
 
 volumeControlMusic.addEventListener('input', () => {
-    music.volume = volumeControlMusic.value;
+    setMusicVolume(parseFloat(volumeControlMusic.value));
 });
 
 volumeImage.addEventListener('click', () => {

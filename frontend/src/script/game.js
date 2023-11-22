@@ -5,8 +5,7 @@ const { setLoadingBarPercentage } = require('./loadingGame');
 const { getCardImage, getCardIcon, getUserIcon, getBotIcon } = require('./images');
 const { afficherInformation } = require('./loadingGame');
 
-const cardHoverSFX = require('../sound/card_hover.mp3');
-const cardPickSFX = require('../sound/card_pick.mp3');
+const { playCardPickSound, playCardHoverSound } = require('./audio');
 
 let cardCenterDiv;
 let currentCard;
@@ -178,7 +177,7 @@ function createMainPlayerDiv(player) {
 function addCard(playerId, card){
   if(playerId === divMainPlayer.playerId) addCardToMainPlayer(card);
   else addCardToOpponent(playerId);
-  playSoundEffect(cardPickSFX);
+  playCardPickSound();
 }
 
 function addCardToOpponent(playerId) {
@@ -214,7 +213,7 @@ function addCardToMainPlayer(card) {
         if(!carddiv.classList.contains('notTheTimeToPlay')) {
           carddiv.style.top = '-40px';
           carddiv.style.marginRight = '25px';
-          playSoundEffect(cardHoverSFX);
+          playCardHoverSound();
         }
     });
 
@@ -540,21 +539,10 @@ function removeCardToOpponent(divPlayer) {
 
   divPlayer.textCardCount.textContent = divPlayer.divCardIconCards.length;
 
-  calculateMarginCards(divPlayer.divCardIconCards, false);
-  calculateWidthCards(divPlayer.divCardIconCards.length, divPlayer.mainDivCards, false);
-}
-
-
-function playSoundEffect(audioSource) {
-  const soundEffect = new Audio(audioSource);
-  soundEffect.volume = document.getElementById('volumeControlSFX').value;
-  document.body.appendChild(soundEffect);
-  soundEffect.play();
-
-  soundEffect.addEventListener('ended', () => {
-      soundEffect.pause();
-      document.body.removeChild(soundEffect);
-  });
+  const index = divOpponentPlayers.findIndex((div) => div.playerId === divPlayer.playerId);
+  calculateMarginCards(divPlayer.divCardIconCards, index === 1);
+  // TODO : Spéficier si le deck est horizontal, sinon ca met un margin top au lieu d'un margin left
+  calculateWidthCards(divPlayer.divCardIconCards.length, divPlayer.mainDivCards, index === 1);
 }
 
 

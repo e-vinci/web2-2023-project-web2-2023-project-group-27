@@ -11,6 +11,10 @@ body {
     /* Disable scroll*/
 }
 
+input{
+    margin-bottom: 20px;
+}
+
 body {
     background: linear-gradient(110.1deg, rgb(241, 115, 30) 18.9%, rgb(231, 29, 54) 90.7%);
 }
