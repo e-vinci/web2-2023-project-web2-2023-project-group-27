@@ -15,7 +15,9 @@ const closeRules = document.getElementById("closeRules");
 const playForm = document.getElementById("playForm");
 const music = document.getElementById("music");
 const volumeControlMusic = document.getElementById("volumeControlMusic");
-const volumeImage = document.getElementById("volume");
+const volumeControlSFX = document.getElementById("volumeControlSFX");
+const volumeImageMusic = document.getElementById("volumeMusic");
+const volumeImageSFX = document.getElementById("volumeSFX");
 const popupCU = document.getElementById("popupCU");
 const CUButton = document.getElementById("CUbutton");
 const acceptButton = document.getElementById("acceptCU");
@@ -63,13 +65,21 @@ volumeControlMusic.addEventListener('input', () => {
     music.volume = volumeControlMusic.value;
 });
 
-volumeImage.addEventListener('click', () => {
+volumeImageMusic.addEventListener('click', () => {
     if(music.volume === 0) {
         music.volume = parseFloat(volumeControlMusic.value);
     }else {
         music.volume = 0;
     }
-})
+});
+
+volumeImageSFX.addEventListener('click', () => {
+    if(music.volume === 0) {
+        music.volume = parseFloat(volumeControlSFX.value);
+    }else {
+        music.volume = 0;
+    }
+});
 
 settingsButton.addEventListener('click', () => {
     if (isPopUpDisplayed) {
