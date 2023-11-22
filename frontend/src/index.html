@@ -26,7 +26,7 @@
       </form>
     </div>
   </div>
-  </div>  
+  </div>
 
   <!--
   <div id="Banner">
@@ -68,16 +68,18 @@
         <img id="volume" src="../src/img/options/volume.png">
         <div class="slider-container">
           <label for="volumeControlMusic">Musique</label><br>
-          <input id="volumeControlMusic" type="range" min="0" max="1" step="0.01" value="0.5" title="volume" placeholder="0.5" >
+          <input id="volumeControlMusic" type="range" min="0" max="1" step="0.01" value="0.5" title="volume"
+            placeholder="0.5">
         </div>
       </div>
-     <div class="volume-sous-container">
+      <div class="volume-sous-container">
         <img id="volume" src="../src/img/options/volume.png">
         <div class="slider-container">
           <label for="volumeControlMusic">Effets sonore</label><br>
-          <input id="volumeControlSFX" type="range" min="0" max="1" step="0.01" value="0.5" title="volume" placeholder="0.5">
+          <input id="volumeControlSFX" type="range" min="0" max="1" step="0.01" value="0.5" title="volume"
+            placeholder="0.5">
         </div>
-     </div>
+      </div>
     </div>
   </div>
   <div id="popupLogin">
@@ -93,40 +95,42 @@
 
   <div id="popupSignIn">
     <h1>S'inscrire</h1>
-  <form id="signInForm" method="post">
+    <form id="signInForm" method="post">
 
-    <label for="nickname">Pseudo:</label>
-    <span id="nicknameError" class="error"></span>
-    <input type="text" id="nicknameSignIn" name="pseudo">
-      <br>
-      
-    <label for="email">Email:</label>
-    <span id="emailError" class="error"></span>
-    <input type="email" id="emailSignIn" name="email">
-      <br>
-      
-    <label for="password">Mot de passe:</label>
-    <span id="passwordError" class="error"></span>
-    <input type="password" id="passwordSignIn" name="password">
-      <br>
-      
-    <label for="confirmPassword">Confirmer le mot de passe: </label>
-    <span id="confirmPasswordError" class="error"></span>
-    <input type="password" id="passwordConfirmation" name="confirmPassword">
+      <label for="nickname">Pseudo:</label>
+      <span id="nicknameError" class="error"></span>
+      <input type="text" id="nicknameSignIn" class="inputSignIn" name="pseudo">
       <br>
 
-      <label for="CG">Conditions générales</label>
-      <span id="CGError" class="error"></span>
-      <input type="checkbox" id="conditionsGenerales">
+      <label for="email">Email:</label>
+      <span id="emailError" class="error"></span>
+      <input type="email" id="emailSignIn" class="inputSignIn" name="email">
       <br>
 
-    <input type="submit" id="signInButton" value="S'inscrire">
-  </form>
-  <script src="./script/user.js"></script>
+      <label for="password">Mot de passe:</label>
+      <span id="passwordError" class="error"></span>
+      <input type="password" id="passwordSignIn" class="inputSignIn" name="password">
+      <br>
+
+      <label for="confirmPassword">Confirmer le mot de passe: </label>
+      <span id="confirmPasswordError" class="error"></span>
+      <input type="password" id="passwordConfirmation" class="inputSignIn" name="confirmPassword">
+      <br>
+
+      <label for="CU">Conditions d'utilisation: </label>
+      <span id="CUError" class="error"></span>
+      <div id="divCU">
+        <button id="CUbutton">Voir les conditions d'utilisation</button>
+        <input type="checkbox" id="conditionsUtilisation">
+      </div>
+      <br>
+      <input type="submit" id="signInButton" class="inputSignIn" value="S'inscrire">
+    </form>
+    <script src="./script/user.js"></script>
   </div>
 
-  
- <!-- 
+
+  <!-- 
   <div id="popupSignIn">
     <h1>S'inscrire</h1>
     <form method="post" id="signInForm" action="localhost:8081/routes/routes.js/add">
@@ -146,8 +150,10 @@
     <h1>Règles</h1>
     <p class="rulesParagraph">Le but du jeu est simple ! Débarassez-vous de toutes vos cartes.</p> <br>
     <p class="rulesParagraph">Pour déposer une carte il faut que celle-ci soit de la même couleur ou de la même valeur
-      ou symbole que la dernière carte jouée. Si vous ne pouvez pas en déposer, vous devrez alors en piocher une.</p> <br>
-    <p class="rulesParagraph">Restez toujours attentif, si un joueur ne possède plus qu'une carte et est alors dans un état de VUNOCI, les
+      ou symbole que la dernière carte jouée. Si vous ne pouvez pas en déposer, vous devrez alors en piocher une.</p>
+    <br>
+    <p class="rulesParagraph">Restez toujours attentif, si un joueur ne possède plus qu'une carte et est alors dans un
+      état de VUNOCI, les
       autres joueurs auront 3 secondes pour faire un contre-VUNOCI et lui faire piocher 4 cartes</p> <br>
     <p class="rulesParagraph">Attention aux petit coquins ! En effet, certaines cartes possèdent des effets sur le
       déroulement de la partie :</p> <br>
@@ -169,27 +175,47 @@
     <p>Note: Il n'est pas possible de combiner une carte +4 avec une carte +2 et inversement.</p>
     <button id="closeRules">Compris</button>
   </div>
-  <div id="popupCG">
-  Conditions d'utilisation du Jeu en Ligne <br> <br>
-  Dernière mise à jour : 22-11-2023 <br>
-  Bienvenue sur Uno Vinci. Avant de jouer, veuillez prendre le temps de lire attentivement les conditions d'utilisation suivantes. En accédant au jeu et en créant un compte, vous acceptez pleinement et sans réserve ces conditions. <br> <br>
-  Création de Compte <br>
-  a. Lors de la création de votre compte, vous devez fournir des informations exactes, complètes et à jour, y compris un pseudo, une adresse e-mail et un mot de passe sécurisé. <br>
-  b. Vous êtes responsable de maintenir la confidentialité de votre mot de passe. En cas de perte ou de vol de votre mot de passe, vous devez nous en informer immédiatement. <br> <br>
-  Collecte et Utilisation des Données <br>
-  a. Nous collectons et stockons les informations que vous fournissez lors de la création de votre compte, y compris votre pseudo, votre adresse e-mail et vos statistiques de jeu. <br>
-  b. Vos données seront utilisées uniquement dans le cadre du jeu, notamment pour personnaliser votre expérience de jeu, suivre vos progrès et vous fournir des mises à jour pertinentes. <br>
-  c. Nous ne vendrons, ne louerons ni ne partagerons vos informations personnelles avec des tiers sans votre consentement explicite. <br> <br>
-  Conduite des Joueurs <br>
-  a. Vous acceptez de respecter les règles de conduite énoncées par Uno Vinci. Tout comportement inapproprié, triche, harcèlement ou utilisation abusive du jeu peut entraîner la suspension ou la suppression de votre compte. <br>
-  b. Vous vous engagez à ne pas utiliser de programmes tiers non autorisés, hacks ou toute autre méthode visant à altérer l'intégrité du jeu. <br> <br>
-  Propriété Intellectuelle <br>
-  a. Uno Vinci et tout le contenu associé sont protégés par les lois sur la propriété intellectuelle. Vous acceptez de ne pas copier, distribuer, modifier, publier ou créer des œuvres dérivées à partir du contenu du jeu sans autorisation écrite. <br> <br>
-  Responsabilité et Garanties <br>
-  a. Vous comprenez et acceptez que l'utilisation du jeu se fait à vos propres risques. Nous ne garantissons pas que le jeu sera exempt d'erreurs ou d'interruptions. <br>
-  b. Nous ne sommes pas responsables des dommages directs, indirects, spéciaux, accessoires ou consécutifs découlant de votre utilisation du jeu. <br> <br>
-  Modifications des Conditions d'Utilisation <br>
-  a. Nous nous réservons le droit de modifier ces conditions d'utilisation à tout moment. Les modifications seront effectives dès leur publication sur le site. Il est de votre responsabilité de consulter régulièrement les conditions d'utilisation pour rester informé des changements.
-</div>
+  <div id="popupCU">
+    Conditions d'utilisation du Jeu en Ligne <br> <br>
+    Dernière mise à jour : 22-11-2023 <br>
+    Bienvenue sur Uno Vinci. Avant de jouer, veuillez prendre le temps de lire attentivement les conditions
+    d'utilisation suivantes. En accédant au jeu et en créant un compte, vous acceptez pleinement et sans réserve ces
+    conditions. <br> <br>
+    Création de Compte <br>
+    a. Lors de la création de votre compte, vous devez fournir des informations exactes, complètes et à jour, y compris
+    un pseudo, une adresse e-mail et un mot de passe sécurisé. <br>
+    b. Vous êtes responsable de maintenir la confidentialité de votre mot de passe. En cas de perte ou de vol de votre
+    mot de passe, vous devez nous en informer immédiatement. <br> <br>
+    Collecte et Utilisation des Données <br>
+    a. Nous collectons et stockons les informations que vous fournissez lors de la création de votre compte, y compris
+    votre pseudo, votre adresse e-mail et vos statistiques de jeu. <br>
+    b. Vos données seront utilisées uniquement dans le cadre du jeu, notamment pour personnaliser votre expérience de
+    jeu, suivre vos progrès et vous fournir des mises à jour pertinentes. <br>
+    c. Nous ne vendrons, ne louerons ni ne partagerons vos informations personnelles avec des tiers sans votre
+    consentement explicite. <br> <br>
+    Conduite des Joueurs <br>
+    a. Vous acceptez de respecter les règles de conduite énoncées par Uno Vinci. Tout comportement inapproprié, triche,
+    harcèlement ou utilisation abusive du jeu peut entraîner la suspension ou la suppression de votre compte. <br>
+    b. Vous vous engagez à ne pas utiliser de programmes tiers non autorisés, hacks ou toute autre méthode visant à
+    altérer l'intégrité du jeu. <br> <br>
+    Propriété Intellectuelle <br>
+    a. Uno Vinci et tout le contenu associé sont protégés par les lois sur la propriété intellectuelle. Vous acceptez de
+    ne pas copier, distribuer, modifier, publier ou créer des œuvres dérivées à partir du contenu du jeu sans
+    autorisation écrite. <br> <br>
+    Responsabilité et Garanties <br>
+    a. Vous comprenez et acceptez que l'utilisation du jeu se fait à vos propres risques. Nous ne garantissons pas que
+    le jeu sera exempt d'erreurs ou d'interruptions. <br>
+    b. Nous ne sommes pas responsables des dommages directs, indirects, spéciaux, accessoires ou consécutifs découlant
+    de votre utilisation du jeu. <br> <br>
+    Modifications des Conditions d'Utilisation <br>
+    a. Nous nous réservons le droit de modifier ces conditions d'utilisation à tout moment. Les modifications seront
+    effectives dès leur publication sur le site. Il est de votre responsabilité de consulter régulièrement les
+    conditions d'utilisation pour rester informé des changements.
+    <div id="acceptRefuseCU">
+      <button id="acceptCU">Accepter</button>
+      <button id="refuseCU">Refuser</button>
+    </div>
+  </div>
 </body>
+
 </html>

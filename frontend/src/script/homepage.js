@@ -16,7 +16,10 @@ const playForm = document.getElementById("playForm");
 const music = document.getElementById("music");
 const volumeControlMusic = document.getElementById("volumeControlMusic");
 const volumeImage = document.getElementById("volume");
-const popupCG = document.getElementById("popupCG");
+const popupCU = document.getElementById("popupCU");
+const CUButton = document.getElementById("CUbutton");
+const acceptButton = document.getElementById("acceptCU");
+const refuseButton = document.getElementById("refuseCU");
 
 let isPopUpDisplayed = false;
 let isPopUpLoginDisplayed = false;
@@ -76,12 +79,17 @@ settingsButton.addEventListener('click', () => {
         popupLogin.style.display = 'none';
         popupSignIn.style.display = 'none';
         popupRules.style.display = 'none';
-        popupCG.style.display = 'none';
+        popupCU.style.display = 'none';
     }
     isPopUpDisplayed = !isPopUpDisplayed;
     isPopUpLoginDisplayed = false;
     isPopUpSignInDisplayed = false;
     isPopUpRulesDisplayed = false;
+    document.getElementById('CUError').innerText = '';
+    document.getElementById('confirmPasswordError').innerText = '';
+    document.getElementById('passwordError').innerText = '';
+    document.getElementById('emailError').innerText = '';
+    document.getElementById('nicknameError').innerText = '';
 });
 
 loginPath.addEventListener('click', () => {
@@ -131,7 +139,36 @@ RulesPath.addEventListener('click', () => {
 closeRules.addEventListener('click', () => {
     popupRules.style.display = 'none';
     popupSettings.style.display = 'none';
-})
+});
+
+CUButton.addEventListener('click', () => {
+    settingsButton.style.display = 'none';
+    popupCU.style.display = 'block';
+});
+
+acceptButton.addEventListener('click', () => {
+    settingsButton.style.display = 'block';
+    popupCU.style.display = 'none';
+    document.getElementById('conditionsUtilisation').checked = true;
+    document.getElementById('CUError').innerText = '';
+    document.getElementById('confirmPasswordError').innerText = '';
+    document.getElementById('passwordError').innerText = '';
+    document.getElementById('emailError').innerText = '';
+    document.getElementById('nicknameError').innerText = '';
+});
+
+refuseButton.addEventListener('click', () => {
+    settingsButton.style.display = 'block';
+    popupCU.style.display = 'none';
+    popupSignIn.style.display = 'none';
+    popupSettings.style.display = 'block';
+    document.getElementById('conditionsUtilisation').checked = false;
+    document.getElementById('CUError').innerText = '';
+    document.getElementById('confirmPasswordError').innerText = '';
+    document.getElementById('passwordError').innerText = '';
+    document.getElementById('emailError').innerText = '';
+    document.getElementById('nicknameError').innerText = '';
+});
 
 // Déconnecter le websocket en quittant la page
 window.addEventListener('unload', () => {

@@ -1,6 +1,6 @@
+
 document.getElementById('signInForm').addEventListener('submit', (event) => {
     let valid = true;
-  
     // Validation du pseudo
     const pseudo = document.getElementById('nicknameSignIn').value;
     if (pseudo.trim() === '') {
@@ -37,13 +37,13 @@ document.getElementById('signInForm').addEventListener('submit', (event) => {
       document.getElementById('confirmPasswordError').innerText = '';
     }
 
-    // Validation des conditions générales
-    const cg = document.getElementById('conditionsGenerales');
+    // Validation des conditions d'utilisation
+    const cg = document.getElementById('conditionsUtilisation');
     if (cg.checked === false) {
-      document.getElementById('CGError').innerText = 'Veuillez confirmer les condition générales';
+      document.getElementById('CUError').innerText = 'Veuillez confirmer les conditions d\'utilisation';
       valid = false
     } else {
-      document.getElementById('CGError').innerText = '';
+      document.getElementById('CUError').innerText = '';
       valid = false
     }
   
