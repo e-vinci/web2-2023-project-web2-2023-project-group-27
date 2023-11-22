@@ -12,20 +12,25 @@ const musics = [
 let isMusicPlaying = false;
 let lastPlayedMusic = null;
 
+const music = document.getElementById('musicSource');
+const source = document.getElementById('music');
+
+
+source.addEventListener("ended", () => {
+    source.currentTime = 0;
+    isMusicPlaying = false;
+   playRandomMusic();
+}); 
+
+
+
 function playMusic(audioSource) {
     if(isMusicPlaying) return;
-    const music = document.getElementById('musicSource');
     music.src = audioSource;
 
-    const source = document.getElementById('music')
     source.load();
     source.play();
 
-    source.addEventListener("ended", () => {
-        source.currentTime = 0;
-        isMusicPlaying = false;
-       playRandomMusic();
-    }); 
     isMusicPlaying = true;
     lastPlayedMusic = audioSource;
 }
@@ -50,7 +55,7 @@ function playSoundEffect(audioSource) {
     let randomMusic;
     do{
        randomMusic = Math.floor(Math.random() * musics.length); 
-    } while(randomMusic === lastPlayedMusic);
+    } while(randomMusic.source === lastPlayedMusic);
     playMusic(musics[randomMusic].source);
   }
 
