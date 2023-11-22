@@ -95,11 +95,7 @@ settingsButton.addEventListener('click', () => {
     isPopUpLoginDisplayed = false;
     isPopUpSignInDisplayed = false;
     isPopUpRulesDisplayed = false;
-    document.getElementById('CUError').innerText = '';
-    document.getElementById('confirmPasswordError').innerText = '';
-    document.getElementById('passwordError').innerText = '';
-    document.getElementById('emailError').innerText = '';
-    document.getElementById('nicknameError').innerText = '';
+    resetErrors();
 });
 
 loginPath.addEventListener('click', () => {
@@ -159,12 +155,7 @@ CUButton.addEventListener('click', () => {
 acceptButton.addEventListener('click', () => {
     settingsButton.style.display = 'block';
     popupCU.style.display = 'none';
-    document.getElementById('conditionsUtilisation').checked = true;
-    document.getElementById('CUError').innerText = '';
-    document.getElementById('confirmPasswordError').innerText = '';
-    document.getElementById('passwordError').innerText = '';
-    document.getElementById('emailError').innerText = '';
-    document.getElementById('nicknameError').innerText = '';
+    resetErrors();
 });
 
 refuseButton.addEventListener('click', () => {
@@ -172,12 +163,7 @@ refuseButton.addEventListener('click', () => {
     popupCU.style.display = 'none';
     popupSignIn.style.display = 'none';
     popupSettings.style.display = 'block';
-    document.getElementById('conditionsUtilisation').checked = false;
-    document.getElementById('CUError').innerText = '';
-    document.getElementById('confirmPasswordError').innerText = '';
-    document.getElementById('passwordError').innerText = '';
-    document.getElementById('emailError').innerText = '';
-    document.getElementById('nicknameError').innerText = '';
+    resetErrors();
 });
 
 // Déconnecter le websocket en quittant la page
@@ -215,3 +201,13 @@ playForm.addEventListener('submit', (e) => {
         connectWebSocket(nickname, null, null);
     }, 2900);
 });
+
+function resetErrors () {
+    document.getElementById('signInCUError').innerText = '';
+    document.getElementById('signInConfirmPasswordError').innerText = '';
+    document.getElementById('signInPasswordError').innerText = '';
+    document.getElementById('signInEmailError').innerText = '';
+    document.getElementById('signInNicknameError').innerText = '';
+    document.getElementById('loginPasswordError').innerText = '';
+    document.getElementById('loginEmailError').innerText = '';
+}

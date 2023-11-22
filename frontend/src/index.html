@@ -87,58 +87,45 @@
     <h1>Se connecter</h1>
     <form id="loginForm" method="post">
       <label for="email">Email:</label>
-      <span id="emailError" class="error"></span>
+      <span id="loginEmailError" class="error"></span>
       <input type="email" id="emailLogin" class="inputForm" name="email">
       <br>
 
       <label for="password">Mot de passe:</label>
-      <span id="passwordError" class="error"></span>
+      <span id="loginPasswordError" class="error"></span>
       <input type="password" id="passwordLogin" class="inputForm" name="password">
       <br>
 
       <input type="submit" id="loginButton" class="inputForm" value="Se connecter">
     </form>
   </div>
-<!--
-  <div id="popupLogin">
-    <h1>Se connecter</h1>
-    <form method="post" id="loginForm">
-      <input type="text" id="emailLogin" class="inputForm" placeholder="Email">
-      <br>
-      <input type="password" id="passwordLogin" class="inputForm" placeholder="Mot de passe">
-      <br>
-      <input type="submit" id="loginButton" class="inputForm" value="Se connecter">
-    </form>
-  </div>
--->
-  
 
   <div id="popupSignIn">
     <h1>S'inscrire</h1>
     <form id="signInForm" method="post">
 
       <label for="nickname">Pseudo:</label>
-      <span id="nicknameError" class="error"></span>
+      <span id="signInNicknameError" class="error"></span>
       <input type="text" id="nicknameSignIn" class="inputForm" name="pseudo">
       <br>
 
       <label for="email">Email:</label>
-      <span id="emailError" class="error"></span>
+      <span id="signInEmailError" class="error"></span>
       <input type="email" id="emailSignIn" class="inputForm" name="email">
       <br>
 
       <label for="password">Mot de passe:</label>
-      <span id="passwordError" class="error"></span>
+      <span id="signInPasswordError" class="error"></span>
       <input type="password" id="passwordSignIn" class="inputForm" name="password">
       <br>
 
       <label for="confirmPassword">Confirmer le mot de passe: </label>
-      <span id="confirmPasswordError" class="error"></span>
+      <span id="signInConfirmPasswordError" class="error"></span>
       <input type="password" id="passwordConfirmation" class="inputForm" name="confirmPassword">
       <br>
 
       <label for="CU">Conditions d'utilisation: </label>
-      <span id="CUError" class="error"></span>
+      <span id="signInCUError" class="error"></span>
       <div id="divCU">
         <button id="CUbutton">Voir les conditions d'utilisation</button>
         <input type="checkbox" id="conditionsUtilisation">
@@ -151,6 +138,17 @@
 
 
   <!-- 
+<div id="popupLogin">
+    <h1>Se connecter</h1>
+    <form method="post" id="loginForm">
+      <input type="text" id="emailLogin" class="inputForm" placeholder="Email">
+      <br>
+      <input type="password" id="passwordLogin" class="inputForm" placeholder="Mot de passe">
+      <br>
+      <input type="submit" id="loginButton" class="inputForm" value="Se connecter">
+    </form>
+  </div>
+
   <div id="popupSignIn">
     <h1>S'inscrire</h1>
     <form method="post" id="signInForm" action="localhost:8081/routes/routes.js/add">
