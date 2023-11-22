@@ -101,39 +101,42 @@
   </div>
 
   <div id="popupSignIn">
-    <h1>S'inscrire</h1>
-    <form id="signInForm" method="post">
+    <div id="popupSignInContent">
+      <h1>S'inscrire</h1>
+      <form id="signInForm" method="post">
 
-      <label for="nickname">Pseudo:</label>
-      <span id="signInNicknameError" class="error"></span>
-      <input type="text" id="nicknameSignIn" class="inputForm" name="pseudo">
-      <br>
+        <label for="nickname">Pseudo:</label>
+        <span id="signInNicknameError" class="error"></span>
+        <input type="text" id="nicknameSignIn" class="inputForm" name="pseudo">
+        <br>
 
-      <label for="email">Email:</label>
-      <span id="signInEmailError" class="error"></span>
-      <input type="email" id="emailSignIn" class="inputForm" name="email">
-      <br>
+        <label for="email">Email:</label>
+        <span id="signInEmailError" class="error"></span>
+        <input type="email" id="emailSignIn" class="inputForm" name="email">
+        <br>
 
-      <label for="password">Mot de passe:</label>
-      <span id="signInPasswordError" class="error"></span>
-      <input type="password" id="passwordSignIn" class="inputForm" name="password">
-      <br>
+        <label for="password">Mot de passe:</label>
+        <span id="signInPasswordError" class="error"></span>
+        <input type="password" id="passwordSignIn" class="inputForm" name="password">
+        <br>
 
-      <label for="confirmPassword">Confirmer le mot de passe: </label>
-      <span id="signInConfirmPasswordError" class="error"></span>
-      <input type="password" id="passwordConfirmation" class="inputForm" name="confirmPassword">
-      <br>
+        <label for="confirmPassword">Confirmer le mot de passe: </label>
+        <span id="signInConfirmPasswordError" class="error"></span>
+        <input type="password" id="passwordConfirmation" class="inputForm" name="confirmPassword">
+        <br>
 
-      <label for="CU">Conditions d'utilisation: </label>
-      <span id="signInCUError" class="error"></span>
-      <div id="divCU">
-        <button id="CUbutton">Voir les conditions d'utilisation</button>
-        <input type="checkbox" id="conditionsUtilisation">
-      </div>
-      <br>
-      <input type="submit" id="signInButton" class="inputForm" value="S'inscrire">
-    </form>
-    <script src="./script/user.js"></script>
+        <label for="CU">Conditions d'utilisation: </label>
+        <span id="signInCUError" class="error"></span>
+        <div id="divCU">
+          <button id="CUbutton">Voir les conditions d'utilisation</button>
+          <input type="checkbox" id="conditionsUtilisation">
+        </div>
+        <br>
+        <input type="submit" id="signInButton" class="inputForm" value="S'inscrire">
+      </form>
+      <script src="./script/user.js"></script>
+    </div>
+
   </div>
 
 

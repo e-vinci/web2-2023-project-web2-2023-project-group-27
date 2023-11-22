@@ -95,7 +95,13 @@ settingsButton.addEventListener('click', () => {
     isPopUpLoginDisplayed = false;
     isPopUpSignInDisplayed = false;
     isPopUpRulesDisplayed = false;
-    resetErrors();
+    document.getElementById('signInCUError').innerText = '';
+    document.getElementById('signInConfirmPasswordError').innerText = '';
+    document.getElementById('signInPasswordError').innerText = '';
+    document.getElementById('signInEmailError').innerText = '';
+    document.getElementById('signInNicknameError').innerText = '';
+    document.getElementById('loginPasswordError').innerText = '';
+    document.getElementById('loginEmailError').innerText = '';
 });
 
 loginPath.addEventListener('click', () => {
@@ -155,6 +161,7 @@ CUButton.addEventListener('click', () => {
 acceptButton.addEventListener('click', () => {
     settingsButton.style.display = 'block';
     popupCU.style.display = 'none';
+    document.getElementById('conditionsUtilisation').checked = true;
     resetErrors();
 });
 
