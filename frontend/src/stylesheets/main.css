@@ -171,6 +171,15 @@ input {
     width: 250px;
 }
 
+.space {
+    margin-top: 15%;
+    height: 40px;
+}
+
+.volume-container {
+    margin-top: 3%;
+}
+
 #volumeMusic,
 #volumeSFX {
     width: 10%;
@@ -203,10 +212,6 @@ input {
     font-size: 50px;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     transition: 1s;
-}
-
-#playButton {
-    margin-top: 5%;
 }
 
 #acceptRefuseCU {
@@ -272,6 +277,7 @@ input {
     width: 30px;
     height: 30px;
     cursor: pointer;
+    margin-bottom: 0;
 }
 
 #volumeContainer {
@@ -393,7 +399,7 @@ input[type="range"] {
     background-color: rgba(0, 0, 0);
     margin-left: 20%;
     margin-right: auto;
-    color: rgb(230, 87, 87);
+    color:rgb(230, 87, 87);
     text-align: center;
     border: 30px;
     border-color: rgb(230, 87, 87);
@@ -460,7 +466,7 @@ input[type="range"] {
     width: 100px;
     margin-right: 10px;
     /* Ajustez cette valeur selon vos besoins pour l'espace entre l'image et le texte */
-    border: 2px solid white;
+    border: 2px solid rgb(230, 87, 87);
     border-radius: 5px;
 }
 
@@ -651,6 +657,7 @@ h1 {
 
 .error {
     position: inherit;
+    color: rgb(230, 87, 87);
 }
 
 .error-image {
@@ -788,7 +795,7 @@ h1 {
     float: left;
     width: 80px;
     margin: 10px;
-    border: 2px solid white;
+    border: 2px solid rgb(230, 87, 87);
     border-radius: 5px;
     clear: both;
 }

@@ -86,12 +86,12 @@
   <div id="popupLogin">
     <h1>Se connecter</h1>
     <form id="loginForm" method="post">
-      <label for="email">Email:</label>
+      <label for="email">Email *</label>
       <span id="loginEmailError" class="error"></span>
-      <input type="email" id="emailLogin" class="inputForm" name="email">
+      <input type="email" id="emailLogin" class="inputForm" name="email" placeholder="email">
       <br>
 
-      <label for="password">Mot de passe:</label>
+      <label for="password">Mot de passe *</label>
       <span id="loginPasswordError" class="error"></span>
       <input type="password" id="passwordLogin" class="inputForm" name="password">
       <br>
@@ -105,27 +105,27 @@
       <h1>S'inscrire</h1>
       <form id="signInForm" method="post">
 
-        <label for="nickname">Pseudo:</label>
+        <label for="nickname">Pseudo *</label>
         <span id="signInNicknameError" class="error"></span>
         <input type="text" id="nicknameSignIn" class="inputForm" name="pseudo">
         <br>
 
-        <label for="email">Email:</label>
+        <label for="email">Email *</label>
         <span id="signInEmailError" class="error"></span>
         <input type="email" id="emailSignIn" class="inputForm" name="email">
         <br>
 
-        <label for="password">Mot de passe:</label>
+        <label for="password">Mot de passe *</label>
         <span id="signInPasswordError" class="error"></span>
         <input type="password" id="passwordSignIn" class="inputForm" name="password">
         <br>
 
-        <label for="confirmPassword">Confirmer le mot de passe: </label>
+        <label for="confirmPassword">Confirmer le mot de passe *</label>
         <span id="signInConfirmPasswordError" class="error"></span>
         <input type="password" id="passwordConfirmation" class="inputForm" name="confirmPassword">
         <br>
 
-        <label for="CU">Conditions d'utilisation: </label>
+        <label for="CU">Conditions d'utilisation *</label>
         <span id="signInCUError" class="error"></span>
         <div id="divCU">
           <button id="CUbutton">Voir les conditions d'utilisation</button>
@@ -135,6 +135,7 @@
         <input type="submit" id="signInButton" class="inputForm" value="S'inscrire">
       </form>
       <script src="./script/user.js"></script>
+      <div class="space"> </div>
     </div>
 
   </div>
