@@ -171,6 +171,7 @@ refuseButton.addEventListener('click', () => {
     popupCU.style.display = 'none';
     popupSignIn.style.display = 'none';
     popupSettings.style.display = 'block';
+    document.getElementById('conditionsUtilisation').checked = false;
     resetErrors();
 });
 
