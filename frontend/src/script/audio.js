@@ -7,6 +7,7 @@ const musics = [
     {source : require('../sound/soundtrack/elevator-music-jazz.mp3')}, 
     {source : require('../sound/soundtrack/lounge-of-groove.mp3')}, 
     {source : require('../sound/soundtrack/better.mp3')}, 
+    {source : require('../sound/soundtrack/jazz-cafe.mp3')}, 
 ]
 
 let isMusicPlaying = false;

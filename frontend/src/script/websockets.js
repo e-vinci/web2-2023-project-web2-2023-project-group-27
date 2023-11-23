@@ -2,7 +2,7 @@
 /* eslint-disable no-param-reassign */
 
 const socketio = require('socket.io-client');
-const { generatingGame, displayPlayerWhoPlay, addCard, setLastCard } = require('./game');
+const { generatingGame, displayPlayerWhoPlay, addCard, setLastCard, reverseDirection } = require('./game');
 
 const erreur = require('./erreur');
 const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAfficherChargement, updateLoadingTitle, cacherDivQuiCacheLeChargement, fairePartirLeChargement } = require('./loadingGame');
@@ -103,6 +103,11 @@ const connectWebSocket = (nickname) => {
 
         io.on('invalidCard', () => {
            // mettre ici un son pour dire que la carte est invalide 
+        });
+
+        io.on('newDirection', (direction) => {
+            console.log(direction);
+            reverseDirection(direction);
         });
 })
 return io;

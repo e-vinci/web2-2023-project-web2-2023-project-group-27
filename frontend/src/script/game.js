@@ -104,7 +104,7 @@ function generatingGame(lobby) {
   }
 
   // flèche de direction
-  addDirectionArrow();
+  addDirectionArrow(lobby.direction);
 
   // logo vinci arrière plan
   const vinciLogo = document.createElement('div');
@@ -413,21 +413,21 @@ function getOpponent(id) {
   return null;
 }
 
-function addDirectionArrow() {
+function addDirectionArrow(direction) {
   directionArrow = document.createElement('div');
     directionArrow.className = 'direction-arrow';
-    directionArrow.classList.add('clockwise');
+    reverseDirection(direction);
   document.body.appendChild(directionArrow);
 }
 
-function reverseDirection() {
-  if (directionArrow.classList.contains('clockwise')) {
-    directionArrow.classList.remove('clockwise');
-    directionArrow.classList.add('anticlockwise');
-  }
-  else {
+function reverseDirection(newDirection) {
+  if (newDirection === 'clockwise') {
     directionArrow.classList.remove('anticlockwise');
     directionArrow.classList.add('clockwise');
+  }
+  else {
+    directionArrow.classList.remove('clockwise');
+    directionArrow.classList.add('anticlockwise');
   }
 }
 
