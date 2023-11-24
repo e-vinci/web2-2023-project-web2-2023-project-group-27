@@ -367,3 +367,106 @@
     box-sizing: border-box; /* Inclure les bordures et le padding dans la largeur et la hauteur */
     word-wrap: break-word;
 }
+
+
+.colorChoiceBackground{
+    position: absolute;
+    display: inline-block;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 100%;
+    height: 100%; 
+    background-color: black;
+    opacity: 0.5;
+}
+
+.colorChoice{
+    position: absolute;
+    display: inline-block;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 400px;
+    height: 400px; 
+}
+
+.colorChoiceyellow{
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    float:right;
+    border-radius: 500px 0px 0px;
+    background: radial-gradient(circle at bottom right, rgba(0,0,0,0) 40%, black 120%), rgb(252, 255, 41);
+    width: 200px;
+    height: 200px;
+    transition: 0.4s;
+    border: 5px solid black;
+}
+
+.colorChoicegreen{
+    position:absolute;
+    right: 0px;
+    top: 0px;
+    float:right;
+    border-radius: 0px 500px 0px 0px ;
+    background: radial-gradient(circle at bottom left, rgba(0,0,0,0) 40%, black 120%), rgb(77, 224, 38);
+    width: 200px;
+    height: 200px;
+    transition: 0.4s;
+    border: 5px solid black;
+}
+
+.colorChoicered{
+    position:absolute;
+    right: 0px;
+    bottom: 0px;
+    float:right;
+    border-radius: 0px  0px 500px 0px  ;
+    background: radial-gradient(circle at top left, rgba(0,0,0,0) 40%, black 120%), rgb(233, 36, 36);
+    width: 200px;
+    height: 200px;
+    transition: 0.4s;
+    border: 5px solid black;
+}
+
+.colorChoiceblue{
+    position:absolute;
+    left: 0px;
+    bottom: 0px;
+    float:right;
+    border-radius: 0px 0px 0px 500px ;
+    background: radial-gradient(circle at top right, rgba(0,0,0,0) 40%, black 120%), rgb(0, 102, 255);
+    width: 200px;
+    height: 200px;
+    transition: 0.4s;
+    border: 5px solid black;
+}
+
+.colorChoicered:hover {
+    transform: scaleX(1.1) scaleY(1.1);
+    transform-origin: top left;
+    cursor: pointer;
+    filter: saturate(120%);
+}
+
+.colorChoiceyellow:hover {
+    transform: scaleX(1.1) scaleY(1.1);
+    transform-origin: bottom right;
+    cursor: pointer;
+    filter: saturate(120%);
+}
+
+.colorChoicegreen:hover {
+    transform: scaleX(1.1) scaleY(1.1);
+    transform-origin: bottom left;
+    cursor: pointer;
+    filter: saturate(120%);
+}
+
+.colorChoiceblue:hover {
+    transform: scaleX(1.1) scaleY(1.1);
+    transform-origin: top right;
+    cursor: pointer;
+    filter: saturate(120%);
+}

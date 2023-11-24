@@ -130,6 +130,9 @@ function isCardPlayable(card, currentCard) {
 }
 // Fonction pour gérer les effets spéciaux des cartes
 function handleSpecialCardEffects(card, lobby) {
+  if (card.color === 'black') {
+    io.sendSocketToId(lobby.players[lobby.currentPlayer].socketId, 'colorChoice');
+  }
   if (card.value === '+2') {
     const currentPlayerIndex = lobby.players.indexOf(lobby.currentPlayer);
     let nextPlayerIndex;

@@ -49,8 +49,18 @@ io.on('connection', (socket) => {
     const lobby = lobbies.getLobbyByPlayer(players.getPlayerBySocket(socket.id));
     playCard(lobby, player, card);
   });
-});
 
+  socket.on('colorChoice', (color) => {
+    const player = players.getPlayerBySocket(socket.id);
+    const lobby = lobbies.getLobbyByPlayer(player);
+
+    lobby.currentCard = { value: 'multicolor', color };
+
+    for (let i = 0; i < lobby.players.length; i += 1) {
+      io.to(lobby.players[i].socketId).emit('cardPlayed', { toPlayer: player.playerId, card: lobby.currentCard });
+    }
+  });
+});
 // Ouverture du serveur sur le port 25568 (celui du serveur)
 // eslint-disable-next-line no-console
 http.listen(25568, () => console.log(`WebSockets server listening on ${http.address().address}:${http.address().port}`));
