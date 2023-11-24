@@ -15,6 +15,8 @@ let directionArrow;
 let divColorChoice;
 let colorBackground;
 
+let cardChoiceType = null;
+
 let playerDeck = [];
 
 const divMainPlayer = {
@@ -320,7 +322,8 @@ function generateCardChoice() {
     color.className = `colorChoice${colors[i]}`;
     color.addEventListener('click', () => {
       const {sendSocketToServer} = require('./websockets');
-      sendSocketToServer('colorChoice', colors[i]);
+      sendSocketToServer('colorChoice', { color: colors[i], type: cardChoiceType });
+
       divColorChoice.style.display = 'none';
       colorBackground.style.display = 'none';
     });
@@ -336,7 +339,8 @@ function generateCardChoice() {
   document.body.appendChild(divColorChoice);
 }
 
-function displayColorChoice() {
+function displayColorChoice(cardType) {
+  cardChoiceType = cardType;
   divColorChoice.style.display = 'block';
   colorBackground.style.display = 'block';
 }

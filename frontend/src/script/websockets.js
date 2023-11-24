@@ -110,8 +110,8 @@ const connectWebSocket = (nickname) => {
             reverseDirection(direction);
         });
 
-        io.on('colorChoice', () => {
-            displayColorChoice();
+        io.on('colorChoice', (infos) => {
+            displayColorChoice(infos.cardType);
         })
 })
 return io;

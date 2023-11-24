@@ -50,14 +50,14 @@ io.on('connection', (socket) => {
     playCard(lobby, player, card);
   });
 
-  socket.on('colorChoice', (color) => {
+  socket.on('colorChoice', (infos) => {
     const player = players.getPlayerBySocket(socket.id);
     const lobby = lobbies.getLobbyByPlayer(player);
 
-    lobby.currentCard = { value: 'multicolor', color };
+    lobby.currentCard = { value: infos.type, color: infos.color };
 
     for (let i = 0; i < lobby.players.length; i += 1) {
-      io.to(lobby.players[i].socketId).emit('cardPlayed', { toPlayer: player.playerId, card: lobby.currentCard });
+      io.to(lobby.players[i].socketId).emit('cardPlayed', { toPlayer: null, card: lobby.currentCard });
     }
   });
 });
