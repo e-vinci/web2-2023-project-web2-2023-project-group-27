@@ -71,6 +71,7 @@ volumeImageMusic.addEventListener('click', () => {
         music.volume = parseFloat(volumeControlMusic.value);
     }else {
         music.volume = 0;
+        volumeImageMusic.src = (music.volume === 0) ? "../src/img/options/volume_mute.png" : "../src/img/options/volume.png";
     }
 });
 
