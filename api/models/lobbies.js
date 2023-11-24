@@ -112,7 +112,7 @@ function addPlayerToLobby(player) {
     }
 
     for (let i = 0; i < lobby.players.length; i += 1) {
-      if (lobby.players[i].socketId !== player.socketId) io.sendSocketToId(lobby.players[i].socketId, 'chatMessage', { message: `${player.username} a rejoint la partie` });
+      if (lobby.players[i].socketId !== player.socketId) io.sendSocketToId(lobby.players[i].socketId, 'chatMessage', { message: `${player.username} a rejoint la partie`, isInformational: true });
     }
   }
   return lobby;
@@ -140,7 +140,7 @@ function removePlayer(socketId) {
   }
 
   for (let i = 0; i < lobby.players.length; i += 1) {
-    io.sendSocketToId(lobby.players[i].socketId, 'chatMessage', { message: `${playerUsername} a quitté la partie` });
+    io.sendSocketToId(lobby.players[i].socketId, 'chatMessage', { message: `${playerUsername} a quitté la partie`, isInformational: true });
   }
 
   if (lobby.humanPlayersCount === 0) deleteLobby(lobby);

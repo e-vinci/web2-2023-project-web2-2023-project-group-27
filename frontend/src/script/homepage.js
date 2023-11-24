@@ -205,7 +205,6 @@ playForm.addEventListener('submit', (e) => {
     // Div chargement
     afficherDivChargement();
 
-
     setTimeout(() => {
         let nickname = nicknameForm.value;
         if (nickname === '' || nickname === undefined) nickname = nicknameForm.placeholder;

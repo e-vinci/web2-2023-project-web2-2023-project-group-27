@@ -40,7 +40,7 @@ io.on('connection', (socket) => {
     const messageFormat = `${player.username} ➪ ${message}`;
     for (let i = 0; i < lobby.players.length; i += 1) {
       if (lobby.players[i].socketId === null || lobby.players[i].socketId === undefined) continue;
-      io.to(lobby.players[i].socketId).emit('chatMessage', { message: messageFormat });
+      io.to(lobby.players[i].socketId).emit('chatMessage', { message: messageFormat, isInformational: false });
     }
   });
 
