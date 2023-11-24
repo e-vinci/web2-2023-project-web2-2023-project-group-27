@@ -16,7 +16,6 @@ let lastPlayedMusic = null;
 const music = document.getElementById('musicSource');
 const source = document.getElementById('music');
 
-
 source.addEventListener("ended", () => {
     source.currentTime = 0;
     isMusicPlaying = false;
