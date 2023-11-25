@@ -101,6 +101,7 @@ function drawCard(lobby, joueur) {
 // Fonction pour jouer une carte
 function playCard(lobby, joueur, card) {
   if (lobby.players[lobby.currentPlayer] !== joueur) return;
+  if (lobby.isAwaitingForColorChoice === true) return;
 
   const cardIndex = joueur.deck[card];
   if (isCardPlayable(card, lobby.currentCard)) {
@@ -131,6 +132,7 @@ function isCardPlayable(card, currentCard) {
 // Fonction pour gérer les effets spéciaux des cartes
 function handleSpecialCardEffects(card, lobby) {
   if (card.color === 'black') {
+    lobby.isAwaitingForColorChoice = true;
     io.sendSocketToId(lobby.players[lobby.currentPlayer].socketId, 'colorChoice', { cardType: card.value });
   }
   if (card.value === '+2') {

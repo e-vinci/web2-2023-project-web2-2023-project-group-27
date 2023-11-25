@@ -41,6 +41,7 @@ function addLobby() {
     maxPlayers: MAX_PLAYERS_PER_LOBBY,
     humanPlayersCount: 0,
     hasStarted: false,
+    isAwaitingForColorChoice: false,
   };
   lobbies.push(lobby);
 
@@ -116,6 +117,20 @@ function addPlayerToLobby(player) {
     }
   }
   return lobby;
+}
+
+function changeColor(infos, socketId) {
+  const player = players.getPlayerBySocket(socketId);
+  const lobby = getLobbyByPlayer(player);
+
+  if (!lobby.isAwaitingForColorChoice) return;
+
+  lobby.isAwaitingForColorChoice = false;
+  lobby.currentCard = { value: infos.type, color: infos.color };
+
+  for (let i = 0; i < lobby.players.length; i += 1) {
+    io.sendSocketToId(lobby.players[i].socketId, 'cardPlayed', { toPlayer: null, card: lobby.currentCard });
+  }
 }
 
 function removePlayer(socketId) {
@@ -248,4 +263,5 @@ module.exports = {
   getLobbyInformation,
   getLobbyByPlayer,
   reverse,
+  changeColor,
 };

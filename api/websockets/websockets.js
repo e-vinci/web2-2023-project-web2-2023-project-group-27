@@ -51,14 +51,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('colorChoice', (infos) => {
-    const player = players.getPlayerBySocket(socket.id);
-    const lobby = lobbies.getLobbyByPlayer(player);
-
-    lobby.currentCard = { value: infos.type, color: infos.color };
-
-    for (let i = 0; i < lobby.players.length; i += 1) {
-      io.to(lobby.players[i].socketId).emit('cardPlayed', { toPlayer: null, card: lobby.currentCard });
-    }
+    lobbies.changeColor(infos, socket.id);
   });
 });
 // Ouverture du serveur sur le port 25568 (celui du serveur)
