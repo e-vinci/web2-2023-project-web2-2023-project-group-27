@@ -131,6 +131,8 @@ function changeColor(infos, socketId) {
   for (let i = 0; i < lobby.players.length; i += 1) {
     io.sendSocketToId(lobby.players[i].socketId, 'cardPlayed', { toPlayer: null, card: lobby.currentCard });
   }
+  game.nextPlayer(lobby);
+  game.socketWhoPlay(lobby);
 }
 
 function removePlayer(socketId) {

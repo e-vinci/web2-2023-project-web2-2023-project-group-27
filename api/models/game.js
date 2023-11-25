@@ -115,8 +115,12 @@ function playCard(lobby, joueur, card) {
     }
 
     handleSpecialCardEffects(card, lobby);
-    nextPlayer(lobby);
-    socketWhoPlay(lobby);
+    if (card.color !== 'black') {
+      nextPlayer(lobby);
+    }
+    setTimeout(() => {
+      socketWhoPlay(lobby);
+    }, 1000);
   } else {
     io.sendSocketToId(joueur.socketId, 'invalidCard');
   }
@@ -194,4 +198,5 @@ module.exports = {
   drawCard,
   playCard,
   nextPlayer,
+  socketWhoPlay,
 };
