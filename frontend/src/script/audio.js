@@ -15,6 +15,10 @@ let lastPlayedMusic = null;
 
 const music = document.getElementById('musicSource');
 const source = document.getElementById('music');
+const volumeControlSFX = document.getElementById('volumeControlSFX');
+const volumeImageSFX = document.getElementById("volumeSFX");
+
+
 
 source.addEventListener("ended", () => {
     source.currentTime = 0;
@@ -35,9 +39,22 @@ function playMusic(audioSource) {
     lastPlayedMusic = audioSource;
 }
 
+volumeImageSFX.addEventListener('click', () => {
+  const defaultValue = 0.5
+  
+    if(volumeControlSFX.value === '0') {
+      volumeControlSFX.value = defaultValue.toString();
+    }else {
+      volumeControlSFX.value = 0;
+    }
+    console.log(typeof(volumeControlSFX.value));
+    console.log(typeof(defaultValue));
+});
+
+
 function playSoundEffect(audioSource) {
     const soundEffect = new Audio(audioSource);
-    soundEffect.volume = document.getElementById('volumeControlSFX').value;
+    soundEffect.volume = volumeControlSFX.value;
     document.body.appendChild(soundEffect);
     soundEffect.play();
   
@@ -66,6 +83,7 @@ function playSoundEffect(audioSource) {
   function playCardPickSound() {
     playSoundEffect(cardPickSFX);
   }
+
 
   module.exports = {
     playCardHoverSound,

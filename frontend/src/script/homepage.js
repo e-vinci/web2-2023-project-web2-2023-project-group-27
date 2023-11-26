@@ -17,9 +17,7 @@ const closeRules = document.getElementById("closeRules");
 const playForm = document.getElementById("playForm");
 const music = document.getElementById("music");
 const volumeControlMusic = document.getElementById("volumeControlMusic");
-const volumeControlSFX = document.getElementById("volumeControlSFX");
 const volumeImageMusic = document.getElementById("volumeMusic");
-const volumeImageSFX = document.getElementById("volumeSFX");
 const popupCU = document.getElementById("popupCU");
 const CUButton = document.getElementById("CUbutton");
 const acceptButton = document.getElementById("acceptCU");
@@ -66,22 +64,20 @@ volumeControlMusic.addEventListener('input', () => {
     setMusicVolume(parseFloat(volumeControlMusic.value));
 });
 
+const volumeImageMuteSrc = "/img/volume_mute.png";
+const volumeImageSrc = "/img/volume.png";
+
 volumeImageMusic.addEventListener('click', () => {
     if(music.volume === 0) {
         music.volume = parseFloat(volumeControlMusic.value);
+        volumeImageMusic.src = volumeImageSrc;
     }else {
         music.volume = 0;
-        volumeImageMusic.src = (music.volume === 0) ? "../src/img/options/volume_mute.png" : "../src/img/options/volume.png";
+        volumeImageMusic.src = volumeImageMuteSrc;
     }
 });
 
-volumeImageSFX.addEventListener('click', () => {
-    if(music.volume === 0) {
-        music.volume = parseFloat(volumeControlSFX.value);
-    }else {
-        music.volume = 0;
-    }
-});
+
 
 settingsButton.addEventListener('click', () => {
     if (isPopUpDisplayed) {
