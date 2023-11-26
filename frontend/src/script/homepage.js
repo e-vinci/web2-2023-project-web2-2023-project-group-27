@@ -191,6 +191,7 @@ playForm.addEventListener('submit', (e) => {
     document.querySelector('.homepage').classList.add('slide-up');
 
     document.querySelector('.background').classList.add('slide-up');
+    document.querySelector('.backgroundCards').classList.add('slide-up');
 
     popupSettings.style.display = 'none';
     popupLogin.style.display = 'none';
@@ -199,7 +200,6 @@ playForm.addEventListener('submit', (e) => {
 
     // Div chargement
     afficherDivChargement();
-
 
     setTimeout(() => {
         let nickname = nicknameForm.value;

@@ -1,3 +1,4 @@
+/* eslint-disable no-loop-func */
 /* eslint-disable global-require */
 /* eslint-disable no-multi-assign */
 /* eslint-disable no-param-reassign */
@@ -11,6 +12,10 @@ let cardCenterDiv;
 let currentCard;
 let cardStack;
 let directionArrow;
+let divColorChoice;
+let colorBackground;
+
+let cardChoiceType = null;
 
 let playerDeck = [];
 
@@ -110,7 +115,11 @@ function generatingGame(lobby) {
   const vinciLogo = document.createElement('div');
   vinciLogo.className = 'vinciLogo';
   document.body.appendChild(vinciLogo);
+  setLoadingBarPercentage(80);
+
+  generateCardChoice();
   setLoadingBarPercentage(90);
+
   setTimeout(() => {
   afficherInformation("Chargement d'autres joueurs");
   const {sendSocketToServer} = require('./websockets');
@@ -300,7 +309,41 @@ function removeCardToMainPlayer(index) {
   calculateWidthCards(divMainPlayer.divCardIconCards.length, divMainPlayer.mainDivCards, true);
 }
 
+function generateCardChoice() {
+  divColorChoice = document.createElement('div');
+  divColorChoice.className = 'colorChoice';
 
+  colorBackground = document.createElement('div');
+  colorBackground.className = `colorChoiceBackground`;
+
+  const colors = ['red', 'blue', 'green', 'yellow'];
+  for(let i = 0; i < colors.length; i += 1) {
+    const color = document.createElement('div');
+    color.className = `colorChoice${colors[i]}`;
+    color.addEventListener('click', () => {
+      const {sendSocketToServer} = require('./websockets');
+      sendSocketToServer('colorChoice', { color: colors[i], type: cardChoiceType });
+
+      divColorChoice.style.display = 'none';
+      colorBackground.style.display = 'none';
+    });
+
+    divColorChoice.style.display = 'none';
+    colorBackground.style.display = 'none';
+    divColorChoice.appendChild(color);
+
+  }
+
+
+  document.body.appendChild(colorBackground);
+  document.body.appendChild(divColorChoice);
+}
+
+function displayColorChoice(cardType) {
+  cardChoiceType = cardType;
+  divColorChoice.style.display = 'block';
+  colorBackground.style.display = 'block';
+}
 
 function createOpponentPlayerDiv(player, number) {
   const divOpponentPlayer = divOpponentPlayers[number - 2];
@@ -555,4 +598,5 @@ module.exports = {
   addCard,
   setLastCard,
   removeCard,
+  displayColorChoice,
 };

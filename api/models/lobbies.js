@@ -41,6 +41,7 @@ function addLobby() {
     maxPlayers: MAX_PLAYERS_PER_LOBBY,
     humanPlayersCount: 0,
     hasStarted: false,
+    isAwaitingForColorChoice: false,
   };
   lobbies.push(lobby);
 
@@ -112,10 +113,26 @@ function addPlayerToLobby(player) {
     }
 
     for (let i = 0; i < lobby.players.length; i += 1) {
-      if (lobby.players[i].socketId !== player.socketId) io.sendSocketToId(lobby.players[i].socketId, 'chatMessage', { message: `${player.username} a rejoint la partie` });
+      if (lobby.players[i].socketId !== player.socketId) io.sendSocketToId(lobby.players[i].socketId, 'chatMessage', { message: `${player.username} a rejoint la partie`, isInformational: true });
     }
   }
   return lobby;
+}
+
+function changeColor(infos, socketId) {
+  const player = players.getPlayerBySocket(socketId);
+  const lobby = getLobbyByPlayer(player);
+
+  if (!lobby.isAwaitingForColorChoice) return;
+
+  lobby.isAwaitingForColorChoice = false;
+  lobby.currentCard = { value: infos.type, color: infos.color };
+
+  for (let i = 0; i < lobby.players.length; i += 1) {
+    io.sendSocketToId(lobby.players[i].socketId, 'cardPlayed', { toPlayer: null, card: lobby.currentCard });
+  }
+  game.nextPlayer(lobby);
+  game.socketWhoPlay(lobby);
 }
 
 function removePlayer(socketId) {
@@ -140,7 +157,7 @@ function removePlayer(socketId) {
   }
 
   for (let i = 0; i < lobby.players.length; i += 1) {
-    io.sendSocketToId(lobby.players[i].socketId, 'chatMessage', { message: `${playerUsername} a quitté la partie` });
+    io.sendSocketToId(lobby.players[i].socketId, 'chatMessage', { message: `${playerUsername} a quitté la partie`, isInformational: true });
   }
 
   if (lobby.humanPlayersCount === 0) deleteLobby(lobby);
@@ -248,4 +265,5 @@ module.exports = {
   getLobbyInformation,
   getLobbyByPlayer,
   reverse,
+  changeColor,
 };

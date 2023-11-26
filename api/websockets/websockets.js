@@ -40,7 +40,7 @@ io.on('connection', (socket) => {
     const messageFormat = `${player.username} ➪ ${message}`;
     for (let i = 0; i < lobby.players.length; i += 1) {
       if (lobby.players[i].socketId === null || lobby.players[i].socketId === undefined) continue;
-      io.to(lobby.players[i].socketId).emit('chatMessage', { message: messageFormat });
+      io.to(lobby.players[i].socketId).emit('chatMessage', { message: messageFormat, isInformational: false });
     }
   });
 
@@ -49,8 +49,11 @@ io.on('connection', (socket) => {
     const lobby = lobbies.getLobbyByPlayer(players.getPlayerBySocket(socket.id));
     playCard(lobby, player, card);
   });
-});
 
+  socket.on('colorChoice', (infos) => {
+    lobbies.changeColor(infos, socket.id);
+  });
+});
 // Ouverture du serveur sur le port 25568 (celui du serveur)
 // eslint-disable-next-line no-console
 http.listen(25568, () => console.log(`WebSockets server listening on ${http.address().address}:${http.address().port}`));
