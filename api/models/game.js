@@ -47,6 +47,7 @@ function beginningGame(lobby) {
 }
 
 function socketWhoPlay(lobby) {
+  if (lobby.currentCard.color === 'black') return;
   const playerWhoPlay = lobby.players[lobby.currentPlayer];
   for (let i = 0; i < lobby.players.length; i += 1) {
     io.sendSocketToId(lobby.players[i].socketId, 'nextPlayer', playerWhoPlay.playerId);
@@ -104,10 +105,11 @@ function playCard(lobby, joueur, card) {
   if (lobby.players[lobby.currentPlayer] !== joueur) return;
   if (lobby.isAwaitingForColorChoice === true) return;
 
-  const cardIndex = joueur.deck.indexOf(card);
   if (isCardPlayable(card, lobby.currentCard)) {
+    const { deck } = joueur;
+    const cardIndex = deck.findIndex((c) => c.color === card.color && c.value === card.value);
     lobby.currentCard = card;
-    joueur.deck.splice(cardIndex, 1);
+    deck.splice(cardIndex, 1);
     joueur.numberOfCardsPlayed += 1;
 
     for (let i = 0; i < lobby.players.length; i += 1) {
@@ -119,7 +121,9 @@ function playCard(lobby, joueur, card) {
     if (card.color !== 'black') {
       nextPlayer(lobby);
     }
-    socketWhoPlay(lobby);
+    setTimeout(() => {
+      socketWhoPlay(lobby);
+    }, 500);
   } else {
     io.sendSocketToId(joueur.socketId, 'invalidCard');
   }
