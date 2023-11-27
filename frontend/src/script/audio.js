@@ -17,14 +17,13 @@ const musics = [
 
 let isMusicPlaying = false;
 let lastPlayedMusic = null;
-let value = 0.2;
 
 const music = document.getElementById('musicSource');
 const source = document.getElementById('music');
 const volumeControlSFX = document.getElementById('volumeControlSFX');
 const volumeImageSFX = document.getElementById("volumeSFX");
-
-
+volumeControlSFX.value = 0.1;
+let value = 0.1;
 
 source.addEventListener("ended", () => {
     source.currentTime = 0;
@@ -71,6 +70,7 @@ volumeControlSFX.addEventListener('input', () => {
 
 function playSoundEffect(audioSource) {
     const soundEffect = new Audio(audioSource);
+    soundEffect.volume = 0.1;
     soundEffect.volume = volumeControlSFX.value;
     document.body.appendChild(soundEffect);
     soundEffect.play();

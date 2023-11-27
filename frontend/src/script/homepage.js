@@ -31,7 +31,8 @@ let isPopUpDisplayed = false;
 let isPopUpLoginDisplayed = false;
 let isPopUpSignInDisplayed = false;
 let isPopUpRulesDisplayed = false;
-let Value = 0.2;
+setMusicVolume(0.1);
+let Value = 0.1;
 let socket;
 
 nicknameForm.placeholder = uniqueNamesGenerator({
