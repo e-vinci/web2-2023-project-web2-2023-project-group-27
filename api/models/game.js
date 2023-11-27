@@ -161,7 +161,7 @@ function handleSpecialCardEffects(card, lobby) {
     io.sendSocketToId(lobby.players[lobby.currentPlayer].socketId, 'colorChoice', { cardType: card.value });
   }
   if (card.value === '+2') {
-    const currentPlayerIndex = lobby.players.indexOf(lobby.currentPlayer);
+    const currentPlayerIndex = lobby.currentPlayer;
     let nextPlayerIndex;
     if (lobby.direction === 'clockwise') {
       nextPlayerIndex = currentPlayerIndex + 1;
