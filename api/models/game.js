@@ -136,12 +136,16 @@ function playCard(lobby, joueur, card) {
     }
 
     handleSpecialCardEffects(card, lobby);
+
     if (card.color !== 'black') {
       nextPlayer(lobby);
     }
-    setTimeout(() => {
-      socketWhoPlay(lobby);
-    }, 500);
+
+    if (card.value === '+4' || card.value === '+2') {
+      setTimeout(() => {
+        socketWhoPlay(lobby);
+      }, 1500);
+    } else socketWhoPlay(lobby);
   } else {
     io.sendSocketToId(joueur.socketId, 'invalidCard');
   }
@@ -156,6 +160,7 @@ function isCardPlayable(card, currentCard) {
 }
 // Fonction pour gérer les effets spéciaux des cartes
 function handleSpecialCardEffects(card, lobby) {
+  console.log(card)
   if (card.color === 'black') {
     lobby.isAwaitingForColorChoice = true;
     io.sendSocketToId(lobby.players[lobby.currentPlayer].socketId, 'colorChoice', { cardType: card.value });
@@ -175,13 +180,8 @@ function handleSpecialCardEffects(card, lobby) {
     for (let i = 0; i < 2; i += 1) {
       drawCard(lobby, nextPlayer);
     }
-  } else if (card.value === 'stop') {
-    const currentPlayerIndex = lobby.players.indexOf(lobby.currentPlayer);
-    let nextPlayerIndex = currentPlayerIndex + 1;
-    if (nextPlayerIndex >= lobby.players.length) {
-      nextPlayerIndex = 0;
-    }
-    lobby.currentPlayer = lobby.players[nextPlayerIndex];
+  } else if (card.value === 'block') {
+    nextPlayer(lobby);
   } else if (card.value === 'reverse') {
     const { reverse } = require('./lobbies');
     reverse(lobby);
