@@ -2,6 +2,9 @@ import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-
 import { afficherDivChargement } from './loadingGame';
 import { connectWebSocket } from './websockets';
 
+const volumeImageSrc = require("../img/options/volume.png");
+const volumeImageMuteSrc = require("../img/options/volume_mute.png");
+
 const { playRandomMusic, setMusicVolume } = require('./audio');
 
 const nicknameForm = document.getElementById("nickname");
@@ -15,7 +18,6 @@ const signInPath = document.getElementById("signInPath");
 const RulesPath = document.getElementById("RulesPath");
 const closeRules = document.getElementById("closeRules");
 const playForm = document.getElementById("playForm");
-const music = document.getElementById("music");
 const volumeControlMusic = document.getElementById("volumeControlMusic");
 const volumeImageMusic = document.getElementById("volumeMusic");
 const popupCU = document.getElementById("popupCU");
@@ -57,22 +59,21 @@ document.getElementById("fullscreen").addEventListener('click', () => {
 );
 
 window.addEventListener('click', () => {
-    playRandomMusic();     
+    playRandomMusic();
 });
 
 volumeControlMusic.addEventListener('input', () => {
     setMusicVolume(parseFloat(volumeControlMusic.value));
 });
 
-const volumeImageMuteSrc = "/img/volume_mute.png";
-const volumeImageSrc = "/img/volume.png";
-
 volumeImageMusic.addEventListener('click', () => {
-    if(music.volume === 0) {
-        music.volume = parseFloat(volumeControlMusic.value);
+    const defaultValue = 0.5
+
+    if (volumeControlMusic.value === '0') {
+        volumeControlMusic.value = defaultValue.toString();
         volumeImageMusic.src = volumeImageSrc;
-    }else {
-        music.volume = 0;
+    } else {
+        volumeControlMusic.value = 0;
         volumeImageMusic.src = volumeImageMuteSrc;
     }
 });
@@ -208,7 +209,7 @@ playForm.addEventListener('submit', (e) => {
     }, 2900);
 });
 
-function resetErrors () {
+function resetErrors() {
     document.getElementById('signInCUError').innerText = '';
     document.getElementById('signInConfirmPasswordError').innerText = '';
     document.getElementById('signInPasswordError').innerText = '';
