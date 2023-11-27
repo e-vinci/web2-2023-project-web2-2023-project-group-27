@@ -43,7 +43,7 @@ function playMusic(audioSource) {
 }
 
 volumeImageSFX.addEventListener('click', () => {
-  const defaultValue = 0.5
+  const defaultValue = 0.2
   
     if(volumeControlSFX.value === '0') {
       volumeControlSFX.value = defaultValue.toString();
@@ -52,8 +52,6 @@ volumeImageSFX.addEventListener('click', () => {
       volumeControlSFX.value = 0;
       volumeImageSFX.src = volumeImageMuteSrc;
     }
-    console.log(typeof(volumeControlSFX.value));
-    console.log(typeof(defaultValue));
 });
 
 

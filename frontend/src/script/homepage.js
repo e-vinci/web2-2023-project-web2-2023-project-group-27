@@ -67,7 +67,7 @@ volumeControlMusic.addEventListener('input', () => {
 });
 
 volumeImageMusic.addEventListener('click', () => {
-    const defaultValue = 0.5
+    const defaultValue = 0.2
 
     if (volumeControlMusic.value === '0') {
         volumeControlMusic.value = defaultValue.toString();
