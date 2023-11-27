@@ -4,6 +4,8 @@ const cardPickSFX = require('../sound/card_pick.mp3');
 
 const volumeImageSrc = require("../img/options/volume.png");
 const volumeImageMuteSrc = require("../img/options/volume_mute.png");
+const volumeImageSrc1 = require("../img/options/volume_1.png");
+const volumeImageSrc2 = require("../img/options/volume_2.png");
 
 const musics = [
     {source : require('../sound/soundtrack/wondrous-waters.mp3')}, 
@@ -54,6 +56,18 @@ volumeImageSFX.addEventListener('click', () => {
     }
 });
 
+volumeControlSFX.addEventListener('input', () => {
+  // Mise à jour de la valeur affichée
+  if (volumeControlSFX.value === '0') {
+    volumeImageSFX.src = volumeImageMuteSrc;
+  } else if (volumeControlSFX.value <= '0.2'){
+    volumeImageSFX.src = volumeImageSrc1;
+} else if (volumeControlSFX.value <= '0.5') {
+  volumeImageSFX.src = volumeImageSrc2;
+} else {
+  volumeImageSFX.src = volumeImageSrc;
+}
+});
 
 function playSoundEffect(audioSource) {
     const soundEffect = new Audio(audioSource);

@@ -4,6 +4,8 @@ import { connectWebSocket } from './websockets';
 
 const volumeImageSrc = require("../img/options/volume.png");
 const volumeImageMuteSrc = require("../img/options/volume_mute.png");
+const volumeImageSrc1 = require("../img/options/volume_1.png");
+const volumeImageSrc2 = require("../img/options/volume_2.png");
 
 const { playRandomMusic, setMusicVolume } = require('./audio');
 
@@ -78,7 +80,19 @@ volumeImageMusic.addEventListener('click', () => {
     }
 });
 
-
+// Ajout d'un écouteur d'événements sur l'input range
+volumeControlMusic.addEventListener('input', () => {
+    // Mise à jour de la valeur affichée
+    if (volumeControlMusic.value === '0') {
+        volumeImageMusic.src = volumeImageMuteSrc;
+    } else if (volumeControlMusic.value <= '0.2'){
+        volumeImageMusic.src = volumeImageSrc1;
+    } else if (volumeControlMusic.value <= '0.5') {
+        volumeImageMusic.src = volumeImageSrc2;
+    } else {
+        volumeImageMusic.src = volumeImageSrc;
+    }
+});
 
 settingsButton.addEventListener('click', () => {
     if (isPopUpDisplayed) {
