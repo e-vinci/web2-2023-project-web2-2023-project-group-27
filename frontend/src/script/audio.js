@@ -2,6 +2,9 @@
 const cardHoverSFX = require('../sound/card_hover.mp3');
 const cardPickSFX = require('../sound/card_pick.mp3');
 
+const volumeImageSrc = require("../img/options/volume.png");
+const volumeImageMuteSrc = require("../img/options/volume_mute.png");
+
 const musics = [
     {source : require('../sound/soundtrack/wondrous-waters.mp3')}, 
     {source : require('../sound/soundtrack/elevator-music-jazz.mp3')}, 
@@ -12,6 +15,7 @@ const musics = [
 
 let isMusicPlaying = false;
 let lastPlayedMusic = null;
+let value = 0.2;
 
 const music = document.getElementById('musicSource');
 const source = document.getElementById('music');
@@ -40,15 +44,14 @@ function playMusic(audioSource) {
 }
 
 volumeImageSFX.addEventListener('click', () => {
-  const defaultValue = 0.5
-  
     if(volumeControlSFX.value === '0') {
-      volumeControlSFX.value = defaultValue.toString();
+      volumeControlSFX.value = value.toString();
+      volumeImageSFX.src = volumeImageSrc;
     }else {
+      value = volumeControlSFX.value;
       volumeControlSFX.value = 0;
+      volumeImageSFX.src = volumeImageMuteSrc;
     }
-    console.log(typeof(volumeControlSFX.value));
-    console.log(typeof(defaultValue));
 });
 
 
