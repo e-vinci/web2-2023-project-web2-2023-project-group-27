@@ -146,9 +146,15 @@ function playCard(lobby, joueur, card) {
         socketWhoPlay(lobby);
       }, 1500);
     } else socketWhoPlay(lobby);
+    insertCardInStack(lobby, card);
   } else {
     io.sendSocketToId(joueur.socketId, 'invalidCard');
   }
+}
+
+function insertCardInStack(lobby, card) {
+  const randomIndex = Math.floor(Math.random() * lobby.stack.length);
+  lobby.stack.splice(randomIndex, 0, card);
 }
 // Fonction pour vérifier si une carte est jouable
 function isCardPlayable(card, currentCard) {
@@ -160,7 +166,6 @@ function isCardPlayable(card, currentCard) {
 }
 // Fonction pour gérer les effets spéciaux des cartes
 function handleSpecialCardEffects(card, lobby) {
-  console.log(card)
   if (card.color === 'black') {
     lobby.isAwaitingForColorChoice = true;
     io.sendSocketToId(lobby.players[lobby.currentPlayer].socketId, 'colorChoice', { cardType: card.value });
