@@ -82,6 +82,12 @@ function generatingGame(lobby) {
   cardStack = document.createElement('div');
   cardStack.className = 'cardStack';
 
+  cardStack.addEventListener('click', () => {
+    const { sendSocketToServer } = require('./websockets');
+    sendSocketToServer('drawCard');
+    cardStack.classList.remove('drawCard');
+  });
+
   cardCenterDiv.appendChild(cardStack);
   cardCenterDiv.appendChild(currentCard);
   document.body.appendChild(cardCenterDiv);

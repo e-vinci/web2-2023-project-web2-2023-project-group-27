@@ -100,6 +100,24 @@ function drawCard(lobby, joueur) {
   }
 }
 
+function pickACard(lobby, joueur) {
+  if (lobby.players[lobby.currentPlayer] !== joueur) return;
+  if (lobby.isAwaitingForColorChoice === true) return;
+  if (hasACardPlayable(joueur, lobby)) return;
+
+  const card = lobby.stack.pop();
+  joueur.deck.push(card);
+  joueur.numberOfCardsDrawned += 1;
+  for (let i = 0; i < lobby.players.length; i += 1) {
+    const player = lobby.players[i];
+    if (player === joueur) io.sendSocketToId(player.socketId, 'cardDrawn', { toPlayer: joueur.playerId, card });
+    else io.sendSocketToId(player.socketId, 'cardDrawn', { toPlayer: joueur.playerId, card: null });
+  }
+
+  nextPlayer(lobby);
+  socketWhoPlay(lobby);
+}
+
 // Fonction pour jouer une carte
 function playCard(lobby, joueur, card) {
   if (lobby.players[lobby.currentPlayer] !== joueur) return;
@@ -209,4 +227,5 @@ module.exports = {
   playCard,
   nextPlayer,
   socketWhoPlay,
+  pickACard,
 };
