@@ -76,6 +76,7 @@ function generatingGame(lobby) {
     currentCard.className = 'currentCard';
   if (lobby.currentCard === null) currentCard.src = '';
   setCardImage(currentCard, lobby.currentCard);
+  currentCard.card = lobby.currentCard;
 
   // pioche
   cardStack = document.createElement('div');
@@ -297,6 +298,10 @@ function setTimeToPlay(boolean) {
   }
 }
 
+function displayDrawCard() {
+  cardStack.classList.add('drawCard');
+}
+
 function removeCardToMainPlayer(index) {
   const cardDiv = divMainPlayer.divCardIconCards[index];
   if(cardDiv === undefined) return; 
@@ -333,8 +338,6 @@ function generateCardChoice() {
     divColorChoice.appendChild(color);
 
   }
-
-
   document.body.appendChild(colorBackground);
   document.body.appendChild(divColorChoice);
 }
@@ -408,8 +411,7 @@ function displayPlayerWhoPlay(playerId) {
     if(divOpponentPlayers[i] !== playerDiv) divOpponentPlayers[i].mainDiv.style.backgroundColor = "gray";
     else divOpponentPlayers[i].mainDiv.style.backgroundColor = "orange";
   }
-
-  setTimeToPlay(playerDiv === divMainPlayer);
+    setTimeToPlay(playerDiv === divMainPlayer);
 }
 
 function getOpponentIndex(playerId) {
@@ -599,4 +601,5 @@ module.exports = {
   setLastCard,
   removeCard,
   displayColorChoice,
+  displayDrawCard,
 };

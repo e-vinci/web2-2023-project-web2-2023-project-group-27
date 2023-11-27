@@ -51,6 +51,7 @@ function socketWhoPlay(lobby) {
   for (let i = 0; i < lobby.players.length; i += 1) {
     io.sendSocketToId(lobby.players[i].socketId, 'nextPlayer', playerWhoPlay.playerId);
   }
+  if (!hasACardPlayable(playerWhoPlay, lobby)) io.sendSocketToId(playerWhoPlay.socketId, 'noCardPlayable');
 }
 
 function giveCardsToPlayers(lobby) {
@@ -103,7 +104,7 @@ function playCard(lobby, joueur, card) {
   if (lobby.players[lobby.currentPlayer] !== joueur) return;
   if (lobby.isAwaitingForColorChoice === true) return;
 
-  const cardIndex = joueur.deck[card];
+  const cardIndex = joueur.deck.indexOf(card);
   if (isCardPlayable(card, lobby.currentCard)) {
     lobby.currentCard = card;
     joueur.deck.splice(cardIndex, 1);
@@ -118,9 +119,7 @@ function playCard(lobby, joueur, card) {
     if (card.color !== 'black') {
       nextPlayer(lobby);
     }
-    setTimeout(() => {
-      socketWhoPlay(lobby);
-    }, 1000);
+    socketWhoPlay(lobby);
   } else {
     io.sendSocketToId(joueur.socketId, 'invalidCard');
   }
@@ -180,6 +179,13 @@ function handleSpecialCardEffects(card, lobby) {
       drawCard(lobby, nextPlayer);
     }
   }
+}
+
+function hasACardPlayable(player, lobby) {
+  for (let i = 0; i < player.deck.length; i += 1) {
+    if (isCardPlayable(player.deck[i], lobby.currentCard)) return true;
+  }
+  return false;
 }
 
 // Fonction pour passer au joueur suivant
