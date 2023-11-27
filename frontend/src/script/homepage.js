@@ -149,7 +149,7 @@ RulesPath.addEventListener('click', () => {
 
 closeRules.addEventListener('click', () => {
     popupRules.style.display = 'none';
-    popupSettings.style.display = 'none';
+    popupSettings.style.display = 'block';
 });
 
 CUButton.addEventListener('click', () => {
