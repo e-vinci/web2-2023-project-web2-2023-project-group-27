@@ -136,15 +136,25 @@ function playCard(lobby, joueur, card) {
     }
 
     handleSpecialCardEffects(card, lobby);
+
     if (card.color !== 'black') {
       nextPlayer(lobby);
     }
-    setTimeout(() => {
-      socketWhoPlay(lobby);
-    }, 500);
+
+    if (card.value === '+4' || card.value === '+2') {
+      setTimeout(() => {
+        socketWhoPlay(lobby);
+      }, 1500);
+    } else socketWhoPlay(lobby);
+    insertCardInStack(lobby, card);
   } else {
     io.sendSocketToId(joueur.socketId, 'invalidCard');
   }
+}
+
+function insertCardInStack(lobby, card) {
+  const randomIndex = Math.floor(Math.random() * lobby.stack.length);
+  lobby.stack.splice(randomIndex, 0, card);
 }
 // Fonction pour vérifier si une carte est jouable
 function isCardPlayable(card, currentCard) {
@@ -161,7 +171,7 @@ function handleSpecialCardEffects(card, lobby) {
     io.sendSocketToId(lobby.players[lobby.currentPlayer].socketId, 'colorChoice', { cardType: card.value });
   }
   if (card.value === '+2') {
-    const currentPlayerIndex = lobby.players.indexOf(lobby.currentPlayer);
+    const currentPlayerIndex = lobby.currentPlayer;
     let nextPlayerIndex;
     if (lobby.direction === 'clockwise') {
       nextPlayerIndex = currentPlayerIndex + 1;
@@ -175,13 +185,8 @@ function handleSpecialCardEffects(card, lobby) {
     for (let i = 0; i < 2; i += 1) {
       drawCard(lobby, nextPlayer);
     }
-  } else if (card.value === 'stop') {
-    const currentPlayerIndex = lobby.players.indexOf(lobby.currentPlayer);
-    let nextPlayerIndex = currentPlayerIndex + 1;
-    if (nextPlayerIndex >= lobby.players.length) {
-      nextPlayerIndex = 0;
-    }
-    lobby.currentPlayer = lobby.players[nextPlayerIndex];
+  } else if (card.value === 'block') {
+    nextPlayer(lobby);
   } else if (card.value === 'reverse') {
     const { reverse } = require('./lobbies');
     reverse(lobby);

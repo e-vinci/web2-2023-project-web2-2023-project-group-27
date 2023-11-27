@@ -47,6 +47,7 @@ function addLobby() {
 
   setTimeout(() => {
     if (getLobbyById(lobby.id) !== undefined) {
+      if (lobby.hasStarted) return;
       for (let i = 0; i < MAX_PLAYERS_PER_LOBBY - lobby.humanPlayersCount; i += 1) {
         const profile = players.createProfile('Bot', null, false);
         lobby.players.push(profile);
@@ -182,8 +183,6 @@ function getPlayers(lobbyId) {
 }
 
 function startGame(lobby) {
-  // retirer la ligne en dessous plus tard
-
   for (let i = 0; i < lobby.players.length; i += 1) {
     io.sendSocketToId(lobby.players[i].socketId, 'gameStart', { hasStarted: lobby.hasStarted });
   }
