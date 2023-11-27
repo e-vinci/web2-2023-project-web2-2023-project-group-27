@@ -29,6 +29,7 @@ let isPopUpDisplayed = false;
 let isPopUpLoginDisplayed = false;
 let isPopUpSignInDisplayed = false;
 let isPopUpRulesDisplayed = false;
+let Value = 0.2;
 let socket;
 
 nicknameForm.placeholder = uniqueNamesGenerator({
@@ -67,12 +68,11 @@ volumeControlMusic.addEventListener('input', () => {
 });
 
 volumeImageMusic.addEventListener('click', () => {
-    const defaultValue = 0.2
-
     if (volumeControlMusic.value === '0') {
-        volumeControlMusic.value = defaultValue.toString();
+        volumeControlMusic.value = Value.toString();
         volumeImageMusic.src = volumeImageSrc;
     } else {
+        Value = volumeControlMusic.value;
         volumeControlMusic.value = 0;
         volumeImageMusic.src = volumeImageMuteSrc;
     }

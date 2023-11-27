@@ -15,6 +15,7 @@ const musics = [
 
 let isMusicPlaying = false;
 let lastPlayedMusic = null;
+let value = 0.2;
 
 const music = document.getElementById('musicSource');
 const source = document.getElementById('music');
@@ -43,12 +44,11 @@ function playMusic(audioSource) {
 }
 
 volumeImageSFX.addEventListener('click', () => {
-  const defaultValue = 0.2
-  
     if(volumeControlSFX.value === '0') {
-      volumeControlSFX.value = defaultValue.toString();
+      volumeControlSFX.value = value.toString();
       volumeImageSFX.src = volumeImageSrc;
     }else {
+      value = volumeControlSFX.value;
       volumeControlSFX.value = 0;
       volumeImageSFX.src = volumeImageMuteSrc;
     }
