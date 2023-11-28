@@ -5,7 +5,8 @@
 /* eslint-disable no-param-reassign */
 const io = require('../websockets/websockets');
 
-const numberOfCardsToDraw = 2;
+const NUMBER_OF_CARDS_TO_DRAW = 7;
+const NUMBER_OF_TIMES_BEFORE_KICK = 5;
 
 function shuffleStack(lobby) {
   let currentIndex = lobby.stack.length;
@@ -60,19 +61,28 @@ function socketWhoPlay(lobby) {
 function timerBotPlayer(lobby, joueur) {
   if (joueur.isHuman) {
     lobby.timerChoice = setTimeout(() => {
-      pickACard(lobby, joueur);
+      joueur.numbersOfTimesAFK += 1;
+      if (joueur.numbersOfTimesAFK >= NUMBER_OF_TIMES_BEFORE_KICK) {
+        if (joueur.socketId === null) return;
+        const { socketId } = joueur;
+        require('./lobbies').removePlayer(joueur.socketId);
+        io.sendSocketToId(socketId, 'kicked', 'Vous avez été expulsé de la partie pour inactivité');
+        botPlay(joueur, lobby);
+        return;
+      }
+      pickACard(lobby, joueur, true);
     }, 10 * 1000);
   } else {
     lobby.timerChoice = setTimeout(() => {
       botPlay(joueur, lobby);
-    }, 1.5 * 1000);
+    }, 2 * 1000);
   }
 }
 
 function giveCardsToPlayers(lobby) {
   let time = 0;
 
-  for (let j = 0; j < numberOfCardsToDraw; j += 1) {
+  for (let j = 0; j < NUMBER_OF_CARDS_TO_DRAW; j += 1) {
     for (let i = 0; i < lobby.players.length; i += 1) {
       time += 1;
       setTimeout(() => {
@@ -88,7 +98,7 @@ function giveCardsToPlayers(lobby) {
       io.sendSocketToId(player.socketId, 'cardPlayed', { toPlayer: null, card: lobby.currentCard });
     }
     socketWhoPlay(lobby);
-  }, numberOfCardsToDraw * 4 * 150 + 1000);
+  }, NUMBER_OF_CARDS_TO_DRAW * 4 * 150 + 1000);
 }
 
 function generateCard(lobby, color, value) {
@@ -114,14 +124,22 @@ function drawCard(lobby, joueur) {
   }
 }
 
-function pickACard(lobby, joueur) {
+function pickACard(lobby, joueur, forceMode = false) {
   if (lobby.players[lobby.currentPlayer] !== joueur) return;
   if (lobby.isAwaitingForColorChoice === true) return;
-  if (hasACardPlayable(joueur, lobby)) return;
+
+  // Si le joueur a une carte jouable, il ne peut pas piocher
+  // Sauf si on est en mode forcé
+  if (!forceMode) {
+    if (hasACardPlayable(joueur, lobby)) return;
+  }
 
   const card = lobby.stack.pop();
   joueur.deck.push(card);
   joueur.numberOfCardsDrawned += 1;
+
+  clearTimeout(lobby.timerChoice);
+
   for (let i = 0; i < lobby.players.length; i += 1) {
     const player = lobby.players[i];
     if (player === joueur) io.sendSocketToId(player.socketId, 'cardDrawn', { toPlayer: joueur.playerId, card });
@@ -204,6 +222,8 @@ function giveScore(player, card) {
 }
 
 function insertCardInStack(lobby, card) {
+  if (card.value === '+4' && card.color !== 'black') return;
+  if (card.value === 'multicolor' && card.color !== 'black') return;
   const randomIndex = Math.floor(Math.random() * lobby.stack.length);
   lobby.stack.splice(randomIndex, 0, card);
 }
@@ -291,7 +311,7 @@ function botPlay(player, lobby) {
           const randomIndex = Math.floor(Math.random() * colors.length);
           card.color = colors[randomIndex];
           require('./lobbies').changeColor({ type: card.value, color: card.color }, null, player.playerId);
-        }, 1000);
+        }, 2000);
       }
       return;
     }
