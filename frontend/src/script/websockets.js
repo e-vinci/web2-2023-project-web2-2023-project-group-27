@@ -115,6 +115,9 @@ const connectWebSocket = (nickname) => {
         io.on('noCardPlayable', () => {
             displayDrawCard();
         });
+        io.on('endGame', (infos) => {
+            endGame(infos);
+        });
 })
 return io;
 }
