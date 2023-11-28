@@ -82,6 +82,7 @@ function addPlayerToLobby(player) {
   const lobby = getNextAvailableLobby();
   const playerToUpdate = lobby.players.find((play) => !play.isHuman);
   if (lobby.players.length !== lobby.humanPlayersCount) {
+    playerToUpdate.numbersOfTimesAFK = 0;
     playerToUpdate.isHuman = true;
     playerToUpdate.socketId = player.socketId;
     playerToUpdate.username = player.username;
@@ -125,6 +126,7 @@ function changeColor(infos, socketId, playerId) {
   let player = players.getPlayerBySocket(socketId);
   if (player === undefined) player = players.getPlayerById(playerId);
   const lobby = getLobbyByPlayer(player);
+  if (lobby === undefined) return;
 
   if (!lobby.isAwaitingForColorChoice) return;
 
@@ -140,6 +142,7 @@ function changeColor(infos, socketId, playerId) {
 
 function removePlayer(socketId) {
   const player = players.getPlayerBySocket(socketId);
+  if (player === undefined) return;
   const playerUsername = player.username;
   const lobby = lobbies.find((lob) => lob.players.includes(player));
   if (lobby === undefined) return;

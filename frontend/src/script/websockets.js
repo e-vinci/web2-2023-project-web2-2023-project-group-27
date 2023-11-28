@@ -115,6 +115,9 @@ const connectWebSocket = (nickname) => {
         io.on('noCardPlayable', () => {
             displayDrawCard();
         });
+        io.on('kicked', (message) => {
+            erreur.afficherErreur(message, socket);
+        })
 })
 return io;
 }
