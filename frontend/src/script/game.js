@@ -607,18 +607,6 @@ function imageUno(){
       }, 5000);
 }
 
-function imageUno(){
-    console.log('iciiiii')
-      const image = document.createElement("img");
-      image.src = getImageUno();
-      image.className = "image-uno";
-      document.body.appendChild(image);
-
-      setTimeout(() => {
-        document.body.removeChild(image);
-      }, 5000);
-}
-
 function endGame(infos) {
   const popupScoreboard = document.createElement('div');
   popupScoreboard.id = 'popupScoreboard';
@@ -630,7 +618,7 @@ function endGame(infos) {
   const numberOfCardsPlayed = document.createElement('p');
   const score = document.createElement('p');
   winner.innerText = `Gagnant : ${infos.winner}`;
-  numberOfCardsDrawned.innerHTML = `Cartes piochées : ${infos.numberOfCardsDrawned}`;
+  numberOfCardsDrawned.innerHTML = `Cartes piochées : ${infos.numberOfCardsDrawned-7}`;
   numberOfCardsPlayed.innerText = `Cartes jouées : ${infos.numberOfCardsPlayed}`;
   score.innerText = `Score du gagant : ${infos.score}`;
   popupScoreboard.appendChild(winner);
