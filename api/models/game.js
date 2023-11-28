@@ -264,3 +264,10 @@ module.exports = {
   socketWhoPlay,
   pickACard,
 };
+
+function botplay(player, lobby) {
+  if(!hasACardPlayable(player, lobby)) return drawCard(lobby, player);
+  for (let i = 0; i < player.deck.length; i += 1){
+    if (isCardPlayable(player.deck[i], lobby.currentCard)) return playCard(lobby, player, player.deck[i]);
+  }
+}
