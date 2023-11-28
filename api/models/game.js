@@ -1,10 +1,11 @@
+/* eslint-disable no-undef */
 /* eslint-disable global-require */
 /* eslint-disable no-loop-func */
 /* eslint-disable no-shadow */
 /* eslint-disable no-param-reassign */
 const io = require('../websockets/websockets');
 
-const numberOfCardsToDraw = 7;
+const numberOfCardsToDraw = 2;
 
 function shuffleStack(lobby) {
   let currentIndex = lobby.stack.length;
@@ -155,6 +156,12 @@ function playCard(lobby, joueur, card) {
 
     giveScore(joueur, card);
 
+    if (joueur.deck.length === 1) {
+      setTimeout(() => {
+        console.log('LAAAA');
+        io.sendSocketToId('uno');
+      }, 1500);
+    }
     if (joueur.deck.length === 0) {
       setTimeout(() => {
         for (let i = 0; i < lobby.players.length; i += 1) {
@@ -280,10 +287,10 @@ function botPlay(player, lobby) {
       playCard(lobby, player, player.deck[i]);
       if (card.color === 'black') {
         setTimeout(() => {
-        const colors = ['red', 'blue', 'green', 'yellow'];
-        const randomIndex = Math.floor(Math.random() * colors.length);
-        card.color = colors[randomIndex];
-        require('./lobbies').changeColor({type: card.value, color: card.color}, null, player.playerId);
+          const colors = ['red', 'blue', 'green', 'yellow'];
+          const randomIndex = Math.floor(Math.random() * colors.length);
+          card.color = colors[randomIndex];
+          require('./lobbies').changeColor({ type: card.value, color: card.color }, null, player.playerId);
         }, 1000);
       }
       return;

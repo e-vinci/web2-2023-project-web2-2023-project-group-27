@@ -3,7 +3,7 @@
 /* eslint-disable no-multi-assign */
 /* eslint-disable no-param-reassign */
 const { setLoadingBarPercentage } = require('./loadingGame');
-const { getCardImage, getCardIcon, getUserIcon, getBotIcon } = require('./images');
+const { getCardImage, getCardIcon, getUserIcon, getBotIcon, getImageUno } = require('./images');
 const { afficherInformation } = require('./loadingGame');
 
 const { playCardPickSound, playCardHoverSound } = require('./audio');
@@ -67,7 +67,6 @@ const divOpponentPlayers = [
 function generatingGame(lobby) {
   // pour le debug, à modifier une fois fini
   document.getElementById('options').style.display = 'block';
-  // debugCacherChargement();
 
   // carte actuelle
   cardCenterDiv = document.createElement('div');
@@ -596,6 +595,18 @@ function removeCardToOpponent(divPlayer) {
   calculateWidthCards(divPlayer.divCardIconCards.length, divPlayer.mainDivCards, index === 1);
 }
 
+function imageUno(){
+    console.log('iciiiii')
+      const image = document.createElement("img");
+      image.src = getImageUno();
+      image.className = "image-uno";
+      document.body.appendChild(image);
+
+      setTimeout(() => {
+        document.body.removeChild(image);
+      }, 5000);
+}
+
 
 module.exports = {
   generatingGame,
@@ -608,4 +619,5 @@ module.exports = {
   removeCard,
   displayColorChoice,
   displayDrawCard,
+  imageUno,
 };
