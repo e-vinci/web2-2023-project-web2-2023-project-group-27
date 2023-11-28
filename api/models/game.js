@@ -53,6 +53,19 @@ function socketWhoPlay(lobby) {
     io.sendSocketToId(lobby.players[i].socketId, 'nextPlayer', playerWhoPlay.playerId);
   }
   if (!hasACardPlayable(playerWhoPlay, lobby)) io.sendSocketToId(playerWhoPlay.socketId, 'noCardPlayable');
+  timerBotPlayer(lobby, playerWhoPlay);
+}
+
+function timerBotPlayer(lobby, joueur) {
+  if (joueur.isHuman) {
+    lobby.timerChoice = setTimeout(() => {
+      pickACard(lobby, joueur);
+    }, 10 * 1000);
+  } else {
+    lobby.timerChoice = setTimeout(() => {
+      botPlay(joueur, lobby);
+    }, 1.5 * 1000);
+  }
 }
 
 function giveCardsToPlayers(lobby) {
@@ -74,7 +87,7 @@ function giveCardsToPlayers(lobby) {
       io.sendSocketToId(player.socketId, 'cardPlayed', { toPlayer: null, card: lobby.currentCard });
     }
     socketWhoPlay(lobby);
-  }, ((numberOfCardsToDraw * 4) * 150) + 1000);
+  }, numberOfCardsToDraw * 4 * 150 + 1000);
 }
 
 function generateCard(lobby, color, value) {
@@ -131,7 +144,9 @@ function playCard(lobby, joueur, card) {
     const cardIndex = deck.findIndex((c) => c.color === card.color && c.value === card.value);
     lobby.currentCard = card;
     deck.splice(cardIndex, 1);
+
     joueur.numberOfCardsPlayed += 1;
+    clearTimeout(lobby.timerChoice);
 
     for (let i = 0; i < lobby.players.length; i += 1) {
       const player = lobby.players[i];
@@ -198,7 +213,9 @@ function isCardPlayable(card, currentCard) {
 function handleSpecialCardEffects(card, lobby) {
   if (card.color === 'black') {
     lobby.isAwaitingForColorChoice = true;
-    io.sendSocketToId(lobby.players[lobby.currentPlayer].socketId, 'colorChoice', { cardType: card.value });
+    io.sendSocketToId(lobby.players[lobby.currentPlayer].socketId, 'colorChoice', {
+      cardType: card.value,
+    });
   }
   if (card.value === '+2') {
     const currentPlayerIndex = lobby.currentPlayer;
@@ -256,6 +273,23 @@ function nextPlayer(lobby) {
   }
 }
 
+function botPlay(player, lobby) {
+  for (let i = 0; i < player.deck.length; i += 1) {
+    const card = player.deck[i];
+    if (isCardPlayable(card, lobby.currentCard)) {
+      if (card.color === 'black') {
+        const colors = ['red', 'blue', 'green', 'yellow'];
+        const randomIndex = Math.floor(Math.random() * colors.length);
+        card.color = colors[randomIndex];
+        require('./lobbies').changeColor(lobby, card.color);
+      }
+      playCard(lobby, player, player.deck[i]);
+      return;
+    }
+  }
+  pickACard(lobby, player);
+}
+
 module.exports = {
   generateCards,
   drawCard,
@@ -264,10 +298,3 @@ module.exports = {
   socketWhoPlay,
   pickACard,
 };
-
-function botplay(player, lobby) {
-  if(!hasACardPlayable(player, lobby)) return drawCard(lobby, player);
-  for (let i = 0; i < player.deck.length; i += 1){
-    if (isCardPlayable(player.deck[i], lobby.currentCard)) return playCard(lobby, player, player.deck[i]);
-  }
-}

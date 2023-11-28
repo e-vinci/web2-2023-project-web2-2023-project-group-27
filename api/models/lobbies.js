@@ -42,6 +42,7 @@ function addLobby() {
     humanPlayersCount: 0,
     hasStarted: false,
     isAwaitingForColorChoice: false,
+    timerChoice: null,
   };
   lobbies.push(lobby);
 
