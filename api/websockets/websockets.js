@@ -51,7 +51,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('colorChoice', (infos) => {
-    lobbies.changeColor(infos, socket.id);
+    lobbies.changeColor(infos, lobbies.getLobbyByPlayer(players.getPlayerBySocket(socket.id)));
   });
 
   socket.on('drawCard', () => {

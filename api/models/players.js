@@ -14,9 +14,15 @@ function createProfile(username, socketId, isHuman) {
     score: 0,
     isReady: false,
     isHuman,
+    numbersOfTimesAFK: 0,
   };
   onlinePlayers.push(profile);
   return profile;
+}
+
+function deleteProfile(playerId) {
+  const index = onlinePlayers.findIndex((player) => player.playerId === playerId);
+  onlinePlayers.splice(index, 1);
 }
 
 function readyToStart(socketId) {
@@ -37,4 +43,5 @@ module.exports = {
   getPlayerById,
   getPlayerBySocket,
   readyToStart,
+  deleteProfile,
 };

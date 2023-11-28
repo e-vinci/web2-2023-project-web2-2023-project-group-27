@@ -3,7 +3,11 @@
  * Afficher un message d'erreur forcant l'utilisateur à rafraichir la page
  * @param {*} message 
  */
+
+let hasErrorDisplayed = false;
+
 const afficherErreur = (message, socket) => {
+    if(hasErrorDisplayed) return;
     const options = document.getElementById('options');
     const popupSettings = document.getElementById('popupSettings');
     const popupLogin = document.getElementById('popupLogin');
@@ -48,6 +52,7 @@ const afficherErreur = (message, socket) => {
     divErreur.appendChild(boutonRecharger);
     document.body.appendChild(divErreur);
     document.body.appendChild(overlay);
+    hasErrorDisplayed = true;
 }
 
 module.exports = {

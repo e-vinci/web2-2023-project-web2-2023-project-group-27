@@ -1,10 +1,12 @@
+/* eslint-disable no-undef */
 /* eslint-disable global-require */
 /* eslint-disable no-loop-func */
 /* eslint-disable no-shadow */
 /* eslint-disable no-param-reassign */
 const io = require('../websockets/websockets');
 
-const numberOfCardsToDraw = 7;
+const NUMBER_OF_CARDS_TO_DRAW = 7;
+const NUMBER_OF_TIMES_BEFORE_KICK = 5;
 
 function shuffleStack(lobby) {
   let currentIndex = lobby.stack.length;
@@ -59,6 +61,15 @@ function socketWhoPlay(lobby) {
 function timerBotPlayer(lobby, joueur) {
   if (joueur.isHuman) {
     lobby.timerChoice = setTimeout(() => {
+      joueur.numbersOfTimesAFK += 1;
+      if (joueur.numbersOfTimesAFK >= NUMBER_OF_TIMES_BEFORE_KICK) {
+        if (joueur.socketId === null) return;
+        const { socketId } = joueur;
+        require('./lobbies').removePlayer(joueur.socketId);
+        io.sendSocketToId(socketId, 'kicked', 'Vous avez été expulsé de la partie pour inactivité');
+        botPlay(joueur, lobby);
+        return;
+      }
       pickACard(lobby, joueur, true);
     }, 10 * 1000);
   } else {
@@ -71,7 +82,7 @@ function timerBotPlayer(lobby, joueur) {
 function giveCardsToPlayers(lobby) {
   let time = 0;
 
-  for (let j = 0; j < numberOfCardsToDraw; j += 1) {
+  for (let j = 0; j < NUMBER_OF_CARDS_TO_DRAW; j += 1) {
     for (let i = 0; i < lobby.players.length; i += 1) {
       time += 1;
       setTimeout(() => {
@@ -87,7 +98,7 @@ function giveCardsToPlayers(lobby) {
       io.sendSocketToId(player.socketId, 'cardPlayed', { toPlayer: null, card: lobby.currentCard });
     }
     socketWhoPlay(lobby);
-  }, numberOfCardsToDraw * 4 * 150 + 1000);
+  }, NUMBER_OF_CARDS_TO_DRAW * 4 * 150 + 1000);
 }
 
 function generateCard(lobby, color, value) {
@@ -123,9 +134,15 @@ function pickACard(lobby, joueur, forceMode = false) {
     if (hasACardPlayable(joueur, lobby)) return;
   }
 
-  const card = lobby.stack.pop();
+  let card;
+  do {
+    card = lobby.stack.pop();
+  } while (card.color !== 'black' && (card.value === '+4' || card.value === 'multicolor'));
   joueur.deck.push(card);
   joueur.numberOfCardsDrawned += 1;
+
+  clearTimeout(lobby.timerChoice);
+
   for (let i = 0; i < lobby.players.length; i += 1) {
     const player = lobby.players[i];
     if (player === joueur) io.sendSocketToId(player.socketId, 'cardDrawn', { toPlayer: joueur.playerId, card });
@@ -160,6 +177,12 @@ function playCard(lobby, joueur, card) {
 
     giveScore(joueur, card);
 
+    if (joueur.deck.length === 1) {
+      setTimeout(() => {
+        console.log('LAAAA');
+        io.sendSocketToId('uno');
+      }, 1500);
+    }
     if (joueur.deck.length === 0) {
       setTimeout(() => {
         for (let i = 0; i < lobby.players.length; i += 1) {
@@ -289,11 +312,7 @@ function botPlay(player, lobby) {
           const colors = ['red', 'blue', 'green', 'yellow'];
           const randomIndex = Math.floor(Math.random() * colors.length);
           card.color = colors[randomIndex];
-          require('./lobbies').changeColor(
-            { type: card.value, color: card.color },
-            null,
-            player.playerId,
-          );
+          require('./lobbies').changeColor({ type: card.value, color: card.color }, lobby);
         }, 2000);
       }
       return;
