@@ -395,7 +395,7 @@ divOpponentPlayer.mainDivCards.className = `opponentPlayerCards${number}`;
 document.body.appendChild(divOpponentPlayer.mainDivCards)
 
 // affichage des cartes du joueur
-for (let i = 0; i < playerDeck.length; i += 1) {
+for (let i = 0; i < player.deck; i += 1) {
   // eslint-disable-next-line no-loop-func
   setTimeout(() => {
     addCardToOpponent(player.playerId);
