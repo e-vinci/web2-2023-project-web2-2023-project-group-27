@@ -73,11 +73,19 @@ volumeControlMusic.addEventListener('input', () => {
 volumeImageMusic.addEventListener('click', () => {
     if (volumeControlMusic.value === '0') {
         volumeControlMusic.value = Value.toString();
-        volumeImageMusic.src = volumeImageSrc;
+        if (volumeControlMusic.value <= '0.2') {
+            volumeImageMusic.src = volumeImageSrc1;
+        } else if (volumeControlMusic.value <= '0.5') {
+            volumeImageMusic.src = volumeImageSrc2;
+        } else {
+            volumeImageMusic.src = volumeImageSrc;
+        }
+        setMusicVolume(Value);
     } else {
         Value = volumeControlMusic.value;
         volumeControlMusic.value = 0;
         volumeImageMusic.src = volumeImageMuteSrc;
+        setMusicVolume(0);
     }
 });
 
@@ -86,7 +94,7 @@ volumeControlMusic.addEventListener('input', () => {
     // Mise à jour de la valeur affichée
     if (volumeControlMusic.value === '0') {
         volumeImageMusic.src = volumeImageMuteSrc;
-    } else if (volumeControlMusic.value <= '0.2'){
+    } else if (volumeControlMusic.value <= '0.2') {
         volumeImageMusic.src = volumeImageSrc1;
     } else if (volumeControlMusic.value <= '0.5') {
         volumeImageMusic.src = volumeImageSrc2;
