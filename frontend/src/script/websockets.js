@@ -9,9 +9,9 @@ const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAf
 const { updatePlayer, removeCard } = require('./game');
 const { generateChatBox, addMessage } = require('./chat');
 
-// const link = 'ws://155.248.239.223:25568';
+const link = 'ws://155.248.239.223:25568';
 
-const link = 'ws://localhost:25568';
+// const link = 'ws://localhost:25568';
 
 let socket;
 let isGameStarted = false;
