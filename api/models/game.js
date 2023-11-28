@@ -4,7 +4,8 @@
 /* eslint-disable no-param-reassign */
 const io = require('../websockets/websockets');
 
-const numberOfCardsToDraw = 7;
+const NUMBER_OF_CARDS_TO_DRAW = 7;
+const NUMBER_OF_TIMES_BEFORE_KICK = 5;
 
 function shuffleStack(lobby) {
   let currentIndex = lobby.stack.length;
@@ -60,7 +61,7 @@ function timerBotPlayer(lobby, joueur) {
   if (joueur.isHuman) {
     lobby.timerChoice = setTimeout(() => {
       joueur.numbersOfTimesAFK += 1;
-      if (joueur.numbersOfTimesAFK >= 3) {
+      if (joueur.numbersOfTimesAFK >= NUMBER_OF_TIMES_BEFORE_KICK) {
         if (joueur.socketId === null) return;
         const { socketId } = joueur;
         require('./lobbies').removePlayer(joueur.socketId);
@@ -80,7 +81,7 @@ function timerBotPlayer(lobby, joueur) {
 function giveCardsToPlayers(lobby) {
   let time = 0;
 
-  for (let j = 0; j < numberOfCardsToDraw; j += 1) {
+  for (let j = 0; j < NUMBER_OF_CARDS_TO_DRAW; j += 1) {
     for (let i = 0; i < lobby.players.length; i += 1) {
       time += 1;
       setTimeout(() => {
@@ -96,7 +97,7 @@ function giveCardsToPlayers(lobby) {
       io.sendSocketToId(player.socketId, 'cardPlayed', { toPlayer: null, card: lobby.currentCard });
     }
     socketWhoPlay(lobby);
-  }, numberOfCardsToDraw * 4 * 150 + 1000);
+  }, NUMBER_OF_CARDS_TO_DRAW * 4 * 150 + 1000);
 }
 
 function generateCard(lobby, color, value) {
