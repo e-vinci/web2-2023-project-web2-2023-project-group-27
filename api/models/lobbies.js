@@ -122,13 +122,7 @@ function addPlayerToLobby(player) {
   return lobby;
 }
 
-function changeColor(infos, socketId, playerId) {
-  let player = players.getPlayerBySocket(socketId);
-  if (player === undefined) player = players.getPlayerById(playerId);
-  if (player === undefined) console.log('player undefined');
-  const lobby = getLobbyByPlayer(player);
-  if (lobby === undefined) return;
-
+function changeColor(infos, lobby) {
   if (!lobby.isAwaitingForColorChoice) return;
 
   lobby.isAwaitingForColorChoice = false;
