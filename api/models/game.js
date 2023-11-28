@@ -59,12 +59,12 @@ function socketWhoPlay(lobby) {
 function timerBotPlayer(lobby, joueur) {
   if (joueur.isHuman) {
     lobby.timerChoice = setTimeout(() => {
-      pickACard(lobby, joueur);
+      pickACard(lobby, joueur, true);
     }, 10 * 1000);
   } else {
     lobby.timerChoice = setTimeout(() => {
       botPlay(joueur, lobby);
-    }, 1.5 * 1000);
+    }, 2 * 1000);
   }
 }
 
@@ -113,10 +113,15 @@ function drawCard(lobby, joueur) {
   }
 }
 
-function pickACard(lobby, joueur) {
+function pickACard(lobby, joueur, forceMode = false) {
   if (lobby.players[lobby.currentPlayer] !== joueur) return;
   if (lobby.isAwaitingForColorChoice === true) return;
-  if (hasACardPlayable(joueur, lobby)) return;
+
+  // Si le joueur a une carte jouable, il ne peut pas piocher
+  // Sauf si on est en mode forcé
+  if (!forceMode) {
+    if (hasACardPlayable(joueur, lobby)) return;
+  }
 
   const card = lobby.stack.pop();
   joueur.deck.push(card);
@@ -280,11 +285,15 @@ function botPlay(player, lobby) {
       playCard(lobby, player, player.deck[i]);
       if (card.color === 'black') {
         setTimeout(() => {
-        const colors = ['red', 'blue', 'green', 'yellow'];
-        const randomIndex = Math.floor(Math.random() * colors.length);
-        card.color = colors[randomIndex];
-        require('./lobbies').changeColor({type: card.value, color: card.color}, null, player.playerId);
-        }, 1000);
+          const colors = ['red', 'blue', 'green', 'yellow'];
+          const randomIndex = Math.floor(Math.random() * colors.length);
+          card.color = colors[randomIndex];
+          require('./lobbies').changeColor(
+            { type: card.value, color: card.color },
+            null,
+            player.playerId,
+          );
+        }, 2000);
       }
       return;
     }
