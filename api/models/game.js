@@ -164,6 +164,7 @@ function isCardPlayable(card, currentCard) {
   }
   return card.color === currentCard.color || card.value === currentCard.value;
 }
+
 // Fonction pour gérer les effets spéciaux des cartes
 function handleSpecialCardEffects(card, lobby) {
   if (card.color === 'black') {
@@ -181,10 +182,10 @@ function handleSpecialCardEffects(card, lobby) {
     if (nextPlayerIndex >= lobby.players.length) nextPlayerIndex = 0;
     if (nextPlayerIndex < 0) nextPlayerIndex = lobby.players.length - 1;
 
-    const nextPlayer = lobby.players[nextPlayerIndex];
     for (let i = 0; i < 2; i += 1) {
-      drawCard(lobby, nextPlayer);
+      drawCard(lobby, lobby.players[nextPlayerIndex]);
     }
+    nextPlayer(lobby);
   } else if (card.value === 'block') {
     nextPlayer(lobby);
   } else if (card.value === 'reverse') {
@@ -201,10 +202,10 @@ function handleSpecialCardEffects(card, lobby) {
     if (nextPlayerIndex >= lobby.players.length) nextPlayerIndex = 0;
     if (nextPlayerIndex < 0) nextPlayerIndex = lobby.players.length - 1;
 
-    const nextPlayer = lobby.players[nextPlayerIndex];
     for (let i = 0; i < 4; i += 1) {
-      drawCard(lobby, nextPlayer);
+      drawCard(lobby, lobby.players[nextPlayerIndex]);
     }
+    nextPlayer(lobby);
   }
 }
 

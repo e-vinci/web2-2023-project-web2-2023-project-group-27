@@ -609,6 +609,3 @@ module.exports = {
   displayColorChoice,
   displayDrawCard,
 };
-
-
-// Si on rejoint en pleine partie, tous le monde à le même nombre de cartes (affichage)
