@@ -133,7 +133,10 @@ function pickACard(lobby, joueur, forceMode = false) {
     if (hasACardPlayable(joueur, lobby)) return;
   }
 
-  const card = lobby.stack.pop();
+  let card;
+  do {
+    card = lobby.stack.pop();
+  } while (card.color !== 'black' && (card.value === '+4' || card.value === 'multicolor'));
   joueur.deck.push(card);
   joueur.numberOfCardsDrawned += 1;
 
@@ -215,8 +218,6 @@ function giveScore(player, card) {
 }
 
 function insertCardInStack(lobby, card) {
-  if (card.value === '+4' && card.color !== 'black') return;
-  if (card.value === 'multicolor' && card.color !== 'black') return;
   const randomIndex = Math.floor(Math.random() * lobby.stack.length);
   lobby.stack.splice(randomIndex, 0, card);
 }
@@ -303,7 +304,7 @@ function botPlay(player, lobby) {
           const colors = ['red', 'blue', 'green', 'yellow'];
           const randomIndex = Math.floor(Math.random() * colors.length);
           card.color = colors[randomIndex];
-          require('./lobbies').changeColor({ type: card.value, color: card.color }, null, player.playerId);
+          require('./lobbies').changeColor({ type: card.value, color: card.color }, lobby);
         }, 2000);
       }
       return;
