@@ -215,6 +215,8 @@ function giveScore(player, card) {
 }
 
 function insertCardInStack(lobby, card) {
+  if (card.value === '+4' && card.color !== 'black') return;
+  if (card.value === 'multicolor' && card.color !== 'black') return;
   const randomIndex = Math.floor(Math.random() * lobby.stack.length);
   lobby.stack.splice(randomIndex, 0, card);
 }
