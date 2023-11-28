@@ -121,8 +121,9 @@ function addPlayerToLobby(player) {
   return lobby;
 }
 
-function changeColor(infos, socketId) {
-  const player = players.getPlayerBySocket(socketId);
+function changeColor(infos, socketId, playerId) {
+  let player = players.getPlayerBySocket(socketId);
+  if(player === undefined) player = players.getPlayerById(playerId);
   const lobby = getLobbyByPlayer(player);
 
   if (!lobby.isAwaitingForColorChoice) return;

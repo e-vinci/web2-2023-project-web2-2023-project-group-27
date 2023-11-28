@@ -277,13 +277,15 @@ function botPlay(player, lobby) {
   for (let i = 0; i < player.deck.length; i += 1) {
     const card = player.deck[i];
     if (isCardPlayable(card, lobby.currentCard)) {
+      playCard(lobby, player, player.deck[i]);
       if (card.color === 'black') {
+        setTimeout(() => {
         const colors = ['red', 'blue', 'green', 'yellow'];
         const randomIndex = Math.floor(Math.random() * colors.length);
         card.color = colors[randomIndex];
-        require('./lobbies').changeColor(lobby, card.color);
+        require('./lobbies').changeColor({type: card.value, color: card.color}, null, player.playerId);
+        }, 1000);
       }
-      playCard(lobby, player, player.deck[i]);
       return;
     }
   }
