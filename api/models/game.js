@@ -120,6 +120,9 @@ function pickACard(lobby, joueur) {
 
 // Fonction pour jouer une carte
 function playCard(lobby, joueur, card) {
+  if (lobby === undefined) lobby = require('./lobbies').getLobbyByPlayer(joueur);
+  if (lobby === undefined) return;
+
   if (lobby.players[lobby.currentPlayer] !== joueur) return;
   if (lobby.isAwaitingForColorChoice === true) return;
 

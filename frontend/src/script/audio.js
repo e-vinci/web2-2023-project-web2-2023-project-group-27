@@ -48,6 +48,13 @@ volumeImageSFX.addEventListener('click', () => {
     if(volumeControlSFX.value === '0') {
       volumeControlSFX.value = value.toString();
       volumeImageSFX.src = volumeImageSrc;
+      if (volumeControlSFX.value <= '0.2'){
+        volumeImageSFX.src = volumeImageSrc1;
+    } else if (volumeControlSFX.value <= '0.5') {
+        volumeImageSFX.src = volumeImageSrc2;
+    } else {
+        volumeImageSFX.src = volumeImageSrc;
+    }
     }else {
       value = volumeControlSFX.value;
       volumeControlSFX.value = 0;
