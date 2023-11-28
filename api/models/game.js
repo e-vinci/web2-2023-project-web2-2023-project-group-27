@@ -138,6 +138,23 @@ function playCard(lobby, joueur, card) {
       io.sendSocketToId(player.socketId, 'cardPlayed', { toPlayer: joueur.playerId, card });
     }
 
+    giveScore(joueur, card);
+
+    if (joueur.deck.length === 0) {
+      setTimeout(() => {
+        for (let i = 0; i < lobby.players.length; i += 1) {
+          const player = lobby.players[i];
+          const infos = {
+            winner: joueur.playerId,
+            numberOfCardsDrawned: player.numberOfCardsDrawned,
+            numberOfCardsPlayed: player.numberOfCardsPlayed,
+            score: player.score,
+          };
+          io.sendSocketToId(lobby.players[i].socketId, 'endGame', infos);
+        }
+      }, 1500);
+    }
+
     handleSpecialCardEffects(card, lobby);
 
     if (card.color !== 'black') {
@@ -153,6 +170,15 @@ function playCard(lobby, joueur, card) {
   } else {
     io.sendSocketToId(joueur.socketId, 'invalidCard');
   }
+}
+
+function giveScore(player, card) {
+  if (player === null) return;
+  if (card === null) return;
+  if (card.color === null || card.value === null) return;
+  if (card.color === 'black') player.score += 25;
+  else if (card.value === '+2' || card.value === 'reverse' || card.value === 'block') player.score += 15;
+  else player.score += Number(card.value);
 }
 
 function insertCardInStack(lobby, card) {
