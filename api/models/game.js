@@ -1,7 +1,10 @@
+/* eslint-disable global-require */
 /* eslint-disable no-loop-func */
 /* eslint-disable no-shadow */
 /* eslint-disable no-param-reassign */
 const io = require('../websockets/websockets');
+
+const numberOfCardsToDraw = 7;
 
 function shuffleStack(lobby) {
   let currentIndex = lobby.stack.length;
@@ -44,15 +47,16 @@ function beginningGame(lobby) {
 }
 
 function socketWhoPlay(lobby) {
+  if (lobby.currentCard.color === 'black') return;
   const playerWhoPlay = lobby.players[lobby.currentPlayer];
   for (let i = 0; i < lobby.players.length; i += 1) {
     io.sendSocketToId(lobby.players[i].socketId, 'nextPlayer', playerWhoPlay.playerId);
   }
+  if (!hasACardPlayable(playerWhoPlay, lobby)) io.sendSocketToId(playerWhoPlay.socketId, 'noCardPlayable');
 }
 
 function giveCardsToPlayers(lobby) {
   let time = 0;
-  const numberOfCardsToDraw = 7;
 
   for (let j = 0; j < numberOfCardsToDraw; j += 1) {
     for (let i = 0; i < lobby.players.length; i += 1) {
@@ -96,76 +100,131 @@ function drawCard(lobby, joueur) {
   }
 }
 
+function pickACard(lobby, joueur) {
+  if (lobby.players[lobby.currentPlayer] !== joueur) return;
+  if (lobby.isAwaitingForColorChoice === true) return;
+  if (hasACardPlayable(joueur, lobby)) return;
+
+  const card = lobby.stack.pop();
+  joueur.deck.push(card);
+  joueur.numberOfCardsDrawned += 1;
+  for (let i = 0; i < lobby.players.length; i += 1) {
+    const player = lobby.players[i];
+    if (player === joueur) io.sendSocketToId(player.socketId, 'cardDrawn', { toPlayer: joueur.playerId, card });
+    else io.sendSocketToId(player.socketId, 'cardDrawn', { toPlayer: joueur.playerId, card: null });
+  }
+
+  nextPlayer(lobby);
+  socketWhoPlay(lobby);
+}
+
 // Fonction pour jouer une carte
-function playCard(lobby, joueur, carteIndex) {
-  const card = joueur.deck[carteIndex];
+function playCard(lobby, joueur, card) {
+  if (lobby.players[lobby.currentPlayer] !== joueur) return;
+  if (lobby.isAwaitingForColorChoice === true) return;
+
   if (isCardPlayable(card, lobby.currentCard)) {
+    const { deck } = joueur;
+    const cardIndex = deck.findIndex((c) => c.color === card.color && c.value === card.value);
     lobby.currentCard = card;
-    joueur.deck.splice(carteIndex, 1);
+    deck.splice(cardIndex, 1);
     joueur.numberOfCardsPlayed += 1;
 
     for (let i = 0; i < lobby.players.length; i += 1) {
       const player = lobby.players[i];
-      io.sendSocketToId(joueur.socketId, 'cardPlayed', { toPlayer: player.playerId, card });
+      io.sendSocketToId(player.socketId, 'cardPlayed', { toPlayer: joueur.playerId, card });
     }
 
     handleSpecialCardEffects(card, lobby);
+
+    if (card.color !== 'black') {
+      nextPlayer(lobby);
+    }
+
+    if (card.value === '+4' || card.value === '+2') {
+      setTimeout(() => {
+        socketWhoPlay(lobby);
+      }, 1500);
+    } else socketWhoPlay(lobby);
+    insertCardInStack(lobby, card);
   } else {
-    io.sendSocketToId(joueur.socketId, 'invalidCard', { card });
+    io.sendSocketToId(joueur.socketId, 'invalidCard');
   }
+}
+
+function insertCardInStack(lobby, card) {
+  const randomIndex = Math.floor(Math.random() * lobby.stack.length);
+  lobby.stack.splice(randomIndex, 0, card);
 }
 // Fonction pour vérifier si une carte est jouable
 function isCardPlayable(card, currentCard) {
+  if (currentCard === null) return true;
   if (card.color === 'black') {
     return true;
   }
-  if (card.color === currentCard.color || card.value === currentCard.value) {
-    return true;
-  }
-  return false;
+  return card.color === currentCard.color || card.value === currentCard.value;
 }
+
 // Fonction pour gérer les effets spéciaux des cartes
 function handleSpecialCardEffects(card, lobby) {
-  if (card.value === '+2') {
-    const currentPlayerIndex = lobby.players.indexOf(lobby.currentPlayer);
-    let nextPlayerIndex = currentPlayerIndex + 1;
-    if (nextPlayerIndex >= lobby.players.length) {
-      nextPlayerIndex = 0; // Revenir au premier joueur s'il n'y a plus de joueurs suivants
-    }
-    const nextPlayer = lobby.players[nextPlayerIndex];
-    for (let i = 0; i < 2; i += 1) {
-      drawCard(lobby, nextPlayer);
-    }
-  } else if (card.value === 'stop') {
-    const currentPlayerIndex = lobby.players.indexOf(lobby.currentPlayer);
-    let nextPlayerIndex = currentPlayerIndex + 1;
-    if (nextPlayerIndex >= lobby.players.length) {
-      nextPlayerIndex = 0;
-    }
-    lobby.currentPlayer = lobby.players[nextPlayerIndex];
-  } else if (card.value === 'reverse') {
-    lobby.players.reverse();
-  } else if (card.value === '+4') {
-    const currentPlayerIndex = lobby.players.indexOf(lobby.currentPlayer);
-    let nextPlayerIndex = currentPlayerIndex + 1;
-    if (nextPlayerIndex >= lobby.players.length) {
-      nextPlayerIndex = 0;
-    }
-    const nextPlayer = lobby.players[nextPlayerIndex];
-    for (let i = 0; i < 4; i += 1) {
-      drawCard(lobby, nextPlayer);
-    }
+  if (card.color === 'black') {
+    lobby.isAwaitingForColorChoice = true;
+    io.sendSocketToId(lobby.players[lobby.currentPlayer].socketId, 'colorChoice', { cardType: card.value });
   }
+  if (card.value === '+2') {
+    const currentPlayerIndex = lobby.currentPlayer;
+    let nextPlayerIndex;
+    if (lobby.direction === 'clockwise') {
+      nextPlayerIndex = currentPlayerIndex + 1;
+    } else {
+      nextPlayerIndex = currentPlayerIndex - 1;
+    }
+    if (nextPlayerIndex >= lobby.players.length) nextPlayerIndex = 0;
+    if (nextPlayerIndex < 0) nextPlayerIndex = lobby.players.length - 1;
+
+    for (let i = 0; i < 2; i += 1) {
+      drawCard(lobby, lobby.players[nextPlayerIndex]);
+    }
+    nextPlayer(lobby);
+  } else if (card.value === 'block') {
+    nextPlayer(lobby);
+  } else if (card.value === 'reverse') {
+    const { reverse } = require('./lobbies');
+    reverse(lobby);
+  } else if (card.value === '+4') {
+    const currentPlayerIndex = lobby.currentPlayer;
+    let nextPlayerIndex;
+    if (lobby.direction === 'clockwise') {
+      nextPlayerIndex = currentPlayerIndex + 1;
+    } else {
+      nextPlayerIndex = currentPlayerIndex - 1;
+    }
+    if (nextPlayerIndex >= lobby.players.length) nextPlayerIndex = 0;
+    if (nextPlayerIndex < 0) nextPlayerIndex = lobby.players.length - 1;
+
+    for (let i = 0; i < 4; i += 1) {
+      drawCard(lobby, lobby.players[nextPlayerIndex]);
+    }
+    nextPlayer(lobby);
+  }
+}
+
+function hasACardPlayable(player, lobby) {
+  for (let i = 0; i < player.deck.length; i += 1) {
+    if (isCardPlayable(player.deck[i], lobby.currentCard)) return true;
+  }
+  return false;
 }
 
 // Fonction pour passer au joueur suivant
 function nextPlayer(lobby) {
-  const currentPlayerIndex = lobby.players.indexOf(lobby.currentPlayer);
-  let nextPlayerIndex = currentPlayerIndex + 1;
-  if (nextPlayerIndex >= lobby.players.length) {
-    nextPlayerIndex = 0; // Revenir au premier joueur s'il n'y a plus de joueurs suivants
+  if (lobby.direction === 'clockwise') {
+    lobby.currentPlayer += 1;
+    if (lobby.currentPlayer >= lobby.players.length) lobby.currentPlayer = 0;
+  } else {
+    lobby.currentPlayer -= 1;
+    if (lobby.currentPlayer < 0) lobby.currentPlayer = lobby.players.length - 1;
   }
-  lobby.currentPlayer = lobby.players[nextPlayerIndex];
 }
 
 module.exports = {
@@ -173,4 +232,6 @@ module.exports = {
   drawCard,
   playCard,
   nextPlayer,
+  socketWhoPlay,
+  pickACard,
 };

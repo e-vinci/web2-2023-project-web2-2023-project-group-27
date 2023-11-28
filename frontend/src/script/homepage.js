@@ -2,6 +2,13 @@ import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-
 import { afficherDivChargement } from './loadingGame';
 import { connectWebSocket } from './websockets';
 
+const volumeImageSrc = require("../img/options/volume.png");
+const volumeImageMuteSrc = require("../img/options/volume_mute.png");
+const volumeImageSrc1 = require("../img/options/volume_1.png");
+const volumeImageSrc2 = require("../img/options/volume_2.png");
+
+const { playRandomMusic, setMusicVolume } = require('./audio');
+
 const nicknameForm = document.getElementById("nickname");
 const popupSettings = document.getElementById("popupSettings");
 const popupLogin = document.getElementById("popupLogin");
@@ -13,14 +20,19 @@ const signInPath = document.getElementById("signInPath");
 const RulesPath = document.getElementById("RulesPath");
 const closeRules = document.getElementById("closeRules");
 const playForm = document.getElementById("playForm");
-const music = document.getElementById("music");
 const volumeControlMusic = document.getElementById("volumeControlMusic");
-const volumeImage = document.getElementById("volume");
+const volumeImageMusic = document.getElementById("volumeMusic");
+const popupCU = document.getElementById("popupCU");
+const CUButton = document.getElementById("CUbutton");
+const acceptButton = document.getElementById("acceptCU");
+const refuseButton = document.getElementById("refuseCU");
 
 let isPopUpDisplayed = false;
 let isPopUpLoginDisplayed = false;
 let isPopUpSignInDisplayed = false;
 let isPopUpRulesDisplayed = false;
+setMusicVolume(0.1);
+let Value = 0.1;
 let socket;
 
 nicknameForm.placeholder = uniqueNamesGenerator({
@@ -51,21 +63,37 @@ document.getElementById("fullscreen").addEventListener('click', () => {
 );
 
 window.addEventListener('click', () => {
-    const audio = music;
-    audio.play();
+    playRandomMusic();
 });
 
 volumeControlMusic.addEventListener('input', () => {
-    music.volume = volumeControlMusic.value;
+    setMusicVolume(parseFloat(volumeControlMusic.value));
 });
 
-volumeImage.addEventListener('click', () => {
-    if(music.volume === 0) {
-        music.volume = parseFloat(volumeControlMusic.value);
-    }else {
-        music.volume = 0;
+volumeImageMusic.addEventListener('click', () => {
+    if (volumeControlMusic.value === '0') {
+        volumeControlMusic.value = Value.toString();
+        volumeImageMusic.src = volumeImageSrc;
+    } else {
+        Value = volumeControlMusic.value;
+        volumeControlMusic.value = 0;
+        volumeImageMusic.src = volumeImageMuteSrc;
     }
-})
+});
+
+// Ajout d'un écouteur d'événements sur l'input range
+volumeControlMusic.addEventListener('input', () => {
+    // Mise à jour de la valeur affichée
+    if (volumeControlMusic.value === '0') {
+        volumeImageMusic.src = volumeImageMuteSrc;
+    } else if (volumeControlMusic.value <= '0.2'){
+        volumeImageMusic.src = volumeImageSrc1;
+    } else if (volumeControlMusic.value <= '0.5') {
+        volumeImageMusic.src = volumeImageSrc2;
+    } else {
+        volumeImageMusic.src = volumeImageSrc;
+    }
+});
 
 settingsButton.addEventListener('click', () => {
     if (isPopUpDisplayed) {
@@ -75,11 +103,19 @@ settingsButton.addEventListener('click', () => {
         popupLogin.style.display = 'none';
         popupSignIn.style.display = 'none';
         popupRules.style.display = 'none';
+        popupCU.style.display = 'none';
     }
     isPopUpDisplayed = !isPopUpDisplayed;
     isPopUpLoginDisplayed = false;
     isPopUpSignInDisplayed = false;
     isPopUpRulesDisplayed = false;
+    document.getElementById('signInCUError').innerText = '';
+    document.getElementById('signInConfirmPasswordError').innerText = '';
+    document.getElementById('signInPasswordError').innerText = '';
+    document.getElementById('signInEmailError').innerText = '';
+    document.getElementById('signInNicknameError').innerText = '';
+    document.getElementById('loginPasswordError').innerText = '';
+    document.getElementById('loginEmailError').innerText = '';
 });
 
 loginPath.addEventListener('click', () => {
@@ -129,7 +165,28 @@ RulesPath.addEventListener('click', () => {
 closeRules.addEventListener('click', () => {
     popupRules.style.display = 'none';
     popupSettings.style.display = 'block';
-})
+});
+
+CUButton.addEventListener('click', () => {
+    settingsButton.style.display = 'none';
+    popupCU.style.display = 'block';
+});
+
+acceptButton.addEventListener('click', () => {
+    settingsButton.style.display = 'block';
+    popupCU.style.display = 'none';
+    document.getElementById('conditionsUtilisation').checked = true;
+    resetErrors();
+});
+
+refuseButton.addEventListener('click', () => {
+    settingsButton.style.display = 'block';
+    popupCU.style.display = 'none';
+    popupSignIn.style.display = 'none';
+    popupSettings.style.display = 'block';
+    document.getElementById('conditionsUtilisation').checked = false;
+    resetErrors();
+});
 
 // Déconnecter le websocket en quittant la page
 window.addEventListener('unload', () => {
@@ -150,6 +207,7 @@ playForm.addEventListener('submit', (e) => {
     document.querySelector('.homepage').classList.add('slide-up');
 
     document.querySelector('.background').classList.add('slide-up');
+    document.querySelector('.backgroundCards').classList.add('slide-up');
 
     popupSettings.style.display = 'none';
     popupLogin.style.display = 'none';
@@ -159,10 +217,19 @@ playForm.addEventListener('submit', (e) => {
     // Div chargement
     afficherDivChargement();
 
-
     setTimeout(() => {
         let nickname = nicknameForm.value;
         if (nickname === '' || nickname === undefined) nickname = nicknameForm.placeholder;
         connectWebSocket(nickname, null, null);
     }, 2900);
 });
+
+function resetErrors() {
+    document.getElementById('signInCUError').innerText = '';
+    document.getElementById('signInConfirmPasswordError').innerText = '';
+    document.getElementById('signInPasswordError').innerText = '';
+    document.getElementById('signInEmailError').innerText = '';
+    document.getElementById('signInNicknameError').innerText = '';
+    document.getElementById('loginPasswordError').innerText = '';
+    document.getElementById('loginEmailError').innerText = '';
+}

@@ -28,7 +28,7 @@ function generateChatBox() {
   messageInput.style.position = 'absolute';
   messageInput.style.bottom = '10px';
   messageInput.style.left = '10px';
-  messageInput.style.width = '350px';
+  messageInput.style.width = '450px';
   chatForm.appendChild(messageInput);
   chatbox.appendChild(chatForm);
 
@@ -57,8 +57,8 @@ function sendMessage(message) {
 const maxMessages = 5;
 const messages = [];
 
-function addMessage(message) {
-  messages.push(message);
+function addMessage(message, isInformational) {
+  messages.push({message, isInformational});
 
   if (messages.length > maxMessages) {
     messages.shift(); // Supprime le message le plus ancien
@@ -72,7 +72,8 @@ function renderMessages() {
   for (const message of messages) {
     const chatText = document.createElement('h5');
     chatText.className = 'chatMessage';
-    chatText.innerText = message;
+    chatText.innerText = message.message;
+    if (message.isInformational) chatText.style.color = 'grey';
     chatbox.appendChild(chatText);
 
     // Supprimer le message après 10 secondes

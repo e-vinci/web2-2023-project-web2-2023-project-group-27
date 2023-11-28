@@ -2,11 +2,11 @@
 /* eslint-disable no-param-reassign */
 
 const socketio = require('socket.io-client');
-const { generatingGame, displayPlayerWhoPlay, addCard, setLastCard } = require('./game');
+const { generatingGame, displayPlayerWhoPlay, addCard, setLastCard, reverseDirection, displayColorChoice, displayDrawCard } = require('./game');
 
 const erreur = require('./erreur');
 const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAfficherChargement, updateLoadingTitle, cacherDivQuiCacheLeChargement, fairePartirLeChargement } = require('./loadingGame');
-const { updatePlayer } = require('./game');
+const { updatePlayer, removeCard } = require('./game');
 const { generateChatBox, addMessage } = require('./chat');
 
 // const link = 'ws://155.248.239.223:25568';
@@ -94,10 +94,26 @@ const connectWebSocket = (nickname) => {
 
         io.on('cardPlayed', (infos) => {
             setLastCard(infos.card);
+            removeCard(infos.toPlayer, infos.card);
         })
 
         io.on('chatMessage', (message) => {
-            addMessage(message.message);
+            addMessage(message.message, message.isInformational);
+        });
+
+        io.on('invalidCard', () => {
+           // mettre ici un son pour dire que la carte est invalide 
+        });
+
+        io.on('newDirection', (direction) => {
+            reverseDirection(direction);
+        });
+
+        io.on('colorChoice', (infos) => {
+            displayColorChoice(infos.cardType);
+        })
+        io.on('noCardPlayable', () => {
+            displayDrawCard();
         });
 })
 return io;

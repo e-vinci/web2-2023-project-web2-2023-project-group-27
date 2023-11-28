@@ -1,3 +1,4 @@
+/* eslint-disable no-loop-func */
 /* eslint-disable global-require */
 /* eslint-disable no-multi-assign */
 /* eslint-disable no-param-reassign */
@@ -5,13 +6,16 @@ const { setLoadingBarPercentage } = require('./loadingGame');
 const { getCardImage, getCardIcon, getUserIcon, getBotIcon } = require('./images');
 const { afficherInformation } = require('./loadingGame');
 
-const cardHoverSFX = require('../sound/card_hover.mp3');
-const cardPickSFX = require('../sound/card_pick.mp3');
+const { playCardPickSound, playCardHoverSound } = require('./audio');
 
 let cardCenterDiv;
 let currentCard;
 let cardStack;
 let directionArrow;
+let divColorChoice;
+let colorBackground;
+
+let cardChoiceType = null;
 
 let playerDeck = [];
 
@@ -72,10 +76,17 @@ function generatingGame(lobby) {
     currentCard.className = 'currentCard';
   if (lobby.currentCard === null) currentCard.src = '';
   setCardImage(currentCard, lobby.currentCard);
+  currentCard.card = lobby.currentCard;
 
   // pioche
   cardStack = document.createElement('div');
   cardStack.className = 'cardStack';
+
+  cardStack.addEventListener('click', () => {
+    const { sendSocketToServer } = require('./websockets');
+    sendSocketToServer('drawCard');
+    cardStack.classList.remove('drawCard');
+  });
 
   cardCenterDiv.appendChild(cardStack);
   cardCenterDiv.appendChild(currentCard);
@@ -105,13 +116,17 @@ function generatingGame(lobby) {
   }
 
   // flèche de direction
-  addDirectionArrow();
+  addDirectionArrow(lobby.direction);
 
   // logo vinci arrière plan
   const vinciLogo = document.createElement('div');
   vinciLogo.className = 'vinciLogo';
   document.body.appendChild(vinciLogo);
+  setLoadingBarPercentage(80);
+
+  generateCardChoice();
   setLoadingBarPercentage(90);
+
   setTimeout(() => {
   afficherInformation("Chargement d'autres joueurs");
   const {sendSocketToServer} = require('./websockets');
@@ -178,7 +193,7 @@ function createMainPlayerDiv(player) {
 function addCard(playerId, card){
   if(playerId === divMainPlayer.playerId) addCardToMainPlayer(card);
   else addCardToOpponent(playerId);
-  playSoundEffect(cardPickSFX);
+  playCardPickSound();
 }
 
 function addCardToOpponent(playerId) {
@@ -214,8 +229,15 @@ function addCardToMainPlayer(card) {
         if(!carddiv.classList.contains('notTheTimeToPlay')) {
           carddiv.style.top = '-40px';
           carddiv.style.marginRight = '25px';
-          playSoundEffect(cardHoverSFX);
+          playCardHoverSound();
         }
+    });
+
+    carddiv.addEventListener('click', () => {
+      if(!carddiv.classList.contains('notTheTimeToPlay')) {
+       const {sendSocketToServer} = require('./websockets');
+        sendSocketToServer('playCard', carddiv.card);
+      }
     });
 
     carddiv.addEventListener('mouseout', () => {
@@ -282,16 +304,55 @@ function setTimeToPlay(boolean) {
   }
 }
 
+function displayDrawCard() {
+  cardStack.classList.add('drawCard');
+}
+
 function removeCardToMainPlayer(index) {
   const cardDiv = divMainPlayer.divCardIconCards[index];
+  if(cardDiv === undefined) return; 
   divMainPlayer.mainDivCards.removeChild(cardDiv);
   divMainPlayer.divCardIconCards.splice(index, 1);
+
+  divMainPlayer.textCardCount.textContent = divMainPlayer.divCardIconCards.length;
 
   calculateMarginCards(divMainPlayer.divCardIconCards, true);
   calculateWidthCards(divMainPlayer.divCardIconCards.length, divMainPlayer.mainDivCards, true);
 }
 
+function generateCardChoice() {
+  divColorChoice = document.createElement('div');
+  divColorChoice.className = 'colorChoice';
 
+  colorBackground = document.createElement('div');
+  colorBackground.className = `colorChoiceBackground`;
+
+  const colors = ['red', 'blue', 'green', 'yellow'];
+  for(let i = 0; i < colors.length; i += 1) {
+    const color = document.createElement('div');
+    color.className = `colorChoice${colors[i]}`;
+    color.addEventListener('click', () => {
+      const {sendSocketToServer} = require('./websockets');
+      sendSocketToServer('colorChoice', { color: colors[i], type: cardChoiceType });
+
+      divColorChoice.style.display = 'none';
+      colorBackground.style.display = 'none';
+    });
+
+    divColorChoice.style.display = 'none';
+    colorBackground.style.display = 'none';
+    divColorChoice.appendChild(color);
+
+  }
+  document.body.appendChild(colorBackground);
+  document.body.appendChild(divColorChoice);
+}
+
+function displayColorChoice(cardType) {
+  cardChoiceType = cardType;
+  divColorChoice.style.display = 'block';
+  colorBackground.style.display = 'block';
+}
 
 function createOpponentPlayerDiv(player, number) {
   const divOpponentPlayer = divOpponentPlayers[number - 2];
@@ -356,8 +417,7 @@ function displayPlayerWhoPlay(playerId) {
     if(divOpponentPlayers[i] !== playerDiv) divOpponentPlayers[i].mainDiv.style.backgroundColor = "gray";
     else divOpponentPlayers[i].mainDiv.style.backgroundColor = "orange";
   }
-
-  setTimeToPlay(playerDiv === divMainPlayer);
+    setTimeToPlay(playerDiv === divMainPlayer);
 }
 
 function getOpponentIndex(playerId) {
@@ -404,21 +464,21 @@ function getOpponent(id) {
   return null;
 }
 
-function addDirectionArrow() {
+function addDirectionArrow(direction) {
   directionArrow = document.createElement('div');
     directionArrow.className = 'direction-arrow';
-    directionArrow.classList.add('clockwise');
+    reverseDirection(direction);
   document.body.appendChild(directionArrow);
 }
 
-function reverseDirection() {
-  if (directionArrow.classList.contains('clockwise')) {
-    directionArrow.classList.remove('clockwise');
-    directionArrow.classList.add('anticlockwise');
-  }
-  else {
+function reverseDirection(newDirection) {
+  if (newDirection === 'clockwise') {
     directionArrow.classList.remove('anticlockwise');
     directionArrow.classList.add('clockwise');
+  }
+  else {
+    directionArrow.classList.remove('clockwise');
+    directionArrow.classList.add('anticlockwise');
   }
 }
 
@@ -512,17 +572,28 @@ function calculateMarginCards(cardsDiv, isHorizontal) {
   }
 }
 
+function removeCard(playerId, card) {
+  if(playerId === null) return;
+  if(playerId === divMainPlayer.playerId) {
+    const index = divMainPlayer.divCardIconCards.findIndex((cardDiv) => cardDiv.title === `${card.value} ${card.color}`);
+    removeCardToMainPlayer(index);
+  } else {
+      const divPlayer = divOpponentPlayers.find((div) => div.playerId === playerId);
+      removeCardToOpponent(divPlayer);
+  }
+}
 
-function playSoundEffect(audioSource) {
-  const soundEffect = new Audio(audioSource);
-  soundEffect.volume = document.getElementById('volumeControlSFX').value;
-  document.body.appendChild(soundEffect);
-  soundEffect.play();
+function removeCardToOpponent(divPlayer) {
+  if(divPlayer === null) return;
+  divPlayer.mainDivCards.removeChild(divPlayer.divCardIconCards[0]);
+  divPlayer.divCardIconCards.splice(0, 1);
 
-  soundEffect.addEventListener('ended', () => {
-      soundEffect.pause();
-      document.body.removeChild(soundEffect);
-  });
+  divPlayer.textCardCount.textContent = divPlayer.divCardIconCards.length;
+
+  const index = divOpponentPlayers.findIndex((div) => div.playerId === divPlayer.playerId);
+  calculateMarginCards(divPlayer.divCardIconCards, index === 1);
+  // TODO : Spéficier si le deck est horizontal, sinon ca met un margin top au lieu d'un margin left
+  calculateWidthCards(divPlayer.divCardIconCards.length, divPlayer.mainDivCards, index === 1);
 }
 
 
@@ -534,4 +605,7 @@ module.exports = {
   displayPlayerWhoPlay,
   addCard,
   setLastCard,
+  removeCard,
+  displayColorChoice,
+  displayDrawCard,
 };

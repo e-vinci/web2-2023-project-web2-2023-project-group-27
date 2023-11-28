@@ -2,6 +2,7 @@
 const http = require('http').createServer();
 const io = require('socket.io')(http, { cors: { origin: 'http://localhost:8080' } });
 
+const { playCard, pickACard } = require('../models/game');
 const lobbies = require('../models/lobbies');
 const players = require('../models/players');
 
@@ -39,11 +40,31 @@ io.on('connection', (socket) => {
     const messageFormat = `${player.username} ➪ ${message}`;
     for (let i = 0; i < lobby.players.length; i += 1) {
       if (lobby.players[i].socketId === null || lobby.players[i].socketId === undefined) continue;
-      io.to(lobby.players[i].socketId).emit('chatMessage', { message: messageFormat });
+      io.to(lobby.players[i].socketId).emit('chatMessage', { message: messageFormat, isInformational: false });
     }
   });
-});
 
+  socket.on('playCard', (card) => {
+    const player = players.getPlayerBySocket(socket.id);
+    const lobby = lobbies.getLobbyByPlayer(players.getPlayerBySocket(socket.id));
+    playCard(lobby, player, card);
+  });
+
+  socket.on('colorChoice', (infos) => {
+    lobbies.changeColor(infos, socket.id);
+  });
+
+  socket.on('drawCard', () => {
+    /*
+    const player = players.getPlayerBySocket(socket.id);
+    const lobby = lobbies.getLobbyByPlayer(player);
+    lobbies.drawCard(lobby, player);
+    */
+    const player = players.getPlayerBySocket(socket.id);
+    const lobby = lobbies.getLobbyByPlayer(player);
+    pickACard(lobby, player);
+  });
+});
 // Ouverture du serveur sur le port 25568 (celui du serveur)
 // eslint-disable-next-line no-console
 http.listen(25568, () => console.log(`WebSockets server listening on ${http.address().address}:${http.address().port}`));
