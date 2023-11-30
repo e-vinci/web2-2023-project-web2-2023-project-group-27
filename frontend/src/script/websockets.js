@@ -119,6 +119,7 @@ const connectWebSocket = (nickname) => {
             erreur.afficherErreur(message, socket);
         })
         io.on('uno', () => {
+            console.log("iciiiii");
             imageUno();
         })
 })

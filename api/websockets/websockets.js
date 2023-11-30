@@ -64,6 +64,11 @@ io.on('connection', (socket) => {
     const lobby = lobbies.getLobbyByPlayer(player);
     pickACard(lobby, player);
   });
+
+  socket.on('uno', () => {
+    // const player = players.getPlayerBySocket(socket.id);
+    // const lobby = lobbies.getLobbyByPlayer(player);
+  });
 });
 // Ouverture du serveur sur le port 25568 (celui du serveur)
 // eslint-disable-next-line no-console

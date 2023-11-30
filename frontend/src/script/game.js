@@ -602,10 +602,33 @@ function imageUno(){
       image.className = "image-uno";
       document.body.appendChild(image);
 
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         document.body.removeChild(image);
       }, 5000);
+
+      image.addEventListener('click', () => {
+        document.body.removeChild(image);
+        const io = require('./websockets');
+        io.sendSocketToServer('uno');
+        clearTimeout(timer);
+      })
 }
+
+/* function contreUno(){
+  const imageCU = document.createElement("img");
+  imageCU.src = getImageUno();
+  imageCU.className = "image-uno";
+  document.body.appendChild(imageCU);
+
+  const timer = setTimeout(() => {
+    document.body.removeChild(imageCU);
+  }, 5000);
+
+  imageCU.addEventListener('click', () => {
+    document.body.removeChild(imageCU);
+    clearTimeout(timer);
+  })
+} */
 
 
 module.exports = {
