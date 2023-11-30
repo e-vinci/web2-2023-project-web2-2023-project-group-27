@@ -5,7 +5,7 @@
 /* eslint-disable no-param-reassign */
 const io = require('../websockets/websockets');
 
-const NUMBER_OF_CARDS_TO_DRAW = 2;
+const NUMBER_OF_CARDS_TO_DRAW = 1;
 const NUMBER_OF_TIMES_BEFORE_KICK = 5;
 
 function shuffleStack(lobby) {
@@ -178,67 +178,15 @@ function playCard(lobby, joueur, card) {
       io.sendSocketToId(player.socketId, 'cardPlayed', { toPlayer: joueur.playerId, card });
     }
 
-    giveScore(joueur, card);
+    // giveScore(joueur, card);
 
     if (joueur.deck.length === 1) {
       setTimeout(() => {
-        console.log('LAAAA');
         io.sendSocketToId('uno');
       }, 1500);
     }
     if (joueur.deck.length === 0) {
-
-
-      const score = [];
-      for (let i = 0; i < lobby.players.length; i += 1) {
-        lobby.players[i].scoreFinal = 0;
-        for (let j = 0; j < lobby.players[i].deck.length; j += 1) {
-          finalScore(lobby.players[i], lobby.players[i].deck[j]);
-        }
-        score.push(lobby.players[i].scoreFinal);
-        score[i].joueur = lobby.players[i].username;
-      }
-      for (let i = 0; i < 4; i++) {
-        score.push(lobby.players[i].username);
-      }
-      for (let i = 0; i < 4; i++) {
-        score.push(lobby.players[i].deck.length);
-      }
-      
-      console.log('aucun tri')
-      for (let i = 0; i < score.length; i++) {
-        console.log(score[i] + ' - ');
-      }
-      trierTableau(score, 8, 12);
-      console.log('cartes trié')
-      for (let i = 0; i < score.length; i++) {
-        console.log(score[i] + ' - ');
-      }
-      trierTableau(score, 0, 4);
-      console.log('Score trié');
-      for (let i = 0; i < score.length; i++) {
-        console.log(score[i] + ' - ');
-      }
-
-
-      setTimeout(() => {
-        for (let i = 0; i < lobby.players.length; i += 1) {
-          const player = lobby.players[i];
-          const infos = {
-            winner: score[4],
-            second: score[5],
-            third: score[6],
-            fourth: score[7],
-            score1: score[0],
-            score2: score[1],
-            score3: score[2],
-            score4: score[3],
-            numberOfCardsDrawned: player.numberOfCardsDrawned - NUMBER_OF_CARDS_TO_DRAW,
-            numberOfCardsPlayed: player.numberOfCardsPlayed,
-          };
-          io.sendSocketToId(lobby.players[i].socketId, 'endGame', infos);
-        }
-      }, 1500);
+      gameFinished(lobby, joueur);
     }
 
     if (joueur.deck.length === 1 && lobby.unoSignal === null) {
@@ -266,6 +214,49 @@ function playCard(lobby, joueur, card) {
   }
 }
 
+function gameFinished(lobby) {
+  // création d'un tableau avec les stats de chaque joueur
+  const playerStats = lobby.players.map((player) => {
+    player.scoreFinal = 0;
+    player.deck.forEach((card) => finalScore(player, card)); // Calculer le score final
+    return {
+      username: player.username,
+      scoreFinal: player.scoreFinal,
+      numberOfCards: player.deck.length,
+      numberOfCardsDrawned: player.numberOfCardsDrawned,
+      numberOfCardsPlayed: player.numberOfCardsPlayed,
+    };
+  });
+
+  // tri
+  playerStats.sort((a, b) => {
+    if (a.numberOfCards === b.numberOfCards) {
+      return a.scoreFinal - b.scoreFinal; // En cas d'égalité de cartes, le plus bas score gagne
+    }
+    return a.numberOfCards - b.numberOfCards; // Moins de cartes = meilleur classement
+  });
+
+  console.log(`Classement final pour le lobby ${lobby.id} :`);
+  playerStats.forEach((player) => console.log(
+    `${player.username}: Score = ${player.scoreFinal}, Cartes restantes = ${player.numberOfCards}`,
+  ));
+
+  const allPlayerStats = playerStats.map((playerStat, index) => ({
+    placement: index + 1,
+    username: playerStat.username,
+    score: playerStat.scoreFinal,
+    numberOfCards: playerStat.numberOfCards,
+    numberOfCardsDrawned: playerStat.numberOfCardsDrawned,
+    numberOfCardsPlayed: playerStat.numberOfCardsPlayed,
+  }));
+
+  setTimeout(() => {
+    lobby.players.forEach((player) => {
+      io.sendSocketToId(player.socketId, 'endGame', allPlayerStats);
+    });
+  }, 1500);
+}
+
 function finalScore(player, card) {
   if (player === null) return;
   if (card === null) return;
@@ -273,34 +264,6 @@ function finalScore(player, card) {
   if (card.color === 'black') player.scoreFinal += 25;
   else if (card.value === '+2' || card.value === 'reverse' || card.value === 'block') player.scoreFinal += 15;
   else player.scoreFinal += Number(card.value);
-}
-
-function trierTableau(tableau, indexDebut, indexFin) {
-
-  for (let i = indexDebut; i < indexFin ; i++) {
-    // Trouver l'index du minimum dans le reste du tableau
-    let indexMinimum = i;
-    for (let j = i + 1; j < indexFin; j++) {
-      if (tableau[j] < tableau[indexMinimum]) {
-        indexMinimum = j;
-      }
-    }
-    // Échanger l'élément actuel avec le minimum trouvé
-    // i%4 => 0 à 3 = score | 4 à 7 = username | 8 à 11 = nombre de cartes
-    if (indexMinimum !== i) {
-      const score = tableau[i%4];
-      const joueur = tableau[i%4+4];
-      const cartes = tableau[i%4+8];
-      tableau[i%4] = tableau[indexMinimum%4];
-      tableau[i%4+4] = tableau[indexMinimum%4+4];
-      tableau[i%4+8] = tableau[indexMinimum%4+8];
-      tableau[indexMinimum%4] = score;
-      tableau[indexMinimum%4+4] = joueur;
-      tableau[indexMinimum%4+8] = cartes;
-    }
-  }
-
-  return tableau;
 }
 
 function insertCardInStack(lobby, card) {
