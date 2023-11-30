@@ -478,3 +478,14 @@
     top: 20px;
     left: 20px;
 }
+
+.subTitleFinal{
+    font-size: 20px;
+    margin-left: 150px !important;
+    padding-top: 10px !important;
+}
+
+.titleFinal{
+    margin-left: 100px !important;
+    padding-top: 10px !important;
+}

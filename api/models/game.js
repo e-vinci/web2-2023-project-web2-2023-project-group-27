@@ -230,16 +230,11 @@ function gameFinished(lobby) {
 
   // tri
   playerStats.sort((a, b) => {
-    if (a.numberOfCards === b.numberOfCards) {
-      return a.scoreFinal - b.scoreFinal; // En cas d'égalité de cartes, le plus bas score gagne
-    }
-    return a.numberOfCards - b.numberOfCards; // Moins de cartes = meilleur classement
+    // Si score égal, le joueur avec le moins de cartes gagne
+    if (a.scoreFinal === b.scoreFinal) return a.numberOfCards - b.numberOfCards;
+    // Le plus bas score gagne
+    return a.scoreFinal - b.scoreFinal;
   });
-
-  console.log(`Classement final pour le lobby ${lobby.id} :`);
-  playerStats.forEach((player) => console.log(
-    `${player.username}: Score = ${player.scoreFinal}, Cartes restantes = ${player.numberOfCards}`,
-  ));
 
   const allPlayerStats = playerStats.map((playerStat, index) => ({
     placement: index + 1,

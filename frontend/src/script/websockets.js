@@ -120,13 +120,13 @@ const connectWebSocket = (nickname) => {
         });
         io.on('kicked', (message) => {
             erreur.afficherErreur(message, socket);
-        })
+        });
         io.on('uno', () => {
             imageUno();
-        })
+        });
         io.on('contreUno', () => {
             imageContreUno();
-        })
+        });
 })
 return io;
 }

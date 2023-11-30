@@ -635,30 +635,29 @@ function imageContreUno(){
 function endGame(infos) {
   const popupScoreboard = document.createElement('div');
   popupScoreboard.id = 'popupScoreboard';
-  const titre = document.createElement('h1');
-  titre.innerText = 'ScoreBoard';
-  popupScoreboard.appendChild(titre);
-  const winner = document.createElement('p');
-  const second = document.createElement('p');
-  const third = document.createElement('p');
-  const fourth = document.createElement('p');
-  const numberOfCardsDrawned = document.createElement('p');
-  const numberOfCardsPlayed = document.createElement('p');
-  const score = document.createElement('p');
-  winner.innerText = `Gagnant : ${infos.winner} (${infos.score1} points)`;
-  second.innerText = `Deuxième : ${infos.second} (${infos.score2} points)`;
-  third.innerText = `Troisième : ${infos.third} (${infos.score3} points)`;
-  fourth.innerText = `Dernier : ${infos.fourth} (${infos.score4} points)`;
-  numberOfCardsDrawned.innerHTML = `Cartes piochées : ${infos.numberOfCardsDrawned}`;
-  numberOfCardsPlayed.innerText = `Cartes jouées : ${infos.numberOfCardsPlayed}`;
   
-  popupScoreboard.appendChild(winner);
-  popupScoreboard.appendChild(second);
-  popupScoreboard.appendChild(third);
-  popupScoreboard.appendChild(fourth);
-  popupScoreboard.appendChild(numberOfCardsDrawned);
-  popupScoreboard.appendChild(numberOfCardsPlayed);
-  popupScoreboard.appendChild(score);
+  const titre = document.createElement('h1');
+  titre.innerText = 'Classement final';
+  popupScoreboard.appendChild(titre);
+  
+  infos.forEach((playerInfo, index) => {
+    const playerStat = document.createElement('p');
+      playerStat.classList.add('titleFinal')
+      playerStat.innerText = `${index + 1}e Place : ${playerInfo.username} - ${playerInfo.score} points, ${playerInfo.numberOfCards} cartes restantes`;
+  
+    const cardsDrawn = document.createElement('p');
+      cardsDrawn.classList.add('subTitleFinal')
+      cardsDrawn.innerText = `Cartes piochées: ${playerInfo.numberOfCardsDrawned}`;
+  
+    const cardsPlayed = document.createElement('p');
+      cardsPlayed.classList.add('subTitleFinal')
+      cardsPlayed.innerText = `Cartes jouées: ${playerInfo.numberOfCardsPlayed}`;
+  
+    popupScoreboard.appendChild(playerStat);
+    popupScoreboard.appendChild(cardsDrawn);
+    popupScoreboard.appendChild(cardsPlayed);
+  });
+  
   document.body.appendChild(popupScoreboard);
 }
 
