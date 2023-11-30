@@ -2,6 +2,7 @@
 /* eslint-disable global-require */
 /* eslint-disable no-multi-assign */
 /* eslint-disable no-param-reassign */
+
 const { setLoadingBarPercentage } = require('./loadingGame');
 const { getCardImage, getCardIcon, getUserIcon, getBotIcon, getImageUno } = require('./images');
 const { afficherInformation } = require('./loadingGame');
@@ -596,7 +597,6 @@ function removeCardToOpponent(divPlayer) {
 }
 
 function imageUno(){
-    console.log('iciiiii')
       const image = document.createElement("img");
       image.src = getImageUno();
       image.className = "image-uno";
@@ -614,14 +614,23 @@ function endGame(infos) {
   titre.innerText = 'ScoreBoard';
   popupScoreboard.appendChild(titre);
   const winner = document.createElement('p');
+  const second = document.createElement('p');
+  const third = document.createElement('p');
+  const fourth = document.createElement('p');
   const numberOfCardsDrawned = document.createElement('p');
   const numberOfCardsPlayed = document.createElement('p');
   const score = document.createElement('p');
-  winner.innerText = `Gagnant : ${infos.winner}`;
-  numberOfCardsDrawned.innerHTML = `Cartes piochées : ${infos.numberOfCardsDrawned-7}`;
+  winner.innerText = `Gagnant : ${infos.winner} (${infos.score1} points)`;
+  second.innerText = `Deuxième : ${infos.second} (${infos.score2} points)`;
+  third.innerText = `Troisième : ${infos.third} (${infos.score3} points)`;
+  fourth.innerText = `Dernier : ${infos.fourth} (${infos.score4} points)`;
+  numberOfCardsDrawned.innerHTML = `Cartes piochées : ${infos.numberOfCardsDrawned}`;
   numberOfCardsPlayed.innerText = `Cartes jouées : ${infos.numberOfCardsPlayed}`;
-  score.innerText = `Score du gagant : ${infos.score}`;
+  
   popupScoreboard.appendChild(winner);
+  popupScoreboard.appendChild(second);
+  popupScoreboard.appendChild(third);
+  popupScoreboard.appendChild(fourth);
   popupScoreboard.appendChild(numberOfCardsDrawned);
   popupScoreboard.appendChild(numberOfCardsPlayed);
   popupScoreboard.appendChild(score);

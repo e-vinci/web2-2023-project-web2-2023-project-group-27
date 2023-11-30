@@ -101,7 +101,7 @@ button:focus {
     width: 70px;
     height: 70px;
     transition: ease-out 0.5s;
-    z-index: 1001;
+    z-index: 10000;
     filter: brightness(110%);
 }
 
@@ -425,15 +425,22 @@ input[type="range"] {
 }
 
 #popupScoreboard {
+    z-index: 9999;
     display: block;
     align-items: center;
     justify-content: center;
-    font-size: larger;
+    font-size: 200%;
     font-weight: bolder;
+    height: 100vh;
+    width: 100vw;
+    left: 0;
+    margin-left: 0;
 }
 
 #popupScoreboard p {
-    padding-top: 10%;
+    text-align: left;
+    padding-top: 5%;
+    margin-left: 5%;
 }
 
 #popupCU {
