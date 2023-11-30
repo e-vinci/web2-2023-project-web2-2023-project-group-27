@@ -55,7 +55,7 @@ function socketWhoPlay(lobby) {
     io.sendSocketToId(lobby.players[i].socketId, 'nextPlayer', playerWhoPlay.playerId);
   }
   if (!hasACardPlayable(playerWhoPlay, lobby)) io.sendSocketToId(playerWhoPlay.socketId, 'noCardPlayable');
-  if (playerWhoPlay.deck.length === 1) {
+  if (playerWhoPlay.deck.length === 2 && hasACardPlayable(playerWhoPlay, lobby)) {
     io.sendSocketToId(playerWhoPlay.socketId, 'uno');
   }
   timerBotPlayer(lobby, playerWhoPlay);
@@ -194,6 +194,14 @@ function playCard(lobby, joueur, card) {
       }, 1500);
     }
 
+    if (joueur.deck.length === 1 && lobby.unoSignal === null) {
+      lobby.unoSignal = null;
+      for (let i = 0; i < lobby.players.length; i += 1) {
+        const player = lobby.players[i];
+        if (player.isHuman && lobby.unoSignal === null && player !== joueur) io.sendSocketToId(player.socketId, 'contreUno');
+      }
+    }
+
     handleSpecialCardEffects(card, lobby);
 
     if (card.color !== 'black') {
@@ -317,6 +325,11 @@ function botPlay(player, lobby) {
   pickACard(lobby, player);
 }
 
+function signalUno(player, lobby) {
+  if (player === undefined || lobby === undefined) return;
+  lobby.unoSignal = player.playerId;
+}
+
 module.exports = {
   generateCards,
   drawCard,
@@ -324,4 +337,5 @@ module.exports = {
   nextPlayer,
   socketWhoPlay,
   pickACard,
+  signalUno,
 };
