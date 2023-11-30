@@ -614,22 +614,26 @@ function imageUno(){
       })
 }
 
-/* function contreUno(){
-  const imageCU = document.createElement("img");
-  imageCU.src = getImageUno();
-  imageCU.className = "image-uno";
-  document.body.appendChild(imageCU);
-
-  const timer = setTimeout(() => {
-    document.body.removeChild(imageCU);
-  }, 5000);
-
-  imageCU.addEventListener('click', () => {
-    document.body.removeChild(imageCU);
-    clearTimeout(timer);
-  })
-} */
-
+function endGame(infos) {
+  const popupScoreboard = document.createElement('div');
+  popupScoreboard.id = 'popupScoreboard';
+  const titre = document.createElement('h1');
+  titre.innerText = 'ScoreBoard';
+  popupScoreboard.appendChild(titre);
+  const winner = document.createElement('p');
+  const numberOfCardsDrawned = document.createElement('p');
+  const numberOfCardsPlayed = document.createElement('p');
+  const score = document.createElement('p');
+  winner.innerText = `Gagnant : ${infos.winner}`;
+  numberOfCardsDrawned.innerHTML = `Cartes piochées : ${infos.numberOfCardsDrawned-7}`;
+  numberOfCardsPlayed.innerText = `Cartes jouées : ${infos.numberOfCardsPlayed}`;
+  score.innerText = `Score du gagant : ${infos.score}`;
+  popupScoreboard.appendChild(winner);
+  popupScoreboard.appendChild(numberOfCardsDrawned);
+  popupScoreboard.appendChild(numberOfCardsPlayed);
+  popupScoreboard.appendChild(score);
+  document.body.appendChild(popupScoreboard);
+}
 
 module.exports = {
   generatingGame,
@@ -642,5 +646,6 @@ module.exports = {
   removeCard,
   displayColorChoice,
   displayDrawCard,
+  endGame,
   imageUno,
 };

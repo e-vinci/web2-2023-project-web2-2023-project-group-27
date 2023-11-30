@@ -406,7 +406,8 @@ input[type="range"] {
 #popupLogin,
 #popupSignIn,
 #popupRules,
-#popupCU {
+#popupCU,
+#popupScoreboard {
     overflow-y: auto;
     z-index: 10000;
     position: absolute;
@@ -421,6 +422,18 @@ input[type="range"] {
     border: 30px;
     border-color: rgb(230, 87, 87);
     border-style: ridge;
+}
+
+#popupScoreboard {
+    display: block;
+    align-items: center;
+    justify-content: center;
+    font-size: larger;
+    font-weight: bolder;
+}
+
+#popupScoreboard p {
+    padding-top: 10%;
 }
 
 #popupCU {

@@ -184,7 +184,7 @@ function playCard(lobby, joueur, card) {
         for (let i = 0; i < lobby.players.length; i += 1) {
           const player = lobby.players[i];
           const infos = {
-            winner: joueur.playerId,
+            winner: joueur.username,
             numberOfCardsDrawned: player.numberOfCardsDrawned,
             numberOfCardsPlayed: player.numberOfCardsPlayed,
             score: player.score,
@@ -288,6 +288,7 @@ function hasACardPlayable(player, lobby) {
 
 // Fonction pour passer au joueur suivant
 function nextPlayer(lobby) {
+  if (lobby === undefined) return;
   if (lobby.direction === 'clockwise') {
     lobby.currentPlayer += 1;
     if (lobby.currentPlayer >= lobby.players.length) lobby.currentPlayer = 0;
