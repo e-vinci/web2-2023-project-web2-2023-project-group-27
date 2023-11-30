@@ -43,6 +43,7 @@ function addLobby() {
     hasStarted: false,
     isAwaitingForColorChoice: false,
     timerChoice: null,
+    unoSignal: null,
   };
   lobbies.push(lobby);
 

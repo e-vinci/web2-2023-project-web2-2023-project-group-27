@@ -5,7 +5,7 @@
 /* eslint-disable no-param-reassign */
 const io = require('../websockets/websockets');
 
-const NUMBER_OF_CARDS_TO_DRAW = 1;
+const NUMBER_OF_CARDS_TO_DRAW = 2;
 const NUMBER_OF_TIMES_BEFORE_KICK = 5;
 
 function shuffleStack(lobby) {
@@ -55,6 +55,9 @@ function socketWhoPlay(lobby) {
     io.sendSocketToId(lobby.players[i].socketId, 'nextPlayer', playerWhoPlay.playerId);
   }
   if (!hasACardPlayable(playerWhoPlay, lobby)) io.sendSocketToId(playerWhoPlay.socketId, 'noCardPlayable');
+  if (playerWhoPlay.deck.length === 2 && hasACardPlayable(playerWhoPlay, lobby)) {
+    io.sendSocketToId(playerWhoPlay.socketId, 'uno');
+  }
   timerBotPlayer(lobby, playerWhoPlay);
 }
 
@@ -175,8 +178,11 @@ function playCard(lobby, joueur, card) {
       io.sendSocketToId(player.socketId, 'cardPlayed', { toPlayer: joueur.playerId, card });
     }
 
+    giveScore(joueur, card);
+
     if (joueur.deck.length === 1) {
       setTimeout(() => {
+        console.log('LAAAA');
         io.sendSocketToId('uno');
       }, 1500);
     }
@@ -233,6 +239,14 @@ function playCard(lobby, joueur, card) {
           io.sendSocketToId(lobby.players[i].socketId, 'endGame', infos);
         }
       }, 1500);
+    }
+
+    if (joueur.deck.length === 1 && lobby.unoSignal === null) {
+      lobby.unoSignal = null;
+      for (let i = 0; i < lobby.players.length; i += 1) {
+        const player = lobby.players[i];
+        if (player.isHuman && lobby.unoSignal === null && player !== joueur) io.sendSocketToId(player.socketId, 'contreUno');
+      }
     }
 
     handleSpecialCardEffects(card, lobby);
@@ -386,6 +400,11 @@ function botPlay(player, lobby) {
   pickACard(lobby, player);
 }
 
+function signalUno(player, lobby) {
+  if (player === undefined || lobby === undefined) return;
+  lobby.unoSignal = player.playerId;
+}
+
 module.exports = {
   generateCards,
   drawCard,
@@ -393,4 +412,5 @@ module.exports = {
   nextPlayer,
   socketWhoPlay,
   pickACard,
+  signalUno,
 };

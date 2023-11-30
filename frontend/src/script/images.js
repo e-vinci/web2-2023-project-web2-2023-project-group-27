@@ -3,9 +3,14 @@ const cardIcon = require("../img/icons/card_icon.png");
 const userIcon = require("../img/icons/user_icon.png");
 const botIcon = require("../img/icons/bot_icon.png");
 const imageUno = require("../img/profile_banner.png");
+const imageContreUno = require("../img/banners/oasis.png");
 
 function getCardIcon() {
     return cardIcon;
+}
+
+function getImageContreUno() {
+    return imageContreUno;
 }
 
 function getUserIcon() {
@@ -34,4 +39,5 @@ module.exports = {
     getUserIcon,
     getBotIcon,
     getImageUno,
+    getImageContreUno,
 }

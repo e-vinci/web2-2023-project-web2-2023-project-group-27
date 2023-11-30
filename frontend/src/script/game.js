@@ -4,7 +4,7 @@
 /* eslint-disable no-param-reassign */
 
 const { setLoadingBarPercentage } = require('./loadingGame');
-const { getCardImage, getCardIcon, getUserIcon, getBotIcon, getImageUno } = require('./images');
+const { getCardImage, getCardIcon, getUserIcon, getBotIcon, getImageUno, getImageContreUno } = require('./images');
 const { afficherInformation } = require('./loadingGame');
 
 const { playCardPickSound, playCardHoverSound } = require('./audio');
@@ -597,14 +597,39 @@ function removeCardToOpponent(divPlayer) {
 }
 
 function imageUno(){
-      const image = document.createElement("img");
-      image.src = getImageUno();
-      image.className = "image-uno";
-      document.body.appendChild(image);
+  const image = document.createElement("img");
+  image.src = getImageUno();
+  image.className = "image-uno";
+  document.body.appendChild(image);
 
-      setTimeout(() => {
-        document.body.removeChild(image);
-      }, 5000);
+  const timer = setTimeout(() => {
+    document.body.removeChild(image);
+  }, 5000);
+
+  image.addEventListener('click', () => {
+    document.body.removeChild(image);
+    const io = require('./websockets');
+    io.sendSocketToServer('uno');
+    clearTimeout(timer);
+  })
+}
+
+function imageContreUno(){
+  const image = document.createElement("img");
+  image.src = getImageContreUno();
+  image.className = "image-uno";
+  document.body.appendChild(image);
+
+  const timer = setTimeout(() => {
+    document.body.removeChild(image);
+  }, 5000);
+
+  image.addEventListener('click', () => {
+    document.body.removeChild(image);
+    const io = require('./websockets');
+    io.sendSocketToServer('contreUno');
+    clearTimeout(timer);
+  })
 }
 
 function endGame(infos) {
@@ -650,4 +675,5 @@ module.exports = {
   displayDrawCard,
   endGame,
   imageUno,
+  imageContreUno,
 };
