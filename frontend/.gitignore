@@ -6,7 +6,5 @@ node_modules
 package-lock.json
 # ignore the development environment variables (if any)
 .env
-# ignore all dist directories files (and subdirectories) from .gitignore
-dist/*
 # but (re)include specific dist directory files, e.g.
 #!frontend-essentials/step-1/dist
