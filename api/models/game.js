@@ -52,7 +52,6 @@ function contreUno(lobby) {
   if (lobby.unoSignal !== null) return;
   if (lobby.whoIsUno === null) return;
   const player = lobby.players.find((p) => p.playerId === lobby.whoIsUno);
-  console.log(player);
   if (player === undefined) return;
   drawCard(lobby, player);
   drawCard(lobby, player);
