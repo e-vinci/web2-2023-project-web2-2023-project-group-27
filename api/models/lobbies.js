@@ -44,6 +44,7 @@ function addLobby() {
     isAwaitingForColorChoice: false,
     timerChoice: null,
     unoSignal: null,
+    whoIsUno: null,
   };
   lobbies.push(lobby);
 

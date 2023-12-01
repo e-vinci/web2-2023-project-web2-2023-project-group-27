@@ -2,7 +2,9 @@
 const http = require('http').createServer();
 const io = require('socket.io')(http, { cors: { origin: 'http://localhost:8080' } });
 
-const { playCard, pickACard, signalUno } = require('../models/game');
+const {
+  playCard, pickACard, signalUno, contreUno,
+} = require('../models/game');
 const lobbies = require('../models/lobbies');
 const players = require('../models/players');
 
@@ -69,6 +71,10 @@ io.on('connection', (socket) => {
     const player = players.getPlayerBySocket(socket.id);
     const lobby = lobbies.getLobbyByPlayer(player);
     signalUno(player, lobby);
+  });
+
+  socket.on('contreUno', () => {
+    contreUno(lobbies.getLobbyByPlayer(players.getPlayerBySocket(socket.id)));
   });
 });
 // Ouverture du serveur sur le port 25568 (celui du serveur)

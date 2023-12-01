@@ -5,7 +5,7 @@
 /* eslint-disable no-param-reassign */
 const io = require('../websockets/websockets');
 
-const NUMBER_OF_CARDS_TO_DRAW = 1;
+const NUMBER_OF_CARDS_TO_DRAW = 2;
 const NUMBER_OF_TIMES_BEFORE_KICK = 5;
 
 function shuffleStack(lobby) {
@@ -46,6 +46,19 @@ function beginningGame(lobby) {
   setTimeout(() => {
     giveCardsToPlayers(lobby);
   }, 500);
+}
+
+function contreUno(lobby) {
+  if (lobby.unoSignal !== null) return;
+  if (lobby.whoIsUno === null) return;
+  const player = lobby.players.find((p) => p.playerId === lobby.whoIsUno);
+  console.log(player);
+  if (player === undefined) return;
+  drawCard(lobby, player);
+  drawCard(lobby, player);
+  lobby.unoSignal = null;
+  lobby.whoIsUno = null;
+  socketWhoPlay(lobby);
 }
 
 function socketWhoPlay(lobby) {
@@ -181,6 +194,7 @@ function playCard(lobby, joueur, card) {
     // giveScore(joueur, card);
 
     if (joueur.deck.length === 1) {
+      lobby.whoIsUno = joueur.playerId;
       setTimeout(() => {
         io.sendSocketToId('uno');
       }, 1500);
@@ -371,4 +385,5 @@ module.exports = {
   socketWhoPlay,
   pickACard,
   signalUno,
+  contreUno,
 };
