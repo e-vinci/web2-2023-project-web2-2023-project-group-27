@@ -410,7 +410,7 @@
     top: 0px;
     float:right;
     border-radius: 0px 500px 0px 0px ;
-    background: radial-gradient(circle at bottom left, rgba(0,0,0,0) 40%, black 120%), rgb(77, 224, 38);
+    background: radial-gradient(circle at bottom left, rgba(0,0,0,0) 40%, black 120%), rgb(30, 152, 0);
     width: 200px;
     height: 200px;
     transition: 0.4s;
