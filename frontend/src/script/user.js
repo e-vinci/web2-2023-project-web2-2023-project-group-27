@@ -44,7 +44,6 @@ document.getElementById('signInForm').addEventListener('submit', (event) => {
     valid = false
   } else {
     document.getElementById('signInCUError').innerText = '';
-    valid = false
   }
 
   if (!valid) {

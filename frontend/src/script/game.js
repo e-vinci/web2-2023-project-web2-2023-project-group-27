@@ -635,6 +635,7 @@ function imageContreUno(){
 function endGame(infos) {
   const popupScoreboard = document.createElement('div');
   popupScoreboard.id = 'popupScoreboard';
+  popupScoreboard.className = 'popup';
   
   const titre = document.createElement('h1');
   titre.innerText = 'Classement final';

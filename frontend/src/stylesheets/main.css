@@ -210,16 +210,9 @@ input {
     width: 50px;
 }
 
-#playButton,
-#loginPath,
-#signInPath,
-#RulesPath,
+.button,
 #loginButton,
-#closeRules,
-#signInButton,
-#CUbutton,
-#acceptCU,
-#refuseCU {
+#signInButton {
     background: rgb(230, 87, 87);
     border: 0px;
     height: 80px;
@@ -266,12 +259,8 @@ input {
     margin-bottom: 3%;
 }
 
+#signInButton,
 #loginButton {
-    width: 300px;
-    box-shadow: 10px 10px 3px 3px rgba(255, 0, 0, 0.3);
-}
-
-#signInButton {
     width: 60%;
     margin-right: 20%;
     box-shadow: 10px 10px 3px 3px rgba(255, 0, 0, 0.3);
@@ -402,12 +391,7 @@ input[type="range"] {
     cursor: pointer;
 }
 
-#popupSettings,
-#popupLogin,
-#popupSignIn,
-#popupRules,
-#popupCU,
-#popupScoreboard {
+.popup {
     overflow-y: auto;
     z-index: 10000;
     position: absolute;
@@ -456,28 +440,16 @@ input[type="range"] {
     font-size: large;
 }
 
-#popupCU::-webkit-scrollbar,
-#popupSettings::-webkit-scrollbar,
-#popupLogin::-webkit-scrollbar,
-#popupSignIn::-webkit-scrollbar,
-#popupRules::-webkit-scrollbar {
+.popup::-webkit-scrollbar {
     width: 12px;
 }
 
-#popupCU::-webkit-scrollbar-track,
-#popupSettings::-webkit-scrollbar-track,
-#popupLogin::-webkit-scrollbar-track,
-#popupSignIn::-webkit-scrollbar-track,
-#popupRules::-webkit-scrollbar-track {
+.popup::-webkit-scrollbar-track {
     background-color: black;
     /* Couleur de fond de la barre de défilement */
 }
 
-#popupCU::-webkit-scrollbar-thumb,
-#popupSettings::-webkit-scrollbar-thumb,
-#popupLogin::-webkit-scrollbar-thumb,
-#popupSignIn::-webkit-scrollbar-thumb,
-#popupRules::-webkit-scrollbar-thumb {
+.popup::-webkit-scrollbar-thumb {
     background-color: rgb(230, 87, 87);
     border-radius: 6px;
 }
@@ -829,16 +801,16 @@ h1 {
     overflow-y: auto;
 }
 
-#popupRules::-webkit-scrollbar {
+.popup::-webkit-scrollbar {
     width: 12px;
 }
 
-#popupRules::-webkit-scrollbar-track {
+.popup::-webkit-scrollbar-track {
     background-color: black;
     /* Couleur de fond de la barre de défilement */
 }
 
-#popupRules::-webkit-scrollbar-thumb {
+.popup::-webkit-scrollbar-thumb {
     background-color: rgb(230, 87, 87);
     border-radius: 6px;
 }

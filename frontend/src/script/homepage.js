@@ -179,6 +179,7 @@ closeRules.addEventListener('click', () => {
 CUButton.addEventListener('click', () => {
     settingsButton.style.display = 'none';
     popupCU.style.display = 'block';
+    
 });
 
 acceptButton.addEventListener('click', () => {

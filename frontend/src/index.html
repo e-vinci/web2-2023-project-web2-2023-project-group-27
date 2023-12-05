@@ -25,7 +25,7 @@
       <form id="playForm">
         <input type="text" id="nickname">
         <br>
-        <input type="submit" id="playButton" value="Jouer">
+        <input type="submit" id="playButton" class="button" value="Jouer">
       </form>
     </div>
   </div>
@@ -58,13 +58,13 @@
 
   <div id="options"></div>
 
-  <div id="popupSettings">
+  <div id="popupSettings" class="popup">
     <h1 id="param">Paramètres</h1>
-    <input type="submit" id="loginPath" value="Se connecter">
+    <input type="submit" id="loginPath" class="button" value="Se connecter">
     <br>
-    <input type="submit" id="signInPath" value="S'inscrire">
+    <input type="submit" id="signInPath" class="button" value="S'inscrire">
     <br>
-    <input type="submit" id="RulesPath" value="Règles">
+    <input type="submit" id="RulesPath" class="button" value="Règles">
     <br>
     <div class="volume-container">
       <div class="volume-sous-container">
@@ -84,7 +84,7 @@
     </div>
   </div>
 
-  <div id="popupLogin">
+  <div id="popupLogin" class="popup">
     <h1>Se connecter</h1>
     <form id="loginForm" method="post">
       <label for="email">Email *</label>
@@ -101,7 +101,7 @@
     </form>
   </div>
 
-  <div id="popupSignIn">
+  <div id="popupSignIn" class="popup">
     <div id="popupSignInContent">
       <h1>S'inscrire</h1>
       <form id="signInForm" method="post">
@@ -129,11 +129,11 @@
         <label for="CU">Conditions d'utilisation *</label>
         <span id="signInCUError" class="error"></span>
         <div id="divCU">
-          <button id="CUbutton">Voir les conditions d'utilisation</button>
+          <button id="CUbutton" class="button">Voir les conditions d'utilisation</button>
           <input type="checkbox" id="conditionsUtilisation">
         </div>
         <br>
-        <input type="submit" id="signInButton" class="inputForm" value="S'inscrire">
+        <input type="submit" id="signInButton" class="c" value="S'inscrire">
       </form>
       <script src="./script/user.js"></script>
       <div class="space"> </div>
@@ -169,7 +169,7 @@
     </form>
   </div>
 -->
-  <div id="popupRules">
+  <div id="popupRules" class="popup">
     <h1>Règles</h1>
     <p class="rulesParagraph">Le but du jeu est simple ! Débarassez-vous de toutes vos cartes.</p> <br>
     <p class="rulesParagraph">Pour déposer une carte il faut que celle-ci soit de la même couleur ou de la même valeur
@@ -196,9 +196,9 @@
       aussi cette carte, auquel cas il peut choisir la couleur. Le joueur suivant pioche alors l'addition des +4. Cette
       carte peut être jouée à tout moment.</p><br>
     <p>Note: Il n'est pas possible de combiner une carte +4 avec une carte +2 et inversement.</p>
-    <button id="closeRules">Compris</button>
+    <button id="closeRules" class="button">Compris</button>
   </div>
-  <div id="popupCU">
+  <div id="popupCU" class="popup">
     <p>Conditions d'utilisation du Jeu en Ligne</p>
     <br>
     <p>Dernière mise à jour : 22-11-2023</p>
@@ -245,8 +245,8 @@
       effectives dès leur publication sur le site. Il est de votre responsabilité de consulter régulièrement les
       conditions d'utilisation pour rester informé des changements.</p>
     <div id="acceptRefuseCU">
-      <button id="acceptCU">Accepter</button>
-      <button id="refuseCU">Refuser</button>
+      <button id="acceptCU" class="button">Accepter</button>
+      <button id="refuseCU" class="button">Refuser</button>
     </div>
   </div>
 </body>
