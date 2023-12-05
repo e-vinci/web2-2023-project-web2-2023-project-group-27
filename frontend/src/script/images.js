@@ -2,8 +2,8 @@ const cardImagesContext = require.context('../img/cards', false, /\.png$/);
 const cardIcon = require("../img/icons/card_icon.png");
 const userIcon = require("../img/icons/user_icon.png");
 const botIcon = require("../img/icons/bot_icon.png");
-const imageUno = require("../img/profile_banner.png");
-const imageContreUno = require("../img/banners/oasis.png");
+const imageUno = require("../img/vinci.png");
+const imageContreUno = require("../img/contre_vinci.png");
 
 function getCardIcon() {
     return cardIcon;
