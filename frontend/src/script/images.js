@@ -5,6 +5,7 @@ const botIcon = require("../img/icons/bot_icon.png");
 const imageUno = require("../img/vinci.png");
 const imageContreUno = require("../img/contre_vinci.png");
 
+
 function getCardIcon() {
     return cardIcon;
 }

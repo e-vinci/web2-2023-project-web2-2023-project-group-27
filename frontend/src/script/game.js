@@ -387,7 +387,7 @@ divOpponentPlayer.imageUserIcon = document.createElement('img');
   divOpponentPlayer.mainDiv.appendChild(divOpponentPlayer.textCardCount);
   divOpponentPlayer.mainDiv.appendChild(divOpponentPlayer.textNickname);
   divOpponentPlayer.mainDiv.appendChild(divOpponentPlayer.imageUserIcon);
-document.body.appendChild(divOpponentPlayer .mainDiv);
+document.body.appendChild(divOpponentPlayer.mainDiv);
 
 divOpponentPlayer.mainDivCards = document.createElement('div');
 divOpponentPlayer.mainDivCards.className = `opponentPlayerCards${number}`;  
@@ -632,13 +632,14 @@ function imageContreUno(){
   })
 }
 
+/*
 function endGame(infos) {
   const popupScoreboard = document.createElement('div');
   popupScoreboard.id = 'popupScoreboard';
-  popupScoreboard.className = 'popup';
+  popupScoreboard.className = 'finalScoreboard';
   
   const titre = document.createElement('h1');
-  titre.innerText = 'Classement final';
+  titre.innerText = 'Partie Terminée';
   popupScoreboard.appendChild(titre);
   
   infos.forEach((playerInfo, index) => {
@@ -661,6 +662,75 @@ function endGame(infos) {
   
   document.body.appendChild(popupScoreboard);
 }
+*/
+
+function endGame(infos) {
+  const popupScoreboard = document.createElement('div');
+  popupScoreboard.className = 'finalScoreboard';
+
+  const titre = document.createElement('h1');
+  titre.innerText = 'Partie Terminée';
+  popupScoreboard.appendChild(titre);
+
+  infos.forEach((playerInfo, index) => {
+    const divPlayer = document.createElement('div');
+      divPlayer.className = `leaderboard${index + 1}`;
+  const nickname = document.createElement('h2');
+    nickname.innerText = `${playerInfo.username}`;
+    
+    const divUserIcon = document.createElement('img');
+      divUserIcon.className = 'userIconLeaderBoard';
+      if(playerInfo.isHuman) setUserIcon(divUserIcon);
+      else setBotIcon(divUserIcon);
+
+
+    const divRank = document.createElement('div');
+    if(index === 0) divRank.className = "rankGold";
+    if(index === 1) divRank.className = "rankSilver";
+    if(index === 2) divRank.className = "rankBronze";
+    if(index > 2) divRank.className = "rankLast";
+
+    const divScore = document.createElement('div');
+      divScore.className = 'score';	
+      divScore.innerText = `${playerInfo.score} points`;
+      if(playerInfo.score <= 1) divScore.innerText = `${playerInfo.score} point`;
+
+    const divCardsLeft = document.createElement('div');
+      divCardsLeft.className = 'cardsLeft';
+      divCardsLeft.innerText = `${playerInfo.numberOfCards} cartes restantes`; 
+      if(playerInfo.numberOfCards <= 1) divCardsLeft.innerText = `${playerInfo.numberOfCards} carte restante`;
+
+    const divCardsDrawn = document.createElement('div');
+      divCardsDrawn.className = 'cardsDrawn';
+      divCardsDrawn.innerText = `${playerInfo.numberOfCardsDrawned} cartes piochées`;
+      if(playerInfo.numberOfCardsDrawned <= 1) divCardsDrawn.innerText = `${playerInfo.numberOfCardsDrawned} carte piochée`;
+
+    const divCardsPlayed = document.createElement('div');
+      divCardsPlayed.className = 'cardsPlayed';
+      divCardsPlayed.innerText = `${playerInfo.numberOfCardsPlayed} cartes jouées`;
+      if(playerInfo.numberOfCardsPlayed <= 1) divCardsPlayed.innerText = `${playerInfo.numberOfCardsPlayed} carte jouée`;
+
+
+    const divResultBackground = document.createElement('div');
+      divResultBackground.className = 'resultBackground';
+
+    divPlayer.appendChild(divRank);
+    divPlayer.appendChild(nickname);
+    divPlayer.appendChild(divUserIcon);
+    
+    divPlayer.appendChild(divScore);
+    divPlayer.appendChild(divCardsLeft);
+    divPlayer.appendChild(divCardsPlayed);
+    divPlayer.appendChild(divCardsDrawn);
+
+    popupScoreboard.appendChild(divPlayer);
+    document.body.appendChild(divResultBackground);
+  });
+
+  document.body.appendChild(popupScoreboard);
+
+}
+
 
 module.exports = {
   generatingGame,

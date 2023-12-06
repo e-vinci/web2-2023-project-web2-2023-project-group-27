@@ -34,8 +34,7 @@ function addLobby() {
     id: lobbies.length + 1,
     players: [],
     direction: 'clockwise',
-    // currentPlayer: Math.floor(Math.random() * MAX_PLAYERS_PER_LOBBY),
-    currentPlayer: 0,
+    currentPlayer: Math.floor(Math.random() * MAX_PLAYERS_PER_LOBBY),
     currentCard: null,
     stack: [],
     maxPlayers: MAX_PLAYERS_PER_LOBBY,
@@ -45,6 +44,7 @@ function addLobby() {
     timerChoice: null,
     unoSignal: null,
     whoIsUno: null,
+    isEnded: false,
   };
   lobbies.push(lobby);
 
@@ -122,6 +122,10 @@ function addPlayerToLobby(player) {
     }
   }
   return lobby;
+}
+
+function isEnded(lobby) {
+  return lobby.isEnded;
 }
 
 function changeColor(infos, lobby) {
@@ -267,4 +271,5 @@ module.exports = {
   getLobbyByPlayer,
   reverse,
   changeColor,
+  isEnded,
 };
