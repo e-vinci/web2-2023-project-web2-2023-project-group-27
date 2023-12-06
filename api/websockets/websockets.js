@@ -1,6 +1,7 @@
 /* eslint-disable no-continue */
+
 const http = require('http').createServer();
-const io = require('socket.io')(http, { cors: { origin: 'http://localhost:8080' } });
+const io = require('socket.io')(http, { cors: { origin: '*' } });
 
 const {
   playCard, pickACard, signalUno, contreUno,
@@ -39,6 +40,7 @@ io.on('connection', (socket) => {
   socket.on('messageSent', (message) => {
     const player = players.getPlayerBySocket(socket.id);
     const lobby = lobbies.getLobbyByPlayer(player);
+    if (lobby.isEnded) return;
     const messageFormat = `${player.username} ➪ ${message}`;
     for (let i = 0; i < lobby.players.length; i += 1) {
       if (lobby.players[i].socketId === null || lobby.players[i].socketId === undefined) continue;
@@ -49,11 +51,14 @@ io.on('connection', (socket) => {
   socket.on('playCard', (card) => {
     const player = players.getPlayerBySocket(socket.id);
     const lobby = lobbies.getLobbyByPlayer(players.getPlayerBySocket(socket.id));
+    if (lobby.isEnded) return;
     playCard(lobby, player, card);
   });
 
   socket.on('colorChoice', (infos) => {
-    lobbies.changeColor(infos, lobbies.getLobbyByPlayer(players.getPlayerBySocket(socket.id)));
+    const lobby = lobbies.getLobbyByPlayer(players.getPlayerBySocket(socket.id));
+    if (lobby.isEnded) return;
+    lobbies.changeColor(infos, lobby);
   });
 
   socket.on('drawCard', () => {
@@ -64,17 +69,21 @@ io.on('connection', (socket) => {
     */
     const player = players.getPlayerBySocket(socket.id);
     const lobby = lobbies.getLobbyByPlayer(player);
+    if (lobby.isEnded) return;
     pickACard(lobby, player);
   });
 
   socket.on('uno', () => {
     const player = players.getPlayerBySocket(socket.id);
     const lobby = lobbies.getLobbyByPlayer(player);
+    if (lobby.isEnded) return;
     signalUno(player, lobby);
   });
 
   socket.on('contreUno', () => {
-    contreUno(lobbies.getLobbyByPlayer(players.getPlayerBySocket(socket.id)));
+    const lobby = lobbies.getLobbyByPlayer(players.getPlayerBySocket(socket.id));
+    if (lobby.isEnded) return;
+    contreUno(lobby);
   });
 });
 // Ouverture du serveur sur le port 25568 (celui du serveur)

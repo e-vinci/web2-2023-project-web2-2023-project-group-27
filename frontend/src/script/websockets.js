@@ -9,7 +9,7 @@ const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAf
 const { updatePlayer, removeCard, imageUno, endGame } = require('./game');
 const { generateChatBox, addMessage } = require('./chat');
 
-// const link = 'ws://155.248.239.223:25568';
+// const link = 'srv03.wildzun.fr:25568';
 
 const link = 'ws://localhost:25568';
 
@@ -25,7 +25,7 @@ const isConnected = () => {
  * Connexion au serveur websocket
  */
 const connectWebSocket = (nickname) => {
-    const io = socketio.io(link);
+    const io = socketio.io(link, {transports: ['websocket']});
 
     socket = io;
     let timerPartie;
@@ -66,7 +66,7 @@ const connectWebSocket = (nickname) => {
         io.on('lobbyInfo', (lobby) => {
             generatingGame(lobby);
             generateChatBox();
-            // debug
+            
             setLoadingBarPercentage(100);
 
             setTimeout(() => {

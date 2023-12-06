@@ -8,5 +8,6 @@ package-lock.json
 .env
 # ignore all dist directories files (and subdirectories) from .gitignore
 dist/*
-# but (re)include specific dist directory files, e.g.
-#!frontend-essentials/step-1/dist
+
+ihm.excalidraw
+/api/config.js

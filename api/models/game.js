@@ -5,7 +5,7 @@
 /* eslint-disable no-param-reassign */
 const io = require('../websockets/websockets');
 
-const NUMBER_OF_CARDS_TO_DRAW = 2;
+const NUMBER_OF_CARDS_TO_DRAW = 7;
 const NUMBER_OF_TIMES_BEFORE_KICK = 5;
 
 function shuffleStack(lobby) {
@@ -74,6 +74,7 @@ function socketWhoPlay(lobby) {
 }
 
 function timerBotPlayer(lobby, joueur) {
+  if (lobby.isEnded) return;
   if (joueur.isHuman) {
     lobby.timerChoice = setTimeout(() => {
       joueur.numbersOfTimesAFK += 1;
@@ -238,6 +239,7 @@ function gameFinished(lobby) {
       numberOfCards: player.deck.length,
       numberOfCardsDrawned: player.numberOfCardsDrawned,
       numberOfCardsPlayed: player.numberOfCardsPlayed,
+      isHuman: player.isHuman,
     };
   });
 
@@ -256,12 +258,14 @@ function gameFinished(lobby) {
     numberOfCards: playerStat.numberOfCards,
     numberOfCardsDrawned: playerStat.numberOfCardsDrawned,
     numberOfCardsPlayed: playerStat.numberOfCardsPlayed,
+    isHuman: playerStat.isHuman,
   }));
 
   setTimeout(() => {
     lobby.players.forEach((player) => {
       io.sendSocketToId(player.socketId, 'endGame', allPlayerStats);
     });
+    lobby.isEnded = true;
   }, 1500);
 }
 
@@ -353,6 +357,8 @@ function nextPlayer(lobby) {
 }
 
 function botPlay(player, lobby) {
+  if (lobby === undefined) return;
+  if (lobby.isEnded) return;
   for (let i = 0; i < player.deck.length; i += 1) {
     const card = player.deck[i];
     if (isCardPlayable(card, lobby.currentCard)) {
