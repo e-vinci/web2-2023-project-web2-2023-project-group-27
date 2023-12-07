@@ -632,41 +632,12 @@ function imageContreUno(){
   })
 }
 
-/*
 function endGame(infos) {
   const popupScoreboard = document.createElement('div');
-  popupScoreboard.id = 'popupScoreboard';
   popupScoreboard.className = 'finalScoreboard';
-  
-  const titre = document.createElement('h1');
-  titre.innerText = 'Partie Terminée';
-  popupScoreboard.appendChild(titre);
-  
-  infos.forEach((playerInfo, index) => {
-    const playerStat = document.createElement('p');
-      playerStat.classList.add('titleFinal')
-      playerStat.innerText = `${index + 1}e Place : ${playerInfo.username} - ${playerInfo.score} points, ${playerInfo.numberOfCards} cartes restantes`;
-  
-    const cardsDrawn = document.createElement('p');
-      cardsDrawn.classList.add('subTitleFinal')
-      cardsDrawn.innerText = `Cartes piochées: ${playerInfo.numberOfCardsDrawned}`;
-  
-    const cardsPlayed = document.createElement('p');
-      cardsPlayed.classList.add('subTitleFinal')
-      cardsPlayed.innerText = `Cartes jouées: ${playerInfo.numberOfCardsPlayed}`;
-  
-    popupScoreboard.appendChild(playerStat);
-    popupScoreboard.appendChild(cardsDrawn);
-    popupScoreboard.appendChild(cardsPlayed);
-  });
-  
-  document.body.appendChild(popupScoreboard);
-}
-*/
 
-function endGame(infos) {
-  const popupScoreboard = document.createElement('div');
-  popupScoreboard.className = 'finalScoreboard';
+  const divResultBackground = document.createElement('div');
+  divResultBackground.className = 'resultBackground';
 
   const titre = document.createElement('h1');
   titre.innerText = 'Partie Terminée';
@@ -711,9 +682,6 @@ function endGame(infos) {
       if(playerInfo.numberOfCardsPlayed <= 1) divCardsPlayed.innerText = `${playerInfo.numberOfCardsPlayed} carte jouée`;
 
 
-    const divResultBackground = document.createElement('div');
-      divResultBackground.className = 'resultBackground';
-
     divPlayer.appendChild(divRank);
     divPlayer.appendChild(nickname);
     divPlayer.appendChild(divUserIcon);
@@ -729,6 +697,12 @@ function endGame(infos) {
 
   document.body.appendChild(popupScoreboard);
 
+  setTimeout(() => {
+      const button = document.createElement('button');
+      button.className = 'replayButton';
+      button.innerText = 'Rejouer';
+      document.body.appendChild(button);
+    }, 4000)
 }
 
 

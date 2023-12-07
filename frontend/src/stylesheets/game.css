@@ -503,6 +503,7 @@
     z-index: 900;
     left:0;
     right:0;
+    animation: resultSlide ease-in-out 3s forwards;
 }
 
 .finalScoreboard h1 {
@@ -683,12 +684,60 @@
     z-index: 800;
 }
 
+@keyframes resultSlide{
+    0%{
+        transform: translateY(300%);
+    }
+    100%{
+        transform: translateY(0%);
+    }
+}
+
 @keyframes fadeIn {
     0% {
         opacity: 0;
     }
 
     100% {
-        opacity: 0.4;
+        opacity: 0.6;
+    }
+}
+
+.replayButton{
+    position:absolute;
+    left: 0px;
+    right: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 250px;
+    height: 60px;
+    z-index: 1000;
+    bottom: 3%;
+    font-size: 40px;
+    line-height: 20px;
+    background-image: linear-gradient(to right, #FF8008 0%, #FFC837  51%, #FF8008  100%);
+    background-size: 200% auto;
+    background-position: left center;
+    animation: replayButton ease-in-out 2s forwards;
+    overflow: hidden;
+    transition: 1s;
+    border-image: linear-gradient(to right, #FF8008 0%, #FFC837  51%, #FF8008  100%) 3;
+    border-width: 4px;
+    border-style: solid;
+    font-weight: 500;
+}
+
+.replayButton:hover{
+    background-position: right center;
+    width: 270px; 
+    letter-spacing: 5px;
+}
+
+@keyframes replayButton {
+    0% {
+        transform: translateY(300%);
+    }
+    100%{
+        transform: translateY(0%);
     }
 }

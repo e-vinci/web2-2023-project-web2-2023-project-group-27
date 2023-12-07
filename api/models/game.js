@@ -5,7 +5,7 @@
 /* eslint-disable no-param-reassign */
 const io = require('../websockets/websockets');
 
-const NUMBER_OF_CARDS_TO_DRAW = 7;
+const NUMBER_OF_CARDS_TO_DRAW = 2;
 const NUMBER_OF_TIMES_BEFORE_KICK = 5;
 
 function shuffleStack(lobby) {
@@ -211,7 +211,7 @@ function playCard(lobby, joueur, card) {
       }
     }
 
-    handleSpecialCardEffects(card, lobby);
+    if (joueur.deck.length !== 0) handleSpecialCardEffects(card, lobby);
 
     if (card.color !== 'black') {
       nextPlayer(lobby);
@@ -266,7 +266,7 @@ function gameFinished(lobby) {
       io.sendSocketToId(player.socketId, 'endGame', allPlayerStats);
     });
     lobby.isEnded = true;
-  }, 1500);
+  }, 1000);
 }
 
 function finalScore(player, card) {
@@ -365,6 +365,7 @@ function botPlay(player, lobby) {
       playCard(lobby, player, player.deck[i]);
       if (card.color === 'black') {
         setTimeout(() => {
+          if (player.deck.length === 0) return;
           const colors = ['red', 'blue', 'green', 'yellow'];
           const randomIndex = Math.floor(Math.random() * colors.length);
           card.color = colors[randomIndex];
