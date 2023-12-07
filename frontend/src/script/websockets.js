@@ -8,6 +8,7 @@ const erreur = require('./erreur');
 const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAfficherChargement, updateLoadingTitle, cacherDivQuiCacheLeChargement, fairePartirLeChargement } = require('./loadingGame');
 const { updatePlayer, removeCard, imageUno, endGame } = require('./game');
 const { generateChatBox, addMessage } = require('./chat');
+const { playError, playCardPlaySound } = require('./audio');
 
 // const link = 'srv03.wildzun.fr:25568';
 
@@ -95,6 +96,7 @@ const connectWebSocket = (nickname) => {
         io.on('cardPlayed', (infos) => {
             setLastCard(infos.card);
             removeCard(infos.toPlayer, infos.card);
+            playCardPlaySound();
         })
 
         io.on('chatMessage', (message) => {
@@ -102,7 +104,7 @@ const connectWebSocket = (nickname) => {
         });
 
         io.on('invalidCard', () => {
-           // mettre ici un son pour dire que la carte est invalide 
+           playError();
         });
 
         io.on('newDirection', (direction) => {

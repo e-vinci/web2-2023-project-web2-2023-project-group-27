@@ -702,7 +702,7 @@ function endGame(infos) {
       button.className = 'replayButton';
       button.innerText = 'Rejouer';
       document.body.appendChild(button);
-    }, 4000)
+    }, 3000)
 }
 
 

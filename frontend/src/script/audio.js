@@ -1,11 +1,15 @@
 /* eslint-disable global-require */
 const cardHoverSFX = require('../sound/card_hover.mp3');
 const cardPickSFX = require('../sound/card_pick.mp3');
+const errorSFX = require('../sound/error.mp3');
+const cardPlaySFX = require('../sound/card_play.mp3');
 
 const volumeImageSrc = require("../img/options/volume.png");
 const volumeImageMuteSrc = require("../img/options/volume_mute.png");
 const volumeImageSrc1 = require("../img/options/volume_1.png");
 const volumeImageSrc2 = require("../img/options/volume_2.png");
+
+
 
 const musics = [
     {source : require('../sound/soundtrack/wondrous-waters.mp3')}, 
@@ -108,10 +112,19 @@ function playSoundEffect(audioSource) {
     playSoundEffect(cardPickSFX);
   }
 
+  function playError() {
+    playSoundEffect(errorSFX);
+  }
+
+  function playCardPlaySound() {
+    playSoundEffect(cardPlaySFX);
+  }
 
   module.exports = {
     playCardHoverSound,
     playCardPickSound,
     playRandomMusic,
     setMusicVolume,
+    playError,
+    playCardPlaySound
   };
