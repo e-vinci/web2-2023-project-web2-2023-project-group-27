@@ -27,6 +27,8 @@ const CUButton = document.getElementById("CUbutton");
 const acceptButton = document.getElementById("acceptCU");
 const refuseButton = document.getElementById("refuseCU");
 
+document.getElementById('usernameError').innerText = 'Maximum 18 caractères';
+
 let isPopUpDisplayed = false;
 let isPopUpLoginDisplayed = false;
 let isPopUpSignInDisplayed = false;
@@ -35,10 +37,14 @@ setMusicVolume(0.1);
 let Value = 0.1;
 let socket;
 
-nicknameForm.placeholder = uniqueNamesGenerator({
-    dictionaries: [adjectives, animals, colors],
-    length: 2
-});
+
+do {
+    nicknameForm.placeholder = uniqueNamesGenerator({
+        dictionaries: [adjectives, animals, colors],
+        length: 2
+    });
+} while (nicknameForm.placeholder.length > 18)
+
 
 popupSettings.style.display = 'none';
 popupLogin.style.display = 'none';
@@ -179,7 +185,7 @@ closeRules.addEventListener('click', () => {
 CUButton.addEventListener('click', () => {
     settingsButton.style.display = 'none';
     popupCU.style.display = 'block';
-    
+
 });
 
 acceptButton.addEventListener('click', () => {
@@ -209,29 +215,35 @@ window.addEventListener('unload', () => {
 playForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
+    let nickname = nicknameForm.value;
+    if (nickname === '' || nickname === undefined) nickname = nicknameForm.placeholder;
 
-    // Masquer le bouton des paramètres
-    settingsButton.style.display = 'none';
+    if (nickname.length > 18) {
+        document.getElementById('usernameError').innerText = 'Votre pseudo contient plus de 18 caractères';
+    } else {
 
-    // Démarrer l'animation de chargement
-    document.querySelector('.homepage').classList.add('slide-up');
+        // Masquer le bouton des paramètres
+        settingsButton.style.display = 'none';
 
-    document.querySelector('.background').classList.add('slide-up');
-    document.querySelector('.backgroundCards').classList.add('slide-up');
+        // Démarrer l'animation de chargement
+        document.querySelector('.homepage').classList.add('slide-up');
 
-    popupSettings.style.display = 'none';
-    popupLogin.style.display = 'none';
-    popupSignIn.style.display = 'none';
-    popupRules.style.display = 'none';
+        document.querySelector('.background').classList.add('slide-up');
+        document.querySelector('.backgroundCards').classList.add('slide-up');
 
-    // Div chargement
-    afficherDivChargement();
+        popupSettings.style.display = 'none';
+        popupLogin.style.display = 'none';
+        popupSignIn.style.display = 'none';
+        popupRules.style.display = 'none';
 
-    setTimeout(() => {
-        let nickname = nicknameForm.value;
-        if (nickname === '' || nickname === undefined) nickname = nicknameForm.placeholder;
-        connectWebSocket(nickname, null, null);
-    }, 2900);
+        // Div chargement
+        afficherDivChargement();
+
+        setTimeout(() => {
+
+            connectWebSocket(nickname, null, null);
+        }, 2900);
+    }
 });
 
 function resetErrors() {

@@ -181,6 +181,14 @@ button:focus {
     cursor: default;
 }
 
+#usernameError {
+    color: black;
+    text-align: center;
+    font-weight: bolder;
+    float: none;
+    margin-left: 0px;
+}
+
 input {
     border: 6px;
     border-color: rgb(230, 87, 87);
