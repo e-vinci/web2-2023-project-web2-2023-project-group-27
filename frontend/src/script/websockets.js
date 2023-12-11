@@ -5,7 +5,7 @@ const socketio = require('socket.io-client');
 const { generatingGame, displayPlayerWhoPlay, addCard, setLastCard, reverseDirection, displayColorChoice, displayDrawCard, imageContreUno } = require('./game');
 
 const erreur = require('./erreur');
-const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAfficherChargement, updateLoadingTitle, cacherDivQuiCacheLeChargement, fairePartirLeChargement } = require('./loadingGame');
+const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAfficherChargement, updateLoadingTitle, fairePartirLeChargement, cacherDivQuiCacheLeChargement } = require('./loadingGame');
 const { updatePlayer, removeCard, imageUno, endGame } = require('./game');
 const { generateChatBox, addMessage } = require('./chat');
 const { playError, playCardPlaySound } = require('./audio');
@@ -67,7 +67,7 @@ const connectWebSocket = (nickname) => {
         io.on('lobbyInfo', (lobby) => {
             generatingGame(lobby);
             generateChatBox();
-            
+            cacherDivQuiCacheLeChargement();
             setLoadingBarPercentage(100);
 
             setTimeout(() => {
@@ -75,10 +75,9 @@ const connectWebSocket = (nickname) => {
             fairePartirLeChargement();
             }, 1000);
 
-            cacherDivQuiCacheLeChargement();
             setTimeout(() => {
                 stopAfficherChargement();
-            }, 6000);
+            }, 5000);
         });
 
         io.on('newPlayer', (player) => {
@@ -130,7 +129,17 @@ const connectWebSocket = (nickname) => {
             imageContreUno();
         });
 })
+
+setTimeout(() => {
+    erreur.stopIgnoreError();
+}, 1000);
 return io;
+}
+
+function disconnectWebSocket() {
+    if(socket !== null) {
+        socket.disconnect();
+    }
 }
 
 function whoPlayIfALreadyStarted() {
@@ -168,4 +177,5 @@ module.exports = {
     addPlayerToServer,
     sendSocketToServer,
     whoPlayIfALreadyStarted,
+    disconnectWebSocket,
 }

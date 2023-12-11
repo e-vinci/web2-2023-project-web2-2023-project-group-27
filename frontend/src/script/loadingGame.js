@@ -47,12 +47,12 @@ const afficherDivQuiCacheLeChargement = () => {
 }
 
 const cacherDivQuiCacheLeChargement = () => {
-    document.getElementById("divChargement").style.animation = 'hideDivAnimation 5s forwards';
-    document.getElementById("divChargement2").style.animation = 'hideDivAnimation 5s forwards';
+    divChargement.style.animation = 'hideDivAnimation 5s forwards';
+    divChargement2.style.animation = 'hideDivAnimation 5s forwards';
 
     setTimeout(() => {
-        document.getElementById("divChargement").style.display = "none";
-        document.getElementById("divChargement2").style.display = "none";
+        divChargement.style.display = "none";
+        divChargement2.style.display = "none";
     }, 5000);
 }
 

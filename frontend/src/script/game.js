@@ -1,9 +1,10 @@
+/* eslint-disable import/no-import-module-exports */
 /* eslint-disable no-loop-func */
 /* eslint-disable global-require */
 /* eslint-disable no-multi-assign */
 /* eslint-disable no-param-reassign */
 
-const { setLoadingBarPercentage } = require('./loadingGame');
+const { setLoadingBarPercentage, afficherDivQuiCacheLeChargement, afficherDivChargement } = require('./loadingGame');
 const { getCardImage, getCardIcon, getUserIcon, getBotIcon, getImageUno, getImageContreUno } = require('./images');
 const { afficherInformation } = require('./loadingGame');
 
@@ -701,8 +702,73 @@ function endGame(infos) {
       const button = document.createElement('button');
       button.className = 'replayButton';
       button.innerText = 'Rejouer';
+
+      button.addEventListener('click', () => {
+      
+      const background = document.createElement('div');
+        background.className = 'replayLoadingScreen';
+        background.style.background = 'linear-gradient(110.1deg, rgb(241, 115, 30) 18.9%, rgb(231, 29, 54) 90.7%)';
+        background.style.animation = 'fadeInOut 2.5s ease-in-out forwards';
+        background.style.zIndex = '2000';
+        background.style.height = '100%';
+        background.style.width = '100%';
+        background.style.position = 'absolute';
+        document.body.appendChild(background);
+
+        afficherDivChargement();
+
+        setTimeout(() => {
+          removeEverything();
+          clearCardTables();
+          background.remove();
+          afficherDivQuiCacheLeChargement();
+          setLoadingBarPercentage(5);
+            document.querySelectorAll('.replayLoadingScreen').forEach((element) => {
+              element.remove();
+            });
+
+            let pseudo = document.querySelector('#nickname').value;
+            if(pseudo === '') pseudo = document.querySelector('#nickname').placeholder;
+            setTimeout(() => {
+              require('./websockets').connectWebSocket(pseudo);
+            }, 1000);
+        }, 1000);
+      });
       document.body.appendChild(button);
-    }, 3000)
+  }, 3000);
+
+  require('./erreur').ignoreError();
+  require('./websockets').disconnectWebSocket();
+}
+
+function removeEverything() {
+  document.body.removeChild(cardCenterDiv);
+  document.body.removeChild(directionArrow);
+  document.body.removeChild(divColorChoice);
+  document.body.removeChild(colorBackground);
+  document.body.removeChild(divMainPlayer.mainDiv);
+  document.body.removeChild(divMainPlayer.mainDivCards);
+  document.body.removeChild(divOpponentPlayers[0].mainDiv);
+  document.body.removeChild(divOpponentPlayers[0].mainDivCards);
+  document.body.removeChild(divOpponentPlayers[1].mainDiv);
+  document.body.removeChild(divOpponentPlayers[1].mainDivCards);
+  document.body.removeChild(divOpponentPlayers[2].mainDiv);
+  document.body.removeChild(divOpponentPlayers[2].mainDivCards);
+  document.querySelector('.vinciLogo').remove();
+  document.querySelector('.finalScoreboard').remove();
+  document.querySelector('.resultBackground').remove();
+  document.querySelector('.replayButton').remove();
+  document.querySelector('.chatbox').remove();
+  document.querySelector('#divChargement').remove();
+  document.querySelector('#divChargement2').remove();
+  document.querySelector('#divMessages').remove();
+}
+
+function clearCardTables() {
+  divMainPlayer.divCardIconCards = [];
+  divOpponentPlayers[0].divCardIconCards = [];
+  divOpponentPlayers[1].divCardIconCards = [];
+  divOpponentPlayers[2].divCardIconCards = [];
 }
 
 
@@ -720,4 +786,5 @@ module.exports = {
   endGame,
   imageUno,
   imageContreUno,
+  removeEverything,
 };

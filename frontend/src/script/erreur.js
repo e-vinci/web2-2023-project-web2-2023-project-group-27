@@ -55,6 +55,16 @@ const afficherErreur = (message, socket) => {
     hasErrorDisplayed = true;
 }
 
+function ignoreError() {
+    hasErrorDisplayed = true;
+}
+
+function stopIgnoreError() {
+    hasErrorDisplayed = false;
+}
+
 module.exports = {
-    afficherErreur
+    afficherErreur,
+    ignoreError,
+    stopIgnoreError,
 };

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-mutable-exports */
 import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-generator';
 import { afficherDivChargement } from './loadingGame';
 import { connectWebSocket } from './websockets';
@@ -26,6 +27,7 @@ const popupCU = document.getElementById("popupCU");
 const CUButton = document.getElementById("CUbutton");
 const acceptButton = document.getElementById("acceptCU");
 const refuseButton = document.getElementById("refuseCU");
+let nickname;
 
 document.getElementById('usernameError').innerText = 'Maximum 18 caractères';
 
@@ -215,15 +217,12 @@ window.addEventListener('unload', () => {
 playForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    let nickname = nicknameForm.value;
+    nickname = nicknameForm.value;
     if (nickname === '' || nickname === undefined) nickname = nicknameForm.placeholder;
 
     if (nickname.length > 18) {
         document.getElementById('usernameError').innerText = 'Votre pseudo contient plus de 18 caractères';
     } else {
-
-        // Masquer le bouton des paramètres
-        settingsButton.style.display = 'none';
 
         // Démarrer l'animation de chargement
         document.querySelector('.homepage').classList.add('slide-up');
@@ -240,8 +239,7 @@ playForm.addEventListener('submit', (e) => {
         afficherDivChargement();
 
         setTimeout(() => {
-
-            connectWebSocket(nickname, null, null);
+            connectWebSocket(nickname);
         }, 2900);
     }
 });
