@@ -2,7 +2,7 @@
 /* eslint-disable no-param-reassign */
 
 const socketio = require('socket.io-client');
-const { generatingGame, displayPlayerWhoPlay, addCard, setLastCard, reverseDirection, displayColorChoice, displayDrawCard, imageContreUno } = require('./game');
+const { generatingGame, displayPlayerWhoPlay, addCard, setLastCard, reverseDirection, displayColorChoice, displayDrawCard, imageContreUno, vinci } = require('./game');
 
 const erreur = require('./erreur');
 const { setLoadingBarPercentage, afficherChargement, afficherInformation, stopAfficherChargement, updateLoadingTitle, fairePartirLeChargement, cacherDivQuiCacheLeChargement } = require('./loadingGame');
@@ -128,6 +128,9 @@ const connectWebSocket = (nickname) => {
         io.on('contreUno', () => {
             imageContreUno();
         });
+        io.on('vinci', (infos) => {
+            vinci(infos.playerId);
+        })
 })
 
 setTimeout(() => {

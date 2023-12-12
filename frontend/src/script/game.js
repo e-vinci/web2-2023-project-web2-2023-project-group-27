@@ -664,8 +664,8 @@ function endGame(infos) {
 
     const divScore = document.createElement('div');
       divScore.className = 'score';	
-      divScore.innerText = `${playerInfo.score} points`;
-      if(playerInfo.score <= 1) divScore.innerText = `${playerInfo.score} point`;
+      divScore.innerText = `${playerInfo.score} points restants`;
+      if(playerInfo.score <= 1) divScore.innerText = `${playerInfo.score} point restant`;
 
     const divCardsLeft = document.createElement('div');
       divCardsLeft.className = 'cardsLeft';
@@ -769,6 +769,87 @@ function removeEverything() {
 }
 
 
+function vinci(playerId) {
+  const container = document.createElement('div');
+  container.className = 'vinci';
+  container.classList.add(`vinci${getOpponentIndex(playerId)}`);
+  
+  const elements = [];
+
+  const v = document.createElement('span');
+    v.innerText = 'V';
+    v.className = 'vinciSpan';
+  elements.push(v);
+
+  const i1 = document.createElement('span');
+    i1.innerText = 'I';
+    i1.className = 'vinciSpan';
+  elements.push(i1);
+
+  const n = document.createElement('span');
+    n.innerText = 'N';
+    n.className = 'vinciSpan';
+  elements.push(n);
+
+  const c = document.createElement('span');
+    c.innerText = 'C';
+    c.className = 'vinciSpan';
+  elements.push(c);
+
+  const i2 = document.createElement('span');
+    i2.innerText = 'I';
+    i2.className = 'vinciSpan';
+  elements.push(i2);
+
+  container.appendChild(v);
+  container.appendChild(i1);
+  container.appendChild(n);
+  container.appendChild(c);
+  container.appendChild(i2);
+  document.body.appendChild(container);
+
+  container.style.display = "block"; 
+  container.style.animationName = "blur"
+  container.style.animationDuration = "1.5s"
+  container.style.animationDirection = "reverse"
+   
+  setTimeout(() => {
+    container.style.animationName = "none"
+    container.style.filter = "none";
+    vague(elements);
+   }, 1500);
+  
+  setTimeout(() => {
+    vague(elements);
+   }, 3500);
+  
+  setTimeout(() => {
+    container.style.animation = "blur 2s ease-in-out forwards";
+   }, 6000);
+   
+  setTimeout(() => {
+    container.remove();
+  }, 7000)
+
+}
+
+function vague(elements) {
+  for(let i = 0; i < elements.length; i += 1) {
+  const element = elements[i];
+    setTimeout(() => {
+      element.style.animation = "upDown 1.5s ease-in-out infinite";
+      element.style.color = "orange";
+      element.style.textShadow = "#c9a206 1px 0 10px";
+        setTimeout(() => {element.style.animation = "none";}, 1500);
+      setTimeout(() => {
+        element.style.color = "white";
+        element.style.textShadow = "#000000 1px 0 10px";
+      }, 1000);
+    }, i * 200);
+  }
+}
+
+
 module.exports = {
   generatingGame,
   reverseDirection,
@@ -784,4 +865,5 @@ module.exports = {
   imageUno,
   imageContreUno,
   removeEverything,
+  vinci,
 };
