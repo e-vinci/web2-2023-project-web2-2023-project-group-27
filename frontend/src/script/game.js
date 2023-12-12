@@ -719,7 +719,6 @@ function endGame(infos) {
 
         setTimeout(() => {
           removeEverything();
-          clearCardTables();
           background.remove();
           afficherDivQuiCacheLeChargement();
           setLoadingBarPercentage(5);
@@ -746,14 +745,19 @@ function removeEverything() {
   document.body.removeChild(directionArrow);
   document.body.removeChild(divColorChoice);
   document.body.removeChild(colorBackground);
+
   document.body.removeChild(divMainPlayer.mainDiv);
   document.body.removeChild(divMainPlayer.mainDivCards);
-  document.body.removeChild(divOpponentPlayers[0].mainDiv);
-  document.body.removeChild(divOpponentPlayers[0].mainDivCards);
-  document.body.removeChild(divOpponentPlayers[1].mainDiv);
-  document.body.removeChild(divOpponentPlayers[1].mainDivCards);
-  document.body.removeChild(divOpponentPlayers[2].mainDiv);
-  document.body.removeChild(divOpponentPlayers[2].mainDivCards);
+
+  playerDeck = [];
+  divMainPlayer.divCardIconCards = [];
+
+  for(let i = 0; i < divOpponentPlayers.length; i += 1) {
+    document.body.removeChild(divOpponentPlayers[i].mainDiv);
+    document.body.removeChild(divOpponentPlayers[i].mainDivCards);
+    divOpponentPlayers[i].divCardIconCards = [];
+  }
+
   document.querySelector('.vinciLogo').remove();
   document.querySelector('.finalScoreboard').remove();
   document.querySelector('.resultBackground').remove();
@@ -762,13 +766,6 @@ function removeEverything() {
   document.querySelector('#divChargement').remove();
   document.querySelector('#divChargement2').remove();
   document.querySelector('#divMessages').remove();
-}
-
-function clearCardTables() {
-  divMainPlayer.divCardIconCards = [];
-  divOpponentPlayers[0].divCardIconCards = [];
-  divOpponentPlayers[1].divCardIconCards = [];
-  divOpponentPlayers[2].divCardIconCards = [];
 }
 
 

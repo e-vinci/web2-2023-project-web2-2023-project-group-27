@@ -9,8 +9,6 @@ const volumeImageMuteSrc = require("../img/options/volume_mute.png");
 const volumeImageSrc1 = require("../img/options/volume_1.png");
 const volumeImageSrc2 = require("../img/options/volume_2.png");
 
-
-
 const musics = [
     {source : require('../sound/soundtrack/wondrous-waters.mp3')}, 
     {source : require('../sound/soundtrack/elevator-music-jazz.mp3')}, 
