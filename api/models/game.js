@@ -61,12 +61,11 @@ function contreUno(lobby) {
 }
 
 function socketWhoPlay(lobby) {
-  if (lobby.currentCard.color === 'black') return;
   const playerWhoPlay = lobby.players[lobby.currentPlayer];
   for (let i = 0; i < lobby.players.length; i += 1) {
     io.sendSocketToId(lobby.players[i].socketId, 'nextPlayer', playerWhoPlay.playerId);
   }
-  if (!hasACardPlayable(playerWhoPlay, lobby)) io.sendSocketToId(playerWhoPlay.socketId, 'noCardPlayable');
+  if (!hasACardPlayable(playerWhoPlay, lobby) && lobby.currentCard.color !== 'black') io.sendSocketToId(playerWhoPlay.socketId, 'noCardPlayable');
   if (playerWhoPlay.deck.length === 2 && hasACardPlayable(playerWhoPlay, lobby)) {
     io.sendSocketToId(playerWhoPlay.socketId, 'uno');
   }
@@ -113,6 +112,8 @@ function giveCardsToPlayers(lobby) {
       const player = lobby.players[i];
       io.sendSocketToId(player.socketId, 'cardPlayed', { toPlayer: null, card: lobby.currentCard });
     }
+    handleSpecialCardEffects(lobby.currentCard, lobby);
+    if (lobby.currentCard.color !== 'black') nextPlayer(lobby);
     socketWhoPlay(lobby);
   }, NUMBER_OF_CARDS_TO_DRAW * 4 * 150 + 1000);
 }
@@ -211,16 +212,16 @@ function playCard(lobby, joueur, card) {
       }
     }
 
-    if (joueur.deck.length !== 0) handleSpecialCardEffects(card, lobby);
+    if (joueur.deck.length !== 0 || joueur === null) handleSpecialCardEffects(card, lobby);
 
-    if (card.color !== 'black') {
+    if (card.color !== 'black' && joueur !== null) {
       nextPlayer(lobby);
     }
 
     if (card.value === '+4' || card.value === '+2') {
       setTimeout(() => {
         socketWhoPlay(lobby);
-      }, 1500);
+      }, 1500); // donner un délai pour que le joueur suivant puisse voir les cartes
     } else socketWhoPlay(lobby);
     insertCardInStack(lobby, card);
   } else {
@@ -280,6 +281,7 @@ function finalScore(player, card) {
 
 function insertCardInStack(lobby, card) {
   const randomIndex = Math.floor(Math.random() * lobby.stack.length);
+  if (card.color !== 'black' && (card.value === '+4' || card.value === 'multicolor')) return;
   lobby.stack.splice(randomIndex, 0, card);
 }
 // Fonction pour vérifier si une carte est jouable
