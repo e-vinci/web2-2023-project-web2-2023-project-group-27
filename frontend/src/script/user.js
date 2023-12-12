@@ -1,5 +1,11 @@
+const popupLogin = document.getElementById("popupLogin");
+const popupSignIn = document.getElementById("popupSignIn");
+const nicknameForm = document.getElementById("nickname");
+
+const usersData = [];
 
 document.getElementById('signInForm').addEventListener('submit', (event) => {
+  event.preventDefault();
   let valid = true;
   // Validation du pseudo
   const pseudo = document.getElementById('nicknameSignIn').value;
@@ -48,10 +54,21 @@ document.getElementById('signInForm').addEventListener('submit', (event) => {
 
   if (!valid) {
     event.preventDefault(); // Empêche l'envoi du formulaire si la validation échoue
+  } else {
+    const userData = {
+      email,
+      pseudo,
+      password
+    };
+
+    usersData.push(userData);
+    nicknameForm.value = userData.pseudo;
+    popupSignIn.style.display = 'none'
   }
 });
 
 document.getElementById('loginForm').addEventListener('submit', (event) => {
+  event.preventDefault();
   let valid = true;
 
   // Validation de l'email
@@ -74,5 +91,15 @@ document.getElementById('loginForm').addEventListener('submit', (event) => {
 
   if (!valid) {
     event.preventDefault(); // Empêche l'envoi du formulaire si la validation échoue
+  } else {
+    const User = usersData.find(user => user.email === email && user.password === password);
+
+    if (User) {
+      console.log("Connexion réussie pour l'utilisateur:", User.pseudo);
+      nicknameForm.value = User.pseudo;
+      popupLogin.style.display = 'none';
+    } else {
+      console.log("Échec de la connexion. Vérifiez vos informations.");
+    }
   }
 });
