@@ -57,6 +57,12 @@ function contreUno(lobby) {
   drawCard(lobby, player);
   lobby.unoSignal = null;
   lobby.whoIsUno = null;
+
+  for (let i = 0; i < lobby.players.length; i += 1) {
+    const player = lobby.players[i];
+    io.sendSocketToId(player.socketId, 'contreUnoDone', { playerId: player.playerId });
+  }
+
   socketWhoPlay(lobby);
 }
 
@@ -202,23 +208,29 @@ function playCard(lobby, joueur, card) {
       io.sendSocketToId(player.socketId, 'cardPlayed', { toPlayer: joueur.playerId, card });
     }
 
-    // giveScore(joueur, card);
-
     if (joueur.deck.length === 1) {
       lobby.whoIsUno = joueur.playerId;
       setTimeout(() => {
         io.sendSocketToId('uno');
       }, 1500);
     }
+
     if (joueur.deck.length === 0) {
       gameFinished(lobby, joueur);
     }
 
+    console.log(lobby.whoIsUno);
+    console.log(lobby.unoSignal);
+    console.log('-------------------');
+
     if (joueur.deck.length === 1 && lobby.unoSignal === null) {
       for (let i = 0; i < lobby.players.length; i += 1) {
         const player = lobby.players[i];
-        if (player.isHuman && lobby.unoSignal === null && player !== joueur) io.sendSocketToId(player.socketId, 'contreUno');
+        if (player.isHuman && lobby.unoSignal === null && player !== joueur) {
+          io.sendSocketToId(player.socketId, 'contreUno');
+        }
       }
+      botContreUno(lobby);
     } else if (joueur.deck.length === 1) {
       for (let i = 0; i < lobby.players.length; i += 1) {
         const player = lobby.players[i];
@@ -232,30 +244,33 @@ function playCard(lobby, joueur, card) {
       nextPlayer(lobby);
     }
 
+    lobby.whoIsUno = null;
+    lobby.unoSignal = null;
+
     if (card.value === '+4' || card.value === '+2') {
       setTimeout(() => {
         socketWhoPlay(lobby);
       }, 1500); // donner un délai pour que le joueur suivant puisse voir les cartes
     } else socketWhoPlay(lobby);
     insertCardInStack(lobby, card);
-
-    botContreUno(lobby);
   } else { // Si la carte n'est pas jouable
     io.sendSocketToId(joueur.socketId, 'invalidCard');
   }
 }
 
 function botContreUno(lobby) {
-  setTimeout(() => {
-    for (let i = 0; i < lobby.players.length; i += 1) {
-      const player = lobby.players[i];
-      if (!player.isHuman) {
-        if (Math.random() <= 0.5) {
-          contreUno(lobby);
-        }
+  if (lobby.unoSignal !== null) return;
+  for (let i = 0; i < lobby.players.length; i += 1) {
+    const player = lobby.players[i];
+    if (!player.isHuman) {
+      const random = Math.random();
+      // console.log(random);
+      if (random <= 0.33) {
+        contreUno(lobby);
+        break;
       }
     }
-  }, 800);
+  }
 }
 
 function gameFinished(lobby) {
@@ -385,6 +400,7 @@ function nextPlayer(lobby) {
     lobby.currentPlayer -= 1;
     if (lobby.currentPlayer < 0) lobby.currentPlayer = lobby.players.length - 1;
   }
+  clearTimeout(lobby.timerChoice);
 }
 
 function botPlay(player, lobby) {
@@ -394,7 +410,7 @@ function botPlay(player, lobby) {
     const card = player.deck[i];
     if (isCardPlayable(card, lobby.currentCard)) {
       if (player.deck.length - 1 === 1) {
-        if (Math.random() <= 0.65) {
+        if (Math.random() <= 0.50) {
           signalUno(player, lobby);
         }
       }
@@ -424,6 +440,7 @@ function botColor(player, lobby) {
 function signalUno(player, lobby) {
   if (player === undefined || lobby === undefined) return;
   lobby.unoSignal = player.playerId;
+  lobby.whoIsUno = null;
 }
 
 module.exports = {

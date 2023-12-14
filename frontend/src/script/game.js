@@ -238,6 +238,8 @@ function addCardToMainPlayer(card) {
       if(!carddiv.classList.contains('notTheTimeToPlay')) {
        const {sendSocketToServer} = require('./websockets');
         sendSocketToServer('playCard', carddiv.card);
+        const element = document.querySelector('.image-uno');
+        if(element !== null ) element.remove();
       }
     });
 
@@ -604,11 +606,13 @@ function imageUno(){
   document.body.appendChild(image);
 
   const timer = setTimeout(() => {
-    document.body.removeChild(image);
+    const div = document.querySelector('.image-uno');
+    if(div !== null) div.remove();
   }, 5000);
 
   image.addEventListener('click', () => {
-    document.body.removeChild(image);
+    const div = document.querySelector('.image-uno');
+    if(div !== null) div.remove();
     const io = require('./websockets');
     io.sendSocketToServer('uno');
     clearTimeout(timer);
@@ -622,11 +626,13 @@ function imageContreUno(){
   document.body.appendChild(image);
 
   const timer = setTimeout(() => {
-    document.body.removeChild(image);
+    const div = document.querySelector('.image-uno');
+    if(div !== null) div.remove();
   }, 5000);
 
   image.addEventListener('click', () => {
-    document.body.removeChild(image);
+    const div = document.querySelector('.image-uno');
+    if(div !== null) div.remove();
     const io = require('./websockets');
     io.sendSocketToServer('contreUno');
     clearTimeout(timer);
@@ -833,6 +839,10 @@ function vinci(playerId) {
 
 }
 
+/**
+ * Fonction qui sert à faire bouger les lettres de vinci
+ * @param {*} elements le tableau avec les lettres
+ */
 function vague(elements) {
   for(let i = 0; i < elements.length; i += 1) {
   const element = elements[i];
@@ -847,7 +857,31 @@ function vague(elements) {
       }, 1000);
     }, i * 200);
   }
+
 }
+
+function contreUnoDone(playerId){
+const element = document.createElement("div");
+    element.className="contrevinci";
+    element.classList.add(`contrevinci${getOpponentIndex(playerId)}`);
+  document.body.appendChild(element);
+
+const interval = setInterval(() => {
+   element.style.filter = "grayscale(100%)";
+   setTimeout(() => {
+   element.style.filter = "grayscale(0%)";
+   }, 200);
+}, 400)
+
+
+  setTimeout(() => {
+   const div = document.querySelector('.contrevinci');
+   if(div !== null) div.remove();
+   clearInterval(interval);
+ }, 2000);
+
+}
+
 
 
 module.exports = {
@@ -866,4 +900,5 @@ module.exports = {
   imageContreUno,
   removeEverything,
   vinci,
+  contreUnoDone,
 };

@@ -825,3 +825,12 @@
     }
 
 }
+
+.contrevinci{
+        position: absolute;
+        height: 200px;
+        width: 200px;
+        background: url("../img/exclamation_mark.png");
+        background-size: 200px 200px;
+        z-index: 1000;
+}
