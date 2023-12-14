@@ -857,13 +857,13 @@ function vague(elements) {
       }, 1000);
     }, i * 200);
   }
-
 }
 
-function contreUnoDone(playerId){
+function contreUnoDone(playerId) {
 const element = document.createElement("div");
     element.className="contrevinci";
     element.classList.add(`contrevinci${getOpponentIndex(playerId)}`);
+  
   document.body.appendChild(element);
 
 const interval = setInterval(() => {

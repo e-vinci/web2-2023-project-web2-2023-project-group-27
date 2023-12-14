@@ -48,7 +48,7 @@ function beginningGame(lobby) {
   }, 500);
 }
 
-function contreUno(lobby) {
+function contreUno(lobby, playerWhoReport) {
   if (lobby.unoSignal !== null) return;
   if (lobby.whoIsUno === null) return;
   const player = lobby.players.find((p) => p.playerId === lobby.whoIsUno);
@@ -59,8 +59,8 @@ function contreUno(lobby) {
   lobby.whoIsUno = null;
 
   for (let i = 0; i < lobby.players.length; i += 1) {
-    const player = lobby.players[i];
-    io.sendSocketToId(player.socketId, 'contreUnoDone', { playerId: player.playerId });
+    const joueur = lobby.players[i];
+    io.sendSocketToId(joueur.socketId, 'contreUnoDone', { playerId: playerWhoReport.playerId });
   }
 
   socketWhoPlay(lobby);
@@ -219,10 +219,6 @@ function playCard(lobby, joueur, card) {
       gameFinished(lobby, joueur);
     }
 
-    console.log(lobby.whoIsUno);
-    console.log(lobby.unoSignal);
-    console.log('-------------------');
-
     if (joueur.deck.length === 1 && lobby.unoSignal === null) {
       for (let i = 0; i < lobby.players.length; i += 1) {
         const player = lobby.players[i];
@@ -266,7 +262,7 @@ function botContreUno(lobby) {
       const random = Math.random();
       // console.log(random);
       if (random <= 0.33) {
-        contreUno(lobby);
+        contreUno(lobby, player);
         break;
       }
     }

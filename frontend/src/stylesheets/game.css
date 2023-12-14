@@ -833,4 +833,26 @@
         background: url("../img/exclamation_mark.png");
         background-size: 200px 200px;
         z-index: 1000;
+        margin-left: auto;
+        margin-right: auto;
+        left:0;
+        right: 0;
+}
+
+.contrevinci0{
+    top: 40%;
+    right: 40%;
+}
+
+.contrevinci1{
+    top: 10%;
+}
+
+.contrevinci2{
+    top: 40%;
+    left: 40%;
+}
+
+.contrevincinull{
+    top: 70%;
 }
