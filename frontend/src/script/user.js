@@ -14,9 +14,6 @@ document.getElementById('signInForm').addEventListener('submit', (event) => {
   if (pseudo.trim() === '') {
     document.getElementById('signInNicknameError').innerText = 'Le pseudo est requis';
     valid = false;
-  } else if (pseudo.trim().length > 18) {
-    document.getElementById('signInNicknameError').innerText = 'Le pseudo est trop long';
-    valid = false;
   } else {
     document.getElementById('signInNicknameError').innerText = '';
   }

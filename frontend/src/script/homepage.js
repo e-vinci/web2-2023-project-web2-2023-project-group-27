@@ -160,6 +160,8 @@ signInPath.addEventListener('click', (e) => {
         popupSettings.style.display = 'none';
         popupLogin.style.display = 'none';
         popupRules.style.display = 'none';
+        document.getElementById('signInNicknameError').innerText = 'Maximum 18 caractères';
+
     }
     isPopUpSignInDisplayed = !isPopUpSignInDisplayed;
     isPopUpDisplayed = false;
