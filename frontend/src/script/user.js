@@ -2,7 +2,7 @@ const popupLogin = document.getElementById("popupLogin");
 const popupSignIn = document.getElementById("popupSignIn");
 const nicknameForm = document.getElementById("nickname");
 
-let socket;
+// let socket;
 
 const usersData = [];
 
@@ -66,7 +66,7 @@ document.getElementById('signInForm').addEventListener('submit', (event) => {
     usersData.push(userData);
     nicknameForm.value = userData.pseudo;
     popupSignIn.style.display = 'none'
-    socket.emit('register', { email, password });
+    // socket.emit('register', { email, password });
   }
 });
 
@@ -96,7 +96,7 @@ document.getElementById('loginForm').addEventListener('submit', (event) => {
     event.preventDefault(); // Empêche l'envoi du formulaire si la validation échoue
   } else {
       popupLogin.style.display = 'none';
-      socket.emit('login', { email, password });
+      // socket.emit('login', { email, password });
     }
 });
 

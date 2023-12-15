@@ -111,7 +111,8 @@ volumeControlMusic.addEventListener('input', () => {
     }
 });
 
-settingsButton.addEventListener('click', () => {
+settingsButton.addEventListener('click', (e) => {
+    e.preventDefault();
     if (isPopUpDisplayed) {
         popupSettings.style.display = 'none';
     } else {
@@ -134,7 +135,8 @@ settingsButton.addEventListener('click', () => {
     document.getElementById('loginEmailError').innerText = '';
 });
 
-loginPath.addEventListener('click', () => {
+loginPath.addEventListener('click', (e) => {
+    e.preventDefault();
     if (isPopUpLoginDisplayed) {
         popupLogin.style.display = 'none';
     } else {
@@ -149,7 +151,8 @@ loginPath.addEventListener('click', () => {
     isPopUpRulesDisplayed = false;
 });
 
-signInPath.addEventListener('click', () => {
+signInPath.addEventListener('click', (e) => {
+    e.preventDefault();
     if (isPopUpSignInDisplayed) {
         popupSignIn.style.display = 'none';
     } else {
@@ -157,13 +160,16 @@ signInPath.addEventListener('click', () => {
         popupSettings.style.display = 'none';
         popupLogin.style.display = 'none';
         popupRules.style.display = 'none';
+        document.getElementById('signInNicknameError').innerText = 'Maximum 18 caractères';
+
     }
     isPopUpSignInDisplayed = !isPopUpSignInDisplayed;
     isPopUpDisplayed = false;
     isPopUpLoginDisplayed = false;
     isPopUpRulesDisplayed = false;
 });
-RulesPath.addEventListener('click', () => {
+RulesPath.addEventListener('click', (e) => {
+    e.preventDefault();
     if (isPopUpRulesDisplayed) {
         popupRules.style.display = 'none';
     } else {
@@ -178,26 +184,30 @@ RulesPath.addEventListener('click', () => {
     isPopUpRulesDisplayed = false;
 });
 
-closeRules.addEventListener('click', () => {
+closeRules.addEventListener('click', (e) => {
+    e.preventDefault();
     popupRules.style.display = 'none';
     popupSettings.style.display = 'block';
     isPopUpDisplayed = !isPopUpDisplayed;
 });
 
-CUButton.addEventListener('click', () => {
+CUButton.addEventListener('click', (e) => {
+    e.preventDefault();
     settingsButton.style.display = 'none';
     popupCU.style.display = 'block';
 
 });
 
-acceptButton.addEventListener('click', () => {
+acceptButton.addEventListener('click', (e) => {
+    e.preventDefault();
     settingsButton.style.display = 'block';
     popupCU.style.display = 'none';
     document.getElementById('conditionsUtilisation').checked = true;
     resetErrors();
 });
 
-refuseButton.addEventListener('click', () => {
+refuseButton.addEventListener('click', (e) => {
+    e.preventDefault();
     settingsButton.style.display = 'block';
     popupCU.style.display = 'none';
     popupSignIn.style.display = 'none';
