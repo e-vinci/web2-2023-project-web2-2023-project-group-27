@@ -65,7 +65,7 @@
 
   <div id="popupLogin" class="popup">
     <h1>Se connecter</h1>
-    <form id="loginForm" method="post">
+    <form id="loginForm">
       <label for="email">Email *</label>
       <span id="loginEmailError" class="error"></span>
       <input type="email" id="emailLogin" class="inputForm" name="email">
@@ -83,7 +83,7 @@
   <div id="popupSignIn" class="popup">
     <div id="popupSignInContent">
       <h1>S'inscrire</h1>
-      <form id="signInForm" method="post">
+      <form id="signInForm">
 
         <label for="nickname">Pseudo *</label>
         <span id="signInNicknameError" class="error"></span>
@@ -114,14 +114,11 @@
         <br>
         <input type="submit" id="signInButton" class="c" value="S'inscrire">
       </form>
-      <script src="./script/user.js"></script>
       <div class="space"> </div>
     </div>
 
   </div>
 
-  <script src="../../api/websockets/websockets.js"></script>
-  <script src="./script/user.js"></script>
   <!-- 
 <div id="popupLogin">
     <h1>Se connecter</h1>

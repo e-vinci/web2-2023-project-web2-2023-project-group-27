@@ -11,7 +11,7 @@ const lobbies = require('../models/lobbies');
 const players = require('../models/players');
 const { Login, SignIn } = require('../models/users');
 
-const io = new Server(process.env.PORT || 443);
+const io = new Server(process.env.PORT || 25568);
 
 io.on('connection', (socket) => {
   socket.emit('connected');
@@ -99,6 +99,14 @@ io.on('connection', (socket) => {
     const lobby = lobbies.getLobbyByPlayer(player);
     if (lobby.isEnded) return;
     contreUno(lobby, player);
+  });
+
+  socket.on('login', (infos) => {
+    io.to(socket.socketId).emit('loginResult', { boolean: Login(infos.email, infos.password) });
+  });
+
+  socket.on('register', (infos) => {
+    io.to(socket.socketId).emit('signInResult', { boolean: SignIn(infos.email, infos.pseudo, infos.password) });
   });
 });
 

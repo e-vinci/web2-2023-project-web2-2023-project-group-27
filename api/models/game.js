@@ -5,7 +5,7 @@
 /* eslint-disable no-param-reassign */
 const io = require('../websockets/websockets');
 
-const NUMBER_OF_CARDS_TO_DRAW = 2;
+const NUMBER_OF_CARDS_TO_DRAW = 7;
 const NUMBER_OF_TIMES_BEFORE_KICK = 5;
 
 function shuffleStack(lobby) {
@@ -147,7 +147,11 @@ function drawCardFromStack(lobby) {
 
 // fonction distribuant les cartes aux joueurs debut de games
 function drawCard(lobby, joueur) {
-  const card = lobby.stack.pop();
+  let card;
+  do {
+    card = lobby.stack.pop();
+  } while (card.color !== 'black' && (card.value === '+4' || card.value === 'multicolor'));
+  joueur.deck.push(card);
   joueur.deck.push(card);
   joueur.numberOfCardsDrawned += 1;
   for (let i = 0; i < lobby.players.length; i += 1) {
