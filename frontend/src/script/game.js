@@ -238,6 +238,8 @@ function addCardToMainPlayer(card) {
       if(!carddiv.classList.contains('notTheTimeToPlay')) {
        const {sendSocketToServer} = require('./websockets');
         sendSocketToServer('playCard', carddiv.card);
+        const element = document.querySelector('.image-uno');
+        if(element !== null ) element.remove();
       }
     });
 
@@ -604,11 +606,13 @@ function imageUno(){
   document.body.appendChild(image);
 
   const timer = setTimeout(() => {
-    document.body.removeChild(image);
+    const div = document.querySelector('.image-uno');
+    if(div !== null) div.remove();
   }, 5000);
 
   image.addEventListener('click', () => {
-    document.body.removeChild(image);
+    const div = document.querySelector('.image-uno');
+    if(div !== null) div.remove();
     const io = require('./websockets');
     io.sendSocketToServer('uno');
     clearTimeout(timer);
@@ -622,11 +626,13 @@ function imageContreUno(){
   document.body.appendChild(image);
 
   const timer = setTimeout(() => {
-    document.body.removeChild(image);
+    const div = document.querySelector('.image-uno');
+    if(div !== null) div.remove();
   }, 5000);
 
   image.addEventListener('click', () => {
-    document.body.removeChild(image);
+    const div = document.querySelector('.image-uno');
+    if(div !== null) div.remove();
     const io = require('./websockets');
     io.sendSocketToServer('contreUno');
     clearTimeout(timer);
@@ -664,8 +670,8 @@ function endGame(infos) {
 
     const divScore = document.createElement('div');
       divScore.className = 'score';	
-      divScore.innerText = `${playerInfo.score} points`;
-      if(playerInfo.score <= 1) divScore.innerText = `${playerInfo.score} point`;
+      divScore.innerText = `${playerInfo.score} points restants`;
+      if(playerInfo.score <= 1) divScore.innerText = `${playerInfo.score} point restant`;
 
     const divCardsLeft = document.createElement('div');
       divCardsLeft.className = 'cardsLeft';
@@ -769,6 +775,115 @@ function removeEverything() {
 }
 
 
+function vinci(playerId) {
+  const container = document.createElement('div');
+  container.className = 'vinci';
+  container.classList.add(`vinci${getOpponentIndex(playerId)}`);
+  
+  const elements = [];
+
+  const v = document.createElement('span');
+    v.innerText = 'V';
+    v.className = 'vinciSpan';
+  elements.push(v);
+
+  const i1 = document.createElement('span');
+    i1.innerText = 'I';
+    i1.className = 'vinciSpan';
+  elements.push(i1);
+
+  const n = document.createElement('span');
+    n.innerText = 'N';
+    n.className = 'vinciSpan';
+  elements.push(n);
+
+  const c = document.createElement('span');
+    c.innerText = 'C';
+    c.className = 'vinciSpan';
+  elements.push(c);
+
+  const i2 = document.createElement('span');
+    i2.innerText = 'I';
+    i2.className = 'vinciSpan';
+  elements.push(i2);
+
+  container.appendChild(v);
+  container.appendChild(i1);
+  container.appendChild(n);
+  container.appendChild(c);
+  container.appendChild(i2);
+  document.body.appendChild(container);
+
+  container.style.display = "block"; 
+  container.style.animationName = "blur"
+  container.style.animationDuration = "1.5s"
+  container.style.animationDirection = "reverse"
+   
+  setTimeout(() => {
+    container.style.animationName = "none"
+    container.style.filter = "none";
+    vague(elements);
+   }, 1500);
+  
+  setTimeout(() => {
+    vague(elements);
+   }, 3500);
+  
+  setTimeout(() => {
+    container.style.animation = "blur 2s ease-in-out forwards";
+   }, 6000);
+   
+  setTimeout(() => {
+    container.remove();
+  }, 7000)
+
+}
+
+/**
+ * Fonction qui sert à faire bouger les lettres de vinci
+ * @param {*} elements le tableau avec les lettres
+ */
+function vague(elements) {
+  for(let i = 0; i < elements.length; i += 1) {
+  const element = elements[i];
+    setTimeout(() => {
+      element.style.animation = "upDown 1.5s ease-in-out infinite";
+      element.style.color = "orange";
+      element.style.textShadow = "#c9a206 1px 0 10px";
+        setTimeout(() => {element.style.animation = "none";}, 1500);
+      setTimeout(() => {
+        element.style.color = "white";
+        element.style.textShadow = "#000000 1px 0 10px";
+      }, 1000);
+    }, i * 200);
+  }
+}
+
+function contreUnoDone(playerId) {
+const element = document.createElement("div");
+    element.className="contrevinci";
+    element.classList.add(`contrevinci${getOpponentIndex(playerId)}`);
+  
+  document.body.appendChild(element);
+
+const interval = setInterval(() => {
+   element.style.filter = "grayscale(100%)";
+   setTimeout(() => {
+   element.style.filter = "grayscale(0%)";
+   }, 200);
+}, 400)
+
+
+  setTimeout(() => {
+   const div = document.querySelector('.contrevinci');
+   if(div !== null) div.remove();
+   clearInterval(interval);
+ }, 2000);
+
+}
+
+
+
 module.exports = {
   generatingGame,
   reverseDirection,
@@ -784,4 +899,6 @@ module.exports = {
   imageUno,
   imageContreUno,
   removeEverything,
+  vinci,
+  contreUnoDone,
 };

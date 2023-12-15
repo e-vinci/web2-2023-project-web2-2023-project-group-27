@@ -5,7 +5,7 @@
 /* eslint-disable no-param-reassign */
 const io = require('../websockets/websockets');
 
-const NUMBER_OF_CARDS_TO_DRAW = 7;
+const NUMBER_OF_CARDS_TO_DRAW = 2;
 const NUMBER_OF_TIMES_BEFORE_KICK = 5;
 
 function shuffleStack(lobby) {
@@ -48,7 +48,7 @@ function beginningGame(lobby) {
   }, 500);
 }
 
-function contreUno(lobby) {
+function contreUno(lobby, playerWhoReport) {
   if (lobby.unoSignal !== null) return;
   if (lobby.whoIsUno === null) return;
   const player = lobby.players.find((p) => p.playerId === lobby.whoIsUno);
@@ -57,6 +57,12 @@ function contreUno(lobby) {
   drawCard(lobby, player);
   lobby.unoSignal = null;
   lobby.whoIsUno = null;
+
+  for (let i = 0; i < lobby.players.length; i += 1) {
+    const joueur = lobby.players[i];
+    io.sendSocketToId(joueur.socketId, 'contreUnoDone', { playerId: playerWhoReport.playerId });
+  }
+
   socketWhoPlay(lobby);
 }
 
@@ -108,12 +114,22 @@ function giveCardsToPlayers(lobby) {
 
   setTimeout(() => {
     drawCardFromStack(lobby);
+    currentPlayer = lobby.players[lobby.currentPlayer];
     for (let i = 0; i < lobby.players.length; i += 1) {
       const player = lobby.players[i];
       io.sendSocketToId(player.socketId, 'cardPlayed', { toPlayer: null, card: lobby.currentCard });
     }
-    handleSpecialCardEffects(lobby.currentCard, lobby);
+
     if (lobby.currentCard.color !== 'black') nextPlayer(lobby);
+    else {
+      setTimeout(() => {
+        if (!currentPlayer.isHuman) {
+          botColor(currentPlayer, lobby);
+        }
+      }, 1500);
+    }
+
+    handleSpecialCardEffects(lobby.currentCard, lobby);
     socketWhoPlay(lobby);
   }, NUMBER_OF_CARDS_TO_DRAW * 4 * 150 + 1000);
 }
@@ -192,23 +208,29 @@ function playCard(lobby, joueur, card) {
       io.sendSocketToId(player.socketId, 'cardPlayed', { toPlayer: joueur.playerId, card });
     }
 
-    // giveScore(joueur, card);
-
     if (joueur.deck.length === 1) {
       lobby.whoIsUno = joueur.playerId;
       setTimeout(() => {
         io.sendSocketToId('uno');
       }, 1500);
     }
+
     if (joueur.deck.length === 0) {
       gameFinished(lobby, joueur);
     }
 
     if (joueur.deck.length === 1 && lobby.unoSignal === null) {
-      lobby.unoSignal = null;
       for (let i = 0; i < lobby.players.length; i += 1) {
         const player = lobby.players[i];
-        if (player.isHuman && lobby.unoSignal === null && player !== joueur) io.sendSocketToId(player.socketId, 'contreUno');
+        if (player.isHuman && lobby.unoSignal === null && player !== joueur) {
+          io.sendSocketToId(player.socketId, 'contreUno');
+        }
+      }
+      botContreUno(lobby);
+    } else if (joueur.deck.length === 1) {
+      for (let i = 0; i < lobby.players.length; i += 1) {
+        const player = lobby.players[i];
+        io.sendSocketToId(player.socketId, 'vinci', { playerId: joueur.playerId });
       }
     }
 
@@ -218,14 +240,32 @@ function playCard(lobby, joueur, card) {
       nextPlayer(lobby);
     }
 
+    lobby.whoIsUno = null;
+    lobby.unoSignal = null;
+
     if (card.value === '+4' || card.value === '+2') {
       setTimeout(() => {
         socketWhoPlay(lobby);
       }, 1500); // donner un délai pour que le joueur suivant puisse voir les cartes
     } else socketWhoPlay(lobby);
     insertCardInStack(lobby, card);
-  } else {
+  } else { // Si la carte n'est pas jouable
     io.sendSocketToId(joueur.socketId, 'invalidCard');
+  }
+}
+
+function botContreUno(lobby) {
+  if (lobby.unoSignal !== null) return;
+  for (let i = 0; i < lobby.players.length; i += 1) {
+    const player = lobby.players[i];
+    if (!player.isHuman) {
+      const random = Math.random();
+      // console.log(random);
+      if (random <= 0.33) {
+        contreUno(lobby, player);
+        break;
+      }
+    }
   }
 }
 
@@ -356,6 +396,7 @@ function nextPlayer(lobby) {
     lobby.currentPlayer -= 1;
     if (lobby.currentPlayer < 0) lobby.currentPlayer = lobby.players.length - 1;
   }
+  clearTimeout(lobby.timerChoice);
 }
 
 function botPlay(player, lobby) {
@@ -364,14 +405,15 @@ function botPlay(player, lobby) {
   for (let i = 0; i < player.deck.length; i += 1) {
     const card = player.deck[i];
     if (isCardPlayable(card, lobby.currentCard)) {
+      if (player.deck.length - 1 === 1) {
+        if (Math.random() <= 0.50) {
+          signalUno(player, lobby);
+        }
+      }
       playCard(lobby, player, player.deck[i]);
       if (card.color === 'black') {
         setTimeout(() => {
-          if (player.deck.length === 0) return;
-          const colors = ['red', 'blue', 'green', 'yellow'];
-          const randomIndex = Math.floor(Math.random() * colors.length);
-          card.color = colors[randomIndex];
-          require('./lobbies').changeColor({ type: card.value, color: card.color }, lobby);
+          botColor(player, lobby);
         }, 2000);
       }
       return;
@@ -380,9 +422,21 @@ function botPlay(player, lobby) {
   pickACard(lobby, player);
 }
 
+function botColor(player, lobby) {
+  if (lobby === undefined) return;
+  if (lobby.isEnded) return;
+  if (player.deck.length === 0) return;
+  const card = lobby.currentCard;
+  const colors = ['red', 'blue', 'green', 'yellow'];
+  const randomIndex = Math.floor(Math.random() * colors.length);
+  card.color = colors[randomIndex];
+  require('./lobbies').changeColor({ type: card.value, color: card.color }, lobby);
+}
+
 function signalUno(player, lobby) {
   if (player === undefined || lobby === undefined) return;
   lobby.unoSignal = player.playerId;
+  lobby.whoIsUno = null;
 }
 
 module.exports = {

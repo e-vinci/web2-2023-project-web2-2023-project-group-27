@@ -104,9 +104,10 @@ io.on('connection', (socket) => {
   });
 
   socket.on('contreUno', () => {
-    const lobby = lobbies.getLobbyByPlayer(players.getPlayerBySocket(socket.id));
+    const player = players.getPlayerBySocket(socket.id);
+    const lobby = lobbies.getLobbyByPlayer(player);
     if (lobby.isEnded) return;
-    contreUno(lobby);
+    contreUno(lobby, player);
   });
 });
 // Ouverture du serveur sur le port 25568 (celui du serveur)
