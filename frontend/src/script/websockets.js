@@ -28,9 +28,9 @@ const isConnected = () => {
  * Connexion au serveur websocket
  */
 const connectWebSocket = (nickname) => {
-    io = socketio.io("https://unovinci.webpubsub.azure.com", {
+     io = socketio.io("https://unovinci.webpubsub.azure.com", {
         path: "/clients/socketio/hubs/hub",
-    });
+    }); 
     let timerPartie;
     // Afficher erreur si pas connecté dans les 15 secondes
     const interval = setTimeout(() => {
@@ -138,7 +138,7 @@ const connectWebSocket = (nickname) => {
             const element = document.querySelector('.image-uno');
             if(element !== null ) element.remove();
         });
-})
+});
 
 setTimeout(() => {
     erreur.stopIgnoreError();

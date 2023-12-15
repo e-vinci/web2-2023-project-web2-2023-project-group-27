@@ -151,17 +151,3 @@ setTimeout(() => {
   console.log(`Échec de la connexion`);
 }, 2000);
 }
-
-/*
-
-socket.on('register-success', ({ email }) => {
-    console.log(`Inscription réussie pour ${email}`);
-    // Ajoutez ici le code pour gérer l'inscription réussie côté client
-});
-
-socket.on('register-fail', ({ message }) => {
-    console.log(`Échec de l'inscription: ${message}`);
-    // Ajoutez ici le code pour gérer l'échec de l'inscription côté client
-});
-
-*/

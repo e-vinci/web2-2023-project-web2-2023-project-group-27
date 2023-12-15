@@ -147,11 +147,7 @@ function drawCardFromStack(lobby) {
 
 // fonction distribuant les cartes aux joueurs debut de games
 function drawCard(lobby, joueur) {
-  let card;
-  do {
-    card = lobby.stack.pop();
-  } while (card.color !== 'black' && (card.value === '+4' || card.value === 'multicolor'));
-  joueur.deck.push(card);
+  const card = lobby.stack.pop();
   joueur.deck.push(card);
   joueur.numberOfCardsDrawned += 1;
   for (let i = 0; i < lobby.players.length; i += 1) {
@@ -194,6 +190,7 @@ function pickACard(lobby, joueur, forceMode = false) {
 function playCard(lobby, joueur, card) {
   if (lobby === undefined) lobby = require('./lobbies').getLobbyByPlayer(joueur);
   if (lobby === undefined) return;
+  if (lobby.isEnded) return;
 
   if (lobby.players[lobby.currentPlayer] !== joueur) return;
   if (lobby.isAwaitingForColorChoice === true) return;
@@ -212,16 +209,18 @@ function playCard(lobby, joueur, card) {
       io.sendSocketToId(player.socketId, 'cardPlayed', { toPlayer: joueur.playerId, card });
     }
 
+    if (joueur.deck.length === 0) {
+      gameFinished(lobby, joueur);
+    }
+
+    /*
     if (joueur.deck.length === 1) {
       lobby.whoIsUno = joueur.playerId;
       setTimeout(() => {
         io.sendSocketToId('uno');
       }, 1500);
-    }
-
-    if (joueur.deck.length === 0) {
-      gameFinished(lobby, joueur);
-    }
+    }¨
+    */
 
     if (joueur.deck.length === 1 && lobby.unoSignal === null) {
       for (let i = 0; i < lobby.players.length; i += 1) {
@@ -238,7 +237,7 @@ function playCard(lobby, joueur, card) {
       }
     }
 
-    if (joueur.deck.length !== 0 || joueur === null) handleSpecialCardEffects(card, lobby);
+    if (joueur === null || joueur.deck.length !== 0) handleSpecialCardEffects(card, lobby);
 
     if (card.color !== 'black' && joueur !== null) {
       nextPlayer(lobby);
@@ -264,7 +263,6 @@ function botContreUno(lobby) {
     const player = lobby.players[i];
     if (!player.isHuman) {
       const random = Math.random();
-      // console.log(random);
       if (random <= 0.33) {
         contreUno(lobby, player);
         break;
