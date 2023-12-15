@@ -2,7 +2,7 @@ const popupLogin = document.getElementById("popupLogin");
 const popupSignIn = document.getElementById("popupSignIn");
 const nicknameForm = document.getElementById("nickname");
 
-const socket = io();
+// const socket = io();
 
 const usersData = [];
 
@@ -13,6 +13,9 @@ document.getElementById('signInForm').addEventListener('submit', (event) => {
   const pseudo = document.getElementById('nicknameSignIn').value;
   if (pseudo.trim() === '') {
     document.getElementById('signInNicknameError').innerText = 'Le pseudo est requis';
+    valid = false;
+  } else if (pseudo.trim().length > 18) {
+    document.getElementById('signInNicknameError').innerText = 'Le pseudo est trop long';
     valid = false;
   } else {
     document.getElementById('signInNicknameError').innerText = '';
@@ -66,7 +69,7 @@ document.getElementById('signInForm').addEventListener('submit', (event) => {
     usersData.push(userData);
     nicknameForm.value = userData.pseudo;
     popupSignIn.style.display = 'none'
-    socket.emit('register', { email, password });
+    // socket.emit('register', { email, password });
   }
 });
 
@@ -96,7 +99,7 @@ document.getElementById('loginForm').addEventListener('submit', (event) => {
     event.preventDefault(); // Empêche l'envoi du formulaire si la validation échoue
   } else {
       popupLogin.style.display = 'none';
-      socket.emit('login', { email, password });
+      // socket.emit('login', { email, password });
     }
 });
 
