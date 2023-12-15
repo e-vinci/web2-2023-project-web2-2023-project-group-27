@@ -240,8 +240,8 @@ function playCard(lobby, joueur, card) {
       nextPlayer(lobby);
     }
 
-    lobby.whoIsUno = null;
-    lobby.unoSignal = null;
+    // lobby.whoIsUno = null;
+    // lobby.unoSignal = null;
 
     if (card.value === '+4' || card.value === '+2') {
       setTimeout(() => {
