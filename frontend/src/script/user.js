@@ -2,7 +2,7 @@ const popupLogin = document.getElementById("popupLogin");
 const popupSignIn = document.getElementById("popupSignIn");
 const nicknameForm = document.getElementById("nickname");
 
-const socket = io();
+let socket;
 
 const usersData = [];
 

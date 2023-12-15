@@ -12,28 +12,30 @@ const { playError, playCardPlaySound } = require('./audio');
 
 // const link = 'srv03.wildzun.fr:25568';
 
-const link = 'ws://localhost:25568';
+// const link = 'ws://localhost:25568';
 
-let socket;
+// const link = 'https://unovinci.webpubsub.azure.com';
+
+let io;
 let isGameStarted = false;
 let hasStarted = false;
 
 const isConnected = () => {
-    return socket.connected;
+    return io.connected;
 }
 
 /**
  * Connexion au serveur websocket
  */
 const connectWebSocket = (nickname) => {
-    const io = socketio.io(link, {transports: ['websocket']});
-
-    socket = io;
+    io = socketio.io("https://unovinci.webpubsub.azure.com", {
+        path: "/clients/socketio/hubs/hub",
+    });
     let timerPartie;
     // Afficher erreur si pas connecté dans les 15 secondes
     const interval = setTimeout(() => {
-        if (!socket.connected) {
-            erreur.afficherErreur("Impossible de se connecter au serveur, veuillez réessayer", socket);
+        if (!io.connected) {
+            erreur.afficherErreur("Impossible de se connecter au serveur, veuillez réessayer", io);
         }
     }, 15000);
 
@@ -61,7 +63,7 @@ const connectWebSocket = (nickname) => {
             if(!lobby.hasStarted) updateLoadingTitle('La partie va bientôt commencer');
             else updateLoadingTitle('Vous allez rejoindre une partie déjà commencée');
             afficherChargement('Chargement du terrain de jeu');
-            socket.emit('getLobbyInfo');
+            io.emit('getLobbyInfo');
         });
 
         io.on('lobbyInfo', (lobby) => {
@@ -120,7 +122,7 @@ const connectWebSocket = (nickname) => {
             endGame(infos);
         });
         io.on('kicked', (message) => {
-            erreur.afficherErreur(message, socket);
+            erreur.afficherErreur(message, io);
         });
         io.on('uno', () => {
             imageUno();
@@ -145,8 +147,8 @@ return io;
 }
 
 function disconnectWebSocket() {
-    if(socket !== null) {
-        socket.disconnect();
+    if(io !== null) {
+        io.disconnect();
     }
 }
 
@@ -157,7 +159,7 @@ function whoPlayIfALreadyStarted() {
 function checkForConnection() {
     const connectionCheckInterval = setInterval(() => {
         if (!isConnected()) {
-            erreur.afficherErreur("La connexion au serveur a été perdue", socket);
+            erreur.afficherErreur("La connexion au serveur a été perdue", io);
             clearInterval(connectionCheckInterval);
         }
     }, 3000)
@@ -170,12 +172,12 @@ function checkForConnection() {
  */
 function addPlayerToServer(nickname) {
     if (nickname === undefined) return;
-    if (socket.connected) socket.emit('addPlayer', nickname, socket.id);
+    if (io.connected) io.emit('addPlayer', nickname, io.id);
 }
 
 function sendSocketToServer (type, value) {
-    if(socket === null ||type === null) return;
-    socket.emit(type, value);
+    if(io === null ||type === null) return;
+    io.emit(type, value);
 }
 
 

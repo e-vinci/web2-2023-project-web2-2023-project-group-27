@@ -278,7 +278,8 @@ function findInsertIndex(newCard) {
 
   for (let i = 0; i < divMainPlayer.divCardIconCards.length; i += 1) {
       const {card} = divMainPlayer.divCardIconCards[i];
-
+      if(card === null) return i;
+      if(newCard === null) return i;
       const colorComparison = colorOrder.indexOf(newCard.color) - colorOrder.indexOf(card.color);
       if (colorComparison < 0) {
           return i;

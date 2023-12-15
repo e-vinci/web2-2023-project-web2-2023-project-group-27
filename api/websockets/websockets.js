@@ -1,7 +1,8 @@
 /* eslint-disable no-continue */
 
-const http = require('http').createServer();
-const io = require('socket.io')(http, { cors: { origin: '*' } });
+// const http = require('http').createServer();
+const { Server } = require('socket.io');
+const { useAzureSocketIO } = require('@azure/web-pubsub-socket.io');
 
 const {
   playCard, pickACard, signalUno, contreUno,
@@ -10,34 +11,24 @@ const lobbies = require('../models/lobbies');
 const players = require('../models/players');
 const { Login, SignIn } = require('../models/users');
 
+const io = new Server(process.env.PORT || 443);
+
 io.on('connection', (socket) => {
   socket.emit('connected');
 
-    if (username) {
-        console.log(`Utilisateur connecté: ${username}`);
-    } else {
-        console.log('Utilisateur non connecté');
-    }
+  // Écoutez l'événement de connexion
+  socket.on('login', ({ username, password }) => {
+    Login({ username, password });
+  });
 
-    // Écoutez l'événement de connexion
-    socket.on('login', ({ username, password }) => {
-        Login( user = {
-          username,
-          password
-        } )
-    });
-
-    // Écoutez l'événement d'inscription
-    socket.on('register', ({ username, password }) => {
-        SignIn( user = {
-          username,
-          password
-        })
-    });
+  // Écoutez l'événement d'inscription
+  socket.on('register', ({ username, password }) => {
+    SignIn({ username, password });
+  });
 
   // Quand un joueur souhaite rejoindre une partie
-  socket.on('addPlayer', (nickname, socketID) => {
-    socket.join(socketID);
+  socket.on('addPlayer', async (nickname, socketID) => {
+    await socket.join(socketID);
     lobbies.addPlayerToLobby(players.createProfile(nickname, socketID, true));
   });
 
@@ -110,12 +101,29 @@ io.on('connection', (socket) => {
     contreUno(lobby, player);
   });
 });
-// Ouverture du serveur sur le port 25568 (celui du serveur)
-// eslint-disable-next-line no-console
-http.listen(25568, () => console.log(`WebSockets server listening on ${http.address().address}:${http.address().port}`));
 
-exports.sendSocketToId = (id, type, content) => {
-  if (id !== null || id !== undefined) {
+const sendSocketToId = (id, type, content) => {
+  if (id !== null && id !== undefined) {
     io.to(id).emit(type, content);
   }
 };
+
+const loginSuccess = (socketId, username) => {
+  sendSocketToId(socketId, 'login-success', { username });
+};
+
+// Ouverture du serveur sur le port 25568 (celui du serveur)
+// eslint-disable-next-line no-console
+/*
+http.listen(25568, () => console.log(`WebSockets server listening on port ${http.address().port}`));
+*/
+
+useAzureSocketIO(io, {
+  hub: 'hub', // The hub name can be any valid string.
+  connectionString: 'Endpoint=https://unovinci.webpubsub.azure.com;AccessKey=NaroDwwOnhAf0bu7VZY9abI2JUb6En+43ccBJQVT+xk=;Version=1.0;',
+});
+
+console.log('WebSockets server listening on https://unovinci.webpubsub.azure.com');
+
+exports.sendSocketToId = sendSocketToId;
+exports.loginSuccess = loginSuccess;
