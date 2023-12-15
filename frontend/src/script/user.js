@@ -2,6 +2,8 @@ const popupLogin = document.getElementById("popupLogin");
 const popupSignIn = document.getElementById("popupSignIn");
 const nicknameForm = document.getElementById("nickname");
 
+const socket = io();
+
 const usersData = [];
 
 document.getElementById('signInForm').addEventListener('submit', (event) => {
@@ -64,6 +66,7 @@ document.getElementById('signInForm').addEventListener('submit', (event) => {
     usersData.push(userData);
     nicknameForm.value = userData.pseudo;
     popupSignIn.style.display = 'none'
+    socket.emit('register', { email, password });
   }
 });
 
@@ -92,14 +95,36 @@ document.getElementById('loginForm').addEventListener('submit', (event) => {
   if (!valid) {
     event.preventDefault(); // Empêche l'envoi du formulaire si la validation échoue
   } else {
-    const User = usersData.find(user => user.email === email && user.password === password);
-
-    if (User) {
-      console.log("Connexion réussie pour l'utilisateur:", User.pseudo);
-      nicknameForm.value = User.pseudo;
       popupLogin.style.display = 'none';
-    } else {
-      console.log("Échec de la connexion. Vérifiez vos informations.");
+      socket.emit('login', { email, password });
     }
-  }
 });
+
+
+
+
+/*
+
+// Gérez les événements ou actions liées aux websockets ici
+// Exemple d'écoute d'un message du serveur
+socket.on('login-success', ({ email }) => {
+    console.log(`Connexion réussie pour ${email}`);
+    // Ajoutez ici le code pour gérer la connexion réussie côté client
+});
+
+socket.on('login-fail', ({ message }) => {
+    console.log(`Échec de la connexion: ${message}`);
+    // Ajoutez ici le code pour gérer l'échec de la connexion côté client
+});
+
+socket.on('register-success', ({ email }) => {
+    console.log(`Inscription réussie pour ${email}`);
+    // Ajoutez ici le code pour gérer l'inscription réussie côté client
+});
+
+socket.on('register-fail', ({ message }) => {
+    console.log(`Échec de l'inscription: ${message}`);
+    // Ajoutez ici le code pour gérer l'échec de l'inscription côté client
+});
+
+*/

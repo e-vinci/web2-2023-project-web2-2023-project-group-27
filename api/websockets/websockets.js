@@ -8,9 +8,32 @@ const {
 } = require('../models/game');
 const lobbies = require('../models/lobbies');
 const players = require('../models/players');
+const { Login, SignIn } = require('../models/users');
 
 io.on('connection', (socket) => {
   socket.emit('connected');
+
+    if (username) {
+        console.log(`Utilisateur connecté: ${username}`);
+    } else {
+        console.log('Utilisateur non connecté');
+    }
+
+    // Écoutez l'événement de connexion
+    socket.on('login', ({ username, password }) => {
+        Login( user = {
+          username,
+          password
+        } )
+    });
+
+    // Écoutez l'événement d'inscription
+    socket.on('register', ({ username, password }) => {
+        SignIn( user = {
+          username,
+          password
+        })
+    });
 
   // Quand un joueur souhaite rejoindre une partie
   socket.on('addPlayer', (nickname, socketID) => {
