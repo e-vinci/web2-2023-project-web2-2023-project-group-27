@@ -2,7 +2,9 @@ const popupLogin = document.getElementById("popupLogin");
 const popupSignIn = document.getElementById("popupSignIn");
 const nicknameForm = document.getElementById("nickname");
 
-// let socket;
+const socketio = require('socket.io-client');
+
+let io;
 
 const usersData = [];
 
@@ -54,19 +56,18 @@ document.getElementById('signInForm').addEventListener('submit', (event) => {
     document.getElementById('signInCUError').innerText = '';
   }
 
-  if (!valid) {
-    event.preventDefault(); // Empêche l'envoi du formulaire si la validation échoue
-  } else {
+  if (valid) {
     const userData = {
       email,
       pseudo,
       password
-    };
+    }
+  
 
     usersData.push(userData);
     nicknameForm.value = userData.pseudo;
     popupSignIn.style.display = 'none'
-    // socket.emit('register', { email, password });
+    signIn(userData.email, userData.pseudo, userData.password); 
   }
 });
 
@@ -92,40 +93,61 @@ document.getElementById('loginForm').addEventListener('submit', (event) => {
     document.getElementById('loginPasswordError').innerText = '';
   };
 
-  if (!valid) {
-    event.preventDefault(); // Empêche l'envoi du formulaire si la validation échoue
-  } else {
-    nicknameForm.value = email;
-    popupLogin.style.display = 'none';
-    // socket.emit('login', { email, password });
-  }
+  if (valid) {
+      popupLogin.style.display = 'none';
+      login(email, password)
+    }
 });
 
-
-
-
-/*
-
-// Gérez les événements ou actions liées aux websockets ici
-// Exemple d'écoute d'un message du serveur
-socket.on('login-success', ({ email }) => {
-    console.log(`Connexion réussie pour ${email}`);
-    // Ajoutez ici le code pour gérer la connexion réussie côté client
+function login(email, password) {
+  io = socketio.io("https://unovinci.webpubsub.azure.com", {
+    path: "/clients/socketio/hubs/hub",
 });
 
-socket.on('login-fail', ({ message }) => {
-    console.log(`Échec de la connexion: ${message}`);
-    // Ajoutez ici le code pour gérer l'échec de la connexion côté client
+  io.on("connected", () => {
+    console.log('Connecté au serveur');
+    io.emit('login', { email, password });
+  });
+
+  io.on('loginResult', ({boolean}) => {
+    if(boolean) console.log(`Connexion réussie pour ${email}`); // Ajoutez ici le code pour gérer la connexion réussie côté client
+    else console.log(`Échec de la connexion`);
+
+    // Fin de la connexion
+    io.disconnect();
+    io = null;
+});
+setTimeout(() => {
+  if(io === null) return;
+  io.disconnect();
+  io = null;
+  console.log(`Échec de la connexion`);
+}, 2000);
+}
+
+function signIn(email, pseudo, password) {
+  io = socketio.io("https://unovinci.webpubsub.azure.com", {
+    path: "/clients/socketio/hubs/hub",
 });
 
-socket.on('register-success', ({ email }) => {
-    console.log(`Inscription réussie pour ${email}`);
-    // Ajoutez ici le code pour gérer l'inscription réussie côté client
+  io.on("connected", () => {
+    console.log('Connecté au serveur');
+    io.emit('register', { email, pseudo, password });
+  });
+
+  io.on('signInResult', ({ boolean }) => {
+    if(boolean) console.log(`Inscription réussie pour ${email}`); // Ajoutez ici le code pour gérer l'inscription réussie côté client
+    else console.log(`Échec de l'inscription`);
+
+    // Fin de la connexion
+    io.disconnect();
+    io = null;
 });
 
-socket.on('register-fail', ({ message }) => {
-    console.log(`Échec de l'inscription: ${message}`);
-    // Ajoutez ici le code pour gérer l'échec de l'inscription côté client
-});
-
-*/
+setTimeout(() => {
+  if(io === null) return;
+  io.disconnect();
+  io = null;
+  console.log(`Échec de la connexion`);
+}, 2000);
+}

@@ -1,21 +1,23 @@
-const io = require('../websockets/websockets');
+const json = require('../utils/json');
 
-const usersData = [];
+const accountsPath = '../data/accounts.json';
 
-function Login(user) {
+const usersData = json.parse(accountsPath);
+
+function Login(email, password) {
   // Vérifiez les informations de connexion
-  const currentUser = usersData.find(
-    (current) => user.username === current.username && user.password === current.password,
-  );
+  const currentUser = usersData.find((user) => user.email === email && user.password === password);
   return currentUser !== undefined;
 }
 
-function SignIn(user) {
+function SignIn(email, nickname, password) {
   // Vérifiez si l'utilisateur existe déjà
-  const userExists = usersData.some((current) => user.username === current.username);
-
-  return userExists !== undefined;
-  // todo
+  if (email === undefined || nickname === undefined || password === undefined) return false;
+  const userExists = usersData.some((user) => user.email === email);
+  if (userExists) return false;
+  usersData.push({ email, nickname, password });
+  json.serialize(accountsPath, usersData);
+  return true;
 }
 
 module.exports = {

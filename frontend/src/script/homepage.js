@@ -263,3 +263,5 @@ function resetErrors() {
     document.getElementById('loginPasswordError').innerText = '';
     document.getElementById('loginEmailError').innerText = '';
 }
+
+require('./user');

@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 /* eslint-disable no-continue */
 
 // const http = require('http').createServer();
@@ -10,8 +11,11 @@ const {
 const lobbies = require('../models/lobbies');
 const players = require('../models/players');
 const { Login, SignIn } = require('../models/users');
+// Version localhost
+// const io = require('socket.io')(http, { cors: { origin: '*' } });
 
-const io = new Server(process.env.PORT || 443);
+// Version Azure
+const io = new Server(process.env.PORT || 25568);
 
 io.on('connection', (socket) => {
   socket.emit('connected');
@@ -100,6 +104,14 @@ io.on('connection', (socket) => {
     if (lobby.isEnded) return;
     contreUno(lobby, player);
   });
+
+  socket.on('login', (infos) => {
+    io.to(socket.socketId).emit('loginResult', { boolean: Login(infos.email, infos.password) });
+  });
+
+  socket.on('register', (infos) => {
+    io.to(socket.socketId).emit('signInResult', { boolean: SignIn(infos.email, infos.pseudo, infos.password) });
+  });
 });
 
 const sendSocketToId = (id, type, content) => {
@@ -117,7 +129,6 @@ const loginSuccess = (socketId, username) => {
 /*
 http.listen(25568, () => console.log(`WebSockets server listening on port ${http.address().port}`));
 */
-
 useAzureSocketIO(io, {
   hub: 'hub', // The hub name can be any valid string.
   connectionString: 'Endpoint=https://unovinci.webpubsub.azure.com;AccessKey=NaroDwwOnhAf0bu7VZY9abI2JUb6En+43ccBJQVT+xk=;Version=1.0;',
