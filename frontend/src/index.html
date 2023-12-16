@@ -122,33 +122,7 @@
 
   <script src="../../api/websockets/websockets.js"></script>
   <script src="./script/user.js"></script>
-  <!-- 
-<div id="popupLogin">
-    <h1>Se connecter</h1>
-    <form method="post" id="loginForm">
-      <input type="text" id="emailLogin" class="inputForm" placeholder="Email">
-      <br>
-      <input type="password" id="passwordLogin" class="inputForm" placeholder="Mot de passe">
-      <br>
-      <input type="submit" id="loginButton" class="inputForm" value="Se connecter">
-    </form>
-  </div>
 
-  <div id="popupSignIn">
-    <h1>S'inscrire</h1>
-    <form method="post" id="signInForm" action="localhost:8081/routes/routes.js/add">
-      <input type="text" id="nicknameSignIn" name="nicknameSignIn" value="" placeholder="Pseudo">
-      <br>
-      <input type="text" id="emailSignIn" name="emailSignIn" value="" placeholder="Email">
-      <br>
-      <input type="password" id="passwordSignIn" name="passwordSignIn" value="" placeholder="Mot de passe">
-      <br>
-      <input type="password" id="passwordConfirmation" value="" placeholder="Confirmation">
-      <br>
-      <input type="submit" id="signInButton" value="S'inscrire">
-    </form>
-  </div>
--->
   <div id="popupRules" class="popup">
     <h1>Règles</h1>
     <p class="rulesParagraph">Le but du jeu est simple ! Débarassez-vous de toutes vos cartes.</p> <br>
@@ -156,8 +130,8 @@
       ou symbole que la dernière carte jouée. Si vous ne pouvez pas en déposer, vous devrez alors en piocher une.</p>
     <br>
     <p class="rulesParagraph">Restez toujours attentif, si un joueur ne possède plus qu'une carte et est alors dans un
-      état de VUNOCI, les
-      autres joueurs auront 3 secondes pour faire un contre-VUNOCI et lui faire piocher 4 cartes</p> <br>
+      état de VINCI, les
+      autres joueurs auront 3 secondes pour faire un contre-VINCI et lui faire piocher 2 cartes</p> <br>
     <p class="rulesParagraph">Attention aux petit coquins ! En effet, certaines cartes possèdent des effets sur le
       déroulement de la partie :</p> <br>
     <p class="rulesParagraph"> <img src="img/cards/+2_blue.png" alt="Illustration des règles du Uno +2">
@@ -175,7 +149,6 @@
       permet de choisir la prochaine couleur. Le prochain joueur doit piocher 4 cartes et passer son tour, sauf s'il a
       aussi cette carte, auquel cas il peut choisir la couleur. Le joueur suivant pioche alors l'addition des +4. Cette
       carte peut être jouée à tout moment.</p><br>
-    <p>Note: Il n'est pas possible de combiner une carte +4 avec une carte +2 et inversement.</p>
     <button id="closeRules" class="button">Compris</button>
   </div>
   <div id="popupCU" class="popup">

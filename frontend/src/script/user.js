@@ -95,9 +95,10 @@ document.getElementById('loginForm').addEventListener('submit', (event) => {
   if (!valid) {
     event.preventDefault(); // Empêche l'envoi du formulaire si la validation échoue
   } else {
-      popupLogin.style.display = 'none';
-      // socket.emit('login', { email, password });
-    }
+    nicknameForm.value = email;
+    popupLogin.style.display = 'none';
+    // socket.emit('login', { email, password });
+  }
 });
 
 
