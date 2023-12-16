@@ -6,8 +6,6 @@ const socketio = require('socket.io-client');
 
 let io;
 
-const usersData = [];
-
 document.getElementById('signInForm').addEventListener('submit', (event) => {
   event.preventDefault();
   let valid = true;
@@ -57,17 +55,7 @@ document.getElementById('signInForm').addEventListener('submit', (event) => {
   }
 
   if (valid) {
-    const userData = {
-      email,
-      pseudo,
-      password
-    }
-  
-
-    usersData.push(userData);
-    nicknameForm.value = userData.pseudo;
-    popupSignIn.style.display = 'none'
-    signIn(userData.email, userData.pseudo, userData.password); 
+    signIn(email, pseudo, password); 
   }
 });
 
@@ -94,7 +82,6 @@ document.getElementById('loginForm').addEventListener('submit', (event) => {
   };
 
   if (valid) {
-      popupLogin.style.display = 'none';
       login(email, password)
     }
 });
@@ -109,9 +96,20 @@ function login(email, password) {
     io.emit('login', { email, password });
   });
 
-  io.on('loginResult', ({boolean}) => {
-    if(boolean) console.log(`Connexion réussie pour ${email}`); // Ajoutez ici le code pour gérer la connexion réussie côté client
-    else console.log(`Échec de la connexion`);
+  io.on('loginResult', ({username}) => {
+    if(username !== undefined) {
+      console.log(`Connexion réussie pour ${email}`); // Ajoutez ici le code pour gérer la connexion réussie côté client
+      popupLogin.style.display = 'none';
+      document.getElementById('loginSubmitError').innerText = '';
+      document.getElementById('nickname').addEventListener('keydown', blockKeyboardInput);
+      document.getElementById('signInPath').style.display = 'none';
+      document.getElementById('loginPath').style.display = 'none';
+      nicknameForm.value = username;
+    }
+    else {
+      console.log(`Échec de la connexion`);
+      document.getElementById('loginSubmitError').innerText = 'email ou mot de passe incorrect';
+    } 
 
     // Fin de la connexion
     io.disconnect();
@@ -135,9 +133,20 @@ function signIn(email, pseudo, password) {
     io.emit('register', { email, pseudo, password });
   });
 
-  io.on('signInResult', ({ boolean }) => {
-    if(boolean) console.log(`Inscription réussie pour ${email}`); // Ajoutez ici le code pour gérer l'inscription réussie côté client
-    else console.log(`Échec de l'inscription`);
+  io.on('signInResult', ({ username }) => {
+    if(username !== undefined) {
+      console.log(`Inscription réussie pour ${email}`); // Ajoutez ici le code pour gérer l'inscription réussie côté client
+      nicknameForm.value = username;
+      document.getElementById('nickname').addEventListener('keydown', blockKeyboardInput);
+      popupSignIn.style.display = 'none';
+      document.getElementById('signInPath').style.display = 'none';
+      document.getElementById('loginPath').style.display = 'none';
+      document.getElementById('signInSubmitError').innerText = '';
+    }
+    else{
+      console.log(`Échec de l'inscription`);
+      document.getElementById('signInSubmitError').innerText = 'Adresse mail déjà existante';
+    }
 
     // Fin de la connexion
     io.disconnect();
@@ -150,4 +159,8 @@ setTimeout(() => {
   io = null;
   console.log(`Échec de la connexion`);
 }, 2000);
+}
+
+function blockKeyboardInput(event) {
+  event.preventDefault();
 }

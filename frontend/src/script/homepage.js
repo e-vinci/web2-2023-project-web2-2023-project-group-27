@@ -245,6 +245,9 @@ playForm.addEventListener('submit', (e) => {
         popupSignIn.style.display = 'none';
         popupRules.style.display = 'none';
 
+        document.getElementById('signInPath').style.display = 'none';
+        document.getElementById('loginPath').style.display = 'none';
+
         // Div chargement
         afficherDivChargement();
 

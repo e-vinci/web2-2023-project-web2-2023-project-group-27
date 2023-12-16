@@ -106,11 +106,11 @@ io.on('connection', (socket) => {
   });
 
   socket.on('login', (infos) => {
-    io.to(socket.socketId).emit('loginResult', { boolean: Login(infos.email, infos.password) });
+    io.to(socket.socketId).emit('loginResult', { username: Login(infos.email, infos.password) });
   });
 
   socket.on('register', (infos) => {
-    io.to(socket.socketId).emit('signInResult', { boolean: SignIn(infos.email, infos.pseudo, infos.password) });
+    io.to(socket.socketId).emit('signInResult', { username: SignIn(infos.email, infos.pseudo, infos.password) });
   });
 });
 
