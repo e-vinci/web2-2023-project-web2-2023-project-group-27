@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const json = require('../utils/json');
 
 const accountsPath = '../data/accounts.json';
@@ -7,9 +8,7 @@ const usersData = json.parse(accountsPath);
 function Login(email, password) {
   // Vérifiez les informations de connexion
   if (password === undefined) return;
-  console.log(email + ' --- ' + password);
-  currentUser = usersData.find((user) => user.email === email && user.password === password);
-  console.log(currentUser);
+  const currentUser = usersData.find((user) => user.email === email && user.password === password);
   return currentUser.nickname;
 }
 

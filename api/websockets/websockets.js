@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable import/order */
 /* eslint-disable no-continue */
 
@@ -124,16 +125,16 @@ const loginSuccess = (socketId, username) => {
   sendSocketToId(socketId, 'login-success', { username });
 };
 
-// Ouverture du serveur sur le port 25568 (celui du serveur)
-// eslint-disable-next-line no-console
+// Version localhost
 /*
 http.listen(25568, () => console.log(`WebSockets server listening on port ${http.address().port}`));
 */
+
+// Version Azure
 useAzureSocketIO(io, {
   hub: 'hub', // The hub name can be any valid string.
   connectionString: 'Endpoint=https://unovinci.webpubsub.azure.com;AccessKey=NaroDwwOnhAf0bu7VZY9abI2JUb6En+43ccBJQVT+xk=;Version=1.0;',
 });
-
 console.log('WebSockets server listening on https://unovinci.webpubsub.azure.com');
 
 exports.sendSocketToId = sendSocketToId;

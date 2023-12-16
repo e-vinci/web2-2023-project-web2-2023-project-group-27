@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const popupLogin = document.getElementById("popupLogin");
 const popupSignIn = document.getElementById("popupSignIn");
 const nicknameForm = document.getElementById("nickname");
@@ -92,13 +93,12 @@ function login(email, password) {
 });
 
   io.on("connected", () => {
-    console.log('Connecté au serveur');
     io.emit('login', { email, password });
   });
 
   io.on('loginResult', ({username}) => {
     if(username !== undefined) {
-      console.log(`Connexion réussie pour ${email}`); // Ajoutez ici le code pour gérer la connexion réussie côté client
+      console.log(`Connexion réussie pour ${email}`);
       popupLogin.style.display = 'none';
       document.getElementById('loginSubmitError').innerText = '';
       document.getElementById('nickname').addEventListener('keydown', blockKeyboardInput);
@@ -109,7 +109,7 @@ function login(email, password) {
     else {
       console.log(`Échec de la connexion`);
       document.getElementById('loginSubmitError').innerText = 'email ou mot de passe incorrect';
-    } 
+    }
 
     // Fin de la connexion
     io.disconnect();
@@ -129,13 +129,12 @@ function signIn(email, pseudo, password) {
 });
 
   io.on("connected", () => {
-    console.log('Connecté au serveur');
     io.emit('register', { email, pseudo, password });
   });
 
   io.on('signInResult', ({ username }) => {
     if(username !== undefined) {
-      console.log(`Inscription réussie pour ${email}`); // Ajoutez ici le code pour gérer l'inscription réussie côté client
+      console.log(`Inscription réussie pour ${email}`);
       nicknameForm.value = username;
       document.getElementById('nickname').addEventListener('keydown', blockKeyboardInput);
       popupSignIn.style.display = 'none';
