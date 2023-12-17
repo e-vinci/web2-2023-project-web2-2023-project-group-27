@@ -496,8 +496,8 @@
     #fullscreen {
         width: 40px;
         height: 40px;
-        top: 95%;
-        left: 90%;
+        top: 840px;
+        left: 360px;
     }
 
     #options:hover {
