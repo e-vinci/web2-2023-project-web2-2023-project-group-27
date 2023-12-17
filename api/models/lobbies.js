@@ -20,7 +20,7 @@
 
 const io = require('../websockets/websockets');
 const game = require('./game');
-const players = require('./players');
+const players = require('./players').default;
 
 const lobbies = [];
 const MAX_PLAYERS_PER_LOBBY = 4;
@@ -63,6 +63,10 @@ function addLobby() {
 }
 
 function deleteLobby(lobby) {
+  for (let i = 0; i < lobby.players.length; i += 1) {
+    players.deleteProfile(lobby.players[i].playerId);
+  }
+
   const index = lobbies.indexOf(lobby);
   if (index !== -1) {
     lobbies.splice(index, 1);
@@ -168,6 +172,7 @@ function removePlayer(socketId) {
   }
 
   if (lobby.humanPlayersCount === 0) deleteLobby(lobby);
+  players.deleteProfile(player.playerId);
 }
 
 function addDeckToLobby(lobbyId, deck) {
@@ -260,6 +265,10 @@ function reverse(lobby) {
   }
 }
 
+function getLobbiesCount() {
+  return lobbies.length;
+}
+
 module.exports = {
   addPlayerToLobby,
   removePlayer,
@@ -272,4 +281,5 @@ module.exports = {
   reverse,
   changeColor,
   isEnded,
+  getLobbiesCount,
 };
