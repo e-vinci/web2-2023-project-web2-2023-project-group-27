@@ -13,7 +13,7 @@ function Login(email, password) {
   // Vérifiez les informations de connexion
   if (password === undefined) return;
   const currentUser = usersData.find((user) => user.email === email && bcrypt.compareSync(password, user.password));
-  return currentUser.nickname;
+  return currentUser === undefined ? undefined : currentUser.nickname;
 }
 
 function SignIn(email, nickname, password) {
