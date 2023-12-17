@@ -5,6 +5,7 @@
 // const http = require('http').createServer();
 const { Server } = require('socket.io');
 const { useAzureSocketIO } = require('@azure/web-pubsub-socket.io');
+const config = require('../config');
 
 const {
   playCard, pickACard, signalUno, contreUno,
@@ -133,7 +134,7 @@ http.listen(25568, () => console.log(`WebSockets server listening on port ${http
 // Version Azure
 useAzureSocketIO(io, {
   hub: 'hub', // The hub name can be any valid string.
-  connectionString: 'Endpoint=https://unovinci.webpubsub.azure.com;AccessKey=NaroDwwOnhAf0bu7VZY9abI2JUb6En+43ccBJQVT+xk=;Version=1.0;',
+  connectionString: config.azure,
 });
 console.log('WebSockets server listening on https://unovinci.webpubsub.azure.com');
 

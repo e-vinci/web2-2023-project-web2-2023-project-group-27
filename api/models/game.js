@@ -72,9 +72,9 @@ function socketWhoPlay(lobby) {
     io.sendSocketToId(lobby.players[i].socketId, 'nextPlayer', playerWhoPlay.playerId);
   }
   if (!hasACardPlayable(playerWhoPlay, lobby) && lobby.currentCard.color !== 'black') io.sendSocketToId(playerWhoPlay.socketId, 'noCardPlayable');
-  if (playerWhoPlay.deck.length === 2 && hasACardPlayable(playerWhoPlay, lobby)) {
+  /* if (playerWhoPlay.deck.length === 2 && hasACardPlayable(playerWhoPlay, lobby)) {
     io.sendSocketToId(playerWhoPlay.socketId, 'uno');
-  }
+  } */
   timerBotPlayer(lobby, playerWhoPlay);
 }
 
@@ -222,15 +222,17 @@ function playCard(lobby, joueur, card) {
     }¨
     */
 
-    if (joueur.deck.length === 1 && lobby.unoSignal === null) {
+    /* if (joueur.deck.length === 1 && lobby.unoSignal === null) {
       for (let i = 0; i < lobby.players.length; i += 1) {
         const player = lobby.players[i];
         if (player.isHuman && lobby.unoSignal === null && player !== joueur) {
-          io.sendSocketToId(player.socketId, 'contreUno');
+          // io.sendSocketToId(player.socketId, 'contreUno');
         }
       }
       botContreUno(lobby);
-    } else if (joueur.deck.length === 1) {
+    } */
+
+    if (joueur.deck.length === 1) {
       for (let i = 0; i < lobby.players.length; i += 1) {
         const player = lobby.players[i];
         io.sendSocketToId(player.socketId, 'vinci', { playerId: joueur.playerId });
@@ -257,6 +259,7 @@ function playCard(lobby, joueur, card) {
   }
 }
 
+/*
 function botContreUno(lobby) {
   if (lobby.unoSignal !== null) return;
   for (let i = 0; i < lobby.players.length; i += 1) {
@@ -264,12 +267,13 @@ function botContreUno(lobby) {
     if (!player.isHuman) {
       const random = Math.random();
       if (random <= 0.33) {
-        contreUno(lobby, player);
+        // contreUno(lobby, player);
         break;
       }
     }
   }
 }
+*/
 
 function gameFinished(lobby) {
   // création d'un tableau avec les stats de chaque joueur
