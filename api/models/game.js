@@ -5,7 +5,7 @@
 /* eslint-disable no-param-reassign */
 const io = require('../websockets/websockets');
 
-const NUMBER_OF_CARDS_TO_DRAW = 7;
+const NUMBER_OF_CARDS_TO_DRAW = 1;
 const NUMBER_OF_TIMES_BEFORE_KICK = 5;
 
 function shuffleStack(lobby) {
