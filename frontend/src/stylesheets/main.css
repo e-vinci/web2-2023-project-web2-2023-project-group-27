@@ -8,6 +8,7 @@ body {
     align-items: center;
     /*vertically center menu*/
     overflow: hidden;
+    touch-action: manipulation;
     /* Disable scroll*/
 }
 

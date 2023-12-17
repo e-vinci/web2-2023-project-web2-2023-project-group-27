@@ -287,6 +287,7 @@
         background-repeat: no-repeat;
         height: 100%;
         width: 100%;
+        overflow: hidden;
     }
 
     .homepage {
@@ -416,7 +417,7 @@
         background-size: 33%;
         margin-left: -40%;
         margin-right: -100%;
-        top: 35%;
+        top: 27%;
         border: none;
     }
 
@@ -425,7 +426,7 @@
         height: 80px;
         background-size: 33%;
         margin-left: -34%;
-        top: 18%;
+        top: 10%;
         border: none;
     }
 
@@ -527,7 +528,7 @@
     }
 
     .replayButton {
-        top: 67%;
+        top: 71%;
     }
 
     .finalScoreboard h1 {
@@ -1215,5 +1216,6 @@
 @media not all and (min-resolution:.001dpcm) {
     body {
         margin-bottom: 10%;
+        overflow: hidden;
     }
 }
