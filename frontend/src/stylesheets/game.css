@@ -228,6 +228,60 @@
     right: 30px
 }
 
+.subTitleFinal {
+    font-size: 20px;
+    margin-left: 150px !important;
+    padding-top: 10px !important;
+}
+
+.titleFinal {
+    margin-left: 100px !important;
+    padding-top: 10px !important;
+}
+
+
+.finalScoreboard {
+    position: absolute;
+    height: 550px !important;
+    width: 1000px !important;
+    border-radius: 100px;
+    border: 5px solid black;
+    background-color: orange;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 900;
+    left: 0;
+    right: 0;
+    animation: resultSlide ease-in-out 3s forwards;
+}
+
+.chatbox {
+    position: absolute;
+    left: 0px;
+    bottom: 5px;
+    margin-bottom: 50px;
+    z-index: 2;
+    left: 10px;
+
+}
+
+.chatMessage {
+    background-color: rgba(0, 0, 0, 0.544);
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    color: white;
+    min-height: 30px;
+    /* Utilisation de min-height au lieu de height */
+    width: 450px;
+    margin-bottom: 5px;
+    /* Ajout de margin-bottom pour séparer les messages */
+    padding: 5px;
+    /* Ajout de padding pour améliorer la lisibilité */
+    box-sizing: border-box;
+    /* Inclure les bordures et le padding dans la largeur et la hauteur */
+    word-wrap: break-word;
+}
+
 @media (max-width: 900px) {
     body {
         background-repeat: no-repeat;
@@ -408,18 +462,15 @@
     .currentCard {
         background-size: 90%;
         width: 25%;
-        height: 55%;
+        height: 65%;
         padding: 0%;
-        margin-top: 0%;
+        margin-top: 15%;
         margin-bottom: 0%;
         border: none;
         margin-left: 10%;
     }
 
     #chatInput {
-        left: 0px;
-        margin-left: 0px;
-        width: 150px;
         display: none;
     }
 
@@ -476,51 +527,62 @@
     }
 
     .replayButton {
-        top: 80%;
+        top: 67%;
+    }
+
+    .finalScoreboard h1 {
+        font-size: 18px !important;
+        width: 48%;
+        left: -150px !important;
+        top: 20px;
     }
 
     .finalScoreboard {
-        width: 100%;
-        height: 50%;
+        width: 100% !important;
+        height: 40% !important;
         justify-content: center;
         margin: 0%;
 
     }
 
     .leaderboard1 {
-        height: 200px;
-        width: 150px;
+        height: 200px !important;
+        width: 150px !important;
+        margin-left: 30% !important;
+    }
+
+    .leaderboard1 img {
+        left: 27px !important;
     }
 
     .leaderboard1 img,
     .leaderboard2 img,
     .leaderboard3 img {
-        margin-top: 30px;
-        height: 65px;
-        width: 65px;
-        margin-left: 30px;
+        margin-top: 30px !important;
+        height: 65px !important;
+        width: 65px !important;
+        margin-left: 11.5% !important;
     }
 
     .leaderboard1 h2,
     .leaderboard2 h2,
     .leaderboard3 h2 {
-        font-size: 20px;
-        width: 3150px;
+        font-size: 18px !important;
+        width: 150px !important;
     }
 
     .leaderboard1 .score,
     .leaderboard2 .score,
     .leaderboard3 .score {
-        font-size: 12px;
-        width: 150px;
-        margin-top: -5px;
+        font-size: 15px !important;
+        width: 150px !important;
     }
 
     .leaderboard1 .cardsLeft,
     .leaderboard2 .cardsLeft,
     .leaderboard3 .cardsLeft {
-        font-size: 10px;
-        width: 150px;
+        font-size: 12px !important;
+        width: 150px !important;
         margin-top: -5px;
     }
 
@@ -530,91 +592,80 @@
     .leaderboard2 .cardsDrawn,
     .leaderboard3 .cardsPlayed,
     .leaderboard3 .cardsDrawn {
-        font-size: 7px;
-        width: 150px;
+        font-size: 10px !important;
+        width: 150px !important;
         margin-top: -5px;
     }
 
     .rankGold {
-        width: 150px;
-        height: 90px;
-        margin-left: 2px;
-        margin-top: 15px;
-        background-size: 150px 90px;
+        width: 150px !important;
+        height: 90px !important;
+        background-size: 150px 90px !important;
     }
-    
-    
+
+
     .leaderboard2 {
         height: 200px;
         width: 150px;
-        left: 20px;
+        left: 0px !important;
         top: 20px;
     }
-    
+
     .leaderboard3 {
         height: 200px;
         width: 150px;
-        right: 20px;
+        right: -150px !important;
         top: 20px;
     }
-    
-    
+
+
     .rankSilver {
-        width: 150px;
-        height: 90px;
-        margin-left: 2px;
-        margin-top: 15px;
-        background-size: 150px 90px;
+        width: 150px !important;
+        height: 90px !important;
+        background-size: 150px 90px !important;
     }
-    
+
     .rankBronze {
-        width: 150px;
-        height: 90px;
-        margin-left: 2px;
-        margin-top: 15px;
-        background-size: 150px 90px;
+        width: 150px !important;
+        height: 90px !important;
+        background-size: 150px 90px !important;
     }
-    
+
     .leaderboard4 {
-        width: 150px;
-        height: 100px;
-        left: 0;
-        right: 0;
-        bottom: -60px;
+        width: 150px !important;
+        height: 100px !important;
+        margin-left: 3% !important;
+        bottom: 15px !important;
     }
-    
+
     .leaderboard4 img {
-        margin-top: 25px;
-        height: 35px;
-        width: 35px;
-        margin-left: 0px;
+        height: 45px !important;
+        width: 45px !important;
+        left: 85px !important;
+        top: 0px !important;
     }
-    
+
     .leaderboard4 h2 {
-        margin-top: 15px;
-        font-size: 11px;
-        width: 200px;
+        margin-top: 15px !important;
+        font-size: 14px !important;
     }
-    
+
     .leaderboard4 .score {
-        font-size: 10px;
-        width: 200px;
-        margin-top: -15px;
+        font-size: 12px !important;
+        padding-top: 1px !important;
     }
-    
+
     .leaderboard4 .cardsLeft {
-        font-size: 7px;
-        width: 200px;
-        margin-top: -7px;
+        font-size: 9px !important;
+        padding-top: 4px !important;
     }
-    
+
     .leaderboard4 .cardsPlayed,
     .leaderboard4 .cardsDrawn {
-        font-size: 7px;
-        width: 200px;
-        margin-top: -5px;
+        font-size: 9px !important;
+        padding-top: 1px !important;
     }
-    
+
     .resultBackground {
         position: absolute;
         height: 100%;
@@ -677,34 +728,6 @@
     display: block;
     background-size: 84px, 84px;
 }
-
-.chatbox {
-    position: absolute;
-    left: 0px;
-    bottom: 5px;
-    margin-bottom: 50px;
-    z-index: 2;
-    left: 10px;
-
-}
-
-.chatMessage {
-    background-color: rgba(0, 0, 0, 0.544);
-    border-left: 2px solid black;
-    border-right: 2px solid black;
-    color: white;
-    min-height: 30px;
-    /* Utilisation de min-height au lieu de height */
-    width: 450px;
-    margin-bottom: 5px;
-    /* Ajout de margin-bottom pour séparer les messages */
-    padding: 5px;
-    /* Ajout de padding pour améliorer la lisibilité */
-    box-sizing: border-box;
-    /* Inclure les bordures et le padding dans la largeur et la hauteur */
-    word-wrap: break-word;
-}
-
 
 .colorChoiceBackground {
     position: absolute;
@@ -815,33 +838,6 @@
     position: absolute;
     top: 20px;
     left: 20px;
-}
-
-.subTitleFinal {
-    font-size: 20px;
-    margin-left: 150px !important;
-    padding-top: 10px !important;
-}
-
-.titleFinal {
-    margin-left: 100px !important;
-    padding-top: 10px !important;
-}
-
-
-.finalScoreboard {
-    position: absolute;
-    height: 550px !important;
-    width: 1000px !important;
-    border-radius: 100px;
-    border: 5px solid black;
-    background-color: orange;
-    margin-left: auto;
-    margin-right: auto;
-    z-index: 900;
-    left: 0;
-    right: 0;
-    animation: resultSlide ease-in-out 3s forwards;
 }
 
 .finalScoreboard h1 {
@@ -1214,4 +1210,10 @@
 
 .contrevincinull {
     top: 70%;
+}
+
+@media not all and (min-resolution:.001dpcm) {
+    body {
+        margin-bottom: 10%;
+    }
 }
