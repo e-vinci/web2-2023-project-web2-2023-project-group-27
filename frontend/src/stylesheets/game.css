@@ -1,0 +1,1221 @@
+.cardCenterDiv {
+    position: absolute;
+    display: inline-block;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 350px;
+    height: 200px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.cardStack {
+    display: inline-block;
+    left: 0px;
+    background-image: url("../img/cards/card_back.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 140px 200px;
+    border: 2px solid rgba(255, 0, 0, 0.375);
+    border-radius: 10px;
+    height: 200px;
+    width: 140px;
+    transition: 1s;
+}
+
+.drawCard {
+    animation: clignotementBordure 1s infinite;
+}
+
+@keyframes clignotementBordure {
+
+    0%,
+    100% {
+        border-radius: 10px;
+        border: 2px solid rgba(255, 0, 0, 0.375);
+    }
+
+    50% {
+        border-radius: 20px;
+        border: 13px solid orange;
+    }
+}
+
+.currentCard {
+    border: 2px solid transparent;
+    display: inline-block;
+    right: 0px;
+    margin-left: 50px;
+    background-repeat: no-repeat;
+    background-size: 134px 200px;
+    height: 200px;
+    width: 134px;
+    border: 2px solid rgba(255, 0, 0, 0.375);
+    border-radius: 10px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: orange;
+    border: 5px solid rgb(34, 34, 34);
+    width: 190px;
+    /* Ajuster selon les besoins */
+    height: 110px;
+    /* Ajuster selon les besoins */
+    padding: 10px;
+    box-sizing: border-box;
+    position: relative;
+    transition: 2s;
+}
+
+.card-icon {
+    position: absolute;
+    top: 15px;
+    left: 80px;
+    width: 50px;
+    /* Ajuster selon les besoins */
+    height: 50px;
+    /* Ajuster selon les besoins */
+    background-size: 50px 50px;
+}
+
+.card-count {
+    position: absolute;
+    top: 0px;
+    left: 130px;
+    font-size: 3em;
+    color: black;
+    margin: 0;
+}
+
+.nickname {
+    position: absolute;
+    top: 68px;
+    color: black;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.icon {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 60px;
+    /* Ajuster selon les besoins */
+    height: 60px;
+    /* Ajuster selon les besoins */
+    border-radius: 50%;
+    border: 2px solid black;
+    margin-bottom: 10px;
+}
+
+.mainPlayer {
+    position: absolute;
+    right: 240px;
+    bottom: 20px;
+}
+
+.mainPlayerCards {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    bottom: 20px;
+    height: 130px;
+}
+
+.cardMainPlayer {
+    position: relative;
+    transition: 0.2s ease-out;
+    display: inline-block;
+    background-size: 84px, 130px;
+    background-repeat: no-repeat;
+    height: 130px;
+    width: 84px;
+    border: 3px solid rgba(255, 0, 0, 0.375);
+    border-radius: 10px;
+}
+
+
+.notTheTimeToPlay {
+    top: 90px;
+    transition: 0.2s ease-out;
+    filter: grayscale(60%);
+}
+
+.direction-arrow {
+    height: 600px;
+    width: 600px;
+    z-index: -4;
+    position: absolute;
+    display: inline-block;
+    margin: auto;
+    opacity: 0.45;
+    filter: blur(3px);
+    left: 0;
+    right: 0;
+    transition: 0.5s;
+}
+
+.clockwise {
+    background: url("../img/directions/direction_clockwise.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    animation: rotateClockWise 20s linear infinite;
+}
+
+.anticlockwise {
+    animation: rotateAntiClockWise 20s linear infinite;
+    background: url("../img/directions/direction_anticlockwise.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    transform: scaleY(-1);
+}
+
+
+@keyframes rotateClockWise {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotateAntiClockWise {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
+.vinciLogo {
+    background: url("../img/logo_vinci.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 900px;
+    width: 900px;
+    z-index: -5;
+    position: absolute;
+    margin: auto;
+    opacity: 0.15;
+    filter: blur(7px);
+    left: 0;
+    right: 0;
+}
+
+.player2 {
+    position: absolute;
+    margin-left: 20px;
+}
+
+.player3 {
+    position: absolute;
+    left: 300px;
+    top: 30px;
+}
+
+.player4 {
+    position: absolute;
+    right: 30px
+}
+
+.subTitleFinal {
+    font-size: 20px;
+    margin-left: 150px !important;
+    padding-top: 10px !important;
+}
+
+.titleFinal {
+    margin-left: 100px !important;
+    padding-top: 10px !important;
+}
+
+
+.finalScoreboard {
+    position: absolute;
+    height: 550px !important;
+    width: 1000px !important;
+    border-radius: 100px;
+    border: 5px solid black;
+    background-color: orange;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 900;
+    left: 0;
+    right: 0;
+    animation: resultSlide ease-in-out 3s forwards;
+}
+
+.chatbox {
+    position: absolute;
+    left: 0px;
+    bottom: 5px;
+    margin-bottom: 50px;
+    z-index: 2;
+    left: 10px;
+
+}
+
+.chatMessage {
+    background-color: rgba(0, 0, 0, 0.544);
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    color: white;
+    min-height: 30px;
+    /* Utilisation de min-height au lieu de height */
+    width: 450px;
+    margin-bottom: 5px;
+    /* Ajout de margin-bottom pour séparer les messages */
+    padding: 5px;
+    /* Ajout de padding pour améliorer la lisibilité */
+    box-sizing: border-box;
+    /* Inclure les bordures et le padding dans la largeur et la hauteur */
+    word-wrap: break-word;
+}
+
+@media (max-width: 900px) {
+    body {
+        background-repeat: no-repeat;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .homepage {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .vinciLogo {
+        background-size: auto;
+        background-position-y: center;
+        background-position-x: center;
+        height: 100%;
+        width: 100%;
+    }
+
+    .direction-arrow {
+        background-size: contain;
+        background-position-y: center;
+        background-position-x: center;
+        height: 70%;
+        width: 70%;
+    }
+
+    .cardMainPlayer {
+        left: -10%;
+        background-size: 100%;
+        width: 27%;
+        height: 100%;
+        border: none;
+    }
+
+    .card {
+        margin-left: 10%;
+        border: none;
+        background: none;
+    }
+
+    .card-count {
+        font-size: 2em;
+        margin-left: -88px;
+        margin-top: 10px;
+        text-align: right;
+    }
+
+    .icon,
+    .user-icon {
+        width: 3em;
+        height: 3em;
+    }
+
+    .card-icon {
+        background-size: cover;
+        width: 2em;
+        height: 2em;
+        margin-left: -20px;
+    }
+
+    .nickname {
+        top: 40px;
+    }
+
+    .player2 {
+        margin-left: 0px;
+        bottom: 20em;
+        width: 20%;
+        height: 7%;
+        font-size: 10px;
+    }
+
+    .player3 {
+        margin-left: 3%;
+        left: 0%;
+        top: 0px;
+        width: 20%;
+        height: 7%;
+        font-size: 10px;
+    }
+
+    .player4 {
+        right: 0px;
+        bottom: 20em;
+        width: 20%;
+        height: 7%;
+        font-size: 10px;
+    }
+
+    .mainPlayer {
+        width: 20%;
+        height: 7%;
+        font-size: 10px;
+        bottom: 0;
+        left: -3em;
+    }
+
+    .user-icon {
+        display: none;
+    }
+
+    .card-count {
+        display: flex;
+    }
+
+    .cardStack,
+    .currentCard {
+        background-position: center;
+        border: none;
+        background-size: 60%;
+        margin-top: 0;
+        padding-top: 0;
+        margin: 0;
+    }
+
+    .cardCenterDiv {
+        margin-left: 17%;
+    }
+
+    .currentCard {
+        margin-left: 0;
+    }
+
+    .cardOpponentPlayer.cardOpponentPlayer0 {
+        width: 200px;
+        height: 80px;
+        background-size: 33%;
+        margin-left: -40%;
+        margin-right: -100%;
+        top: 27%;
+        border: none;
+    }
+
+    .cardOpponentPlayer.cardOpponentPlayer2 {
+        width: 200px;
+        height: 80px;
+        background-size: 33%;
+        margin-left: -34%;
+        top: 10%;
+        border: none;
+    }
+
+    .cardOpponentPlayer.cardOpponentPlayer1 {
+        background-size: 100%;
+        width: 27%;
+        height: 100%;
+        border: none;
+        margin-top: -23%;
+        margin-left: -10%;
+    }
+
+    .opponentPlayerCards2 {
+        background-size: 40%;
+        width: 10px;
+        height: 20px;
+        border: none;
+        margin-left: -20%;
+    }
+
+    .opponentPlayerCards3 {
+        margin-top: -20%;
+    }
+
+    .opponentPlayerCards4 {
+        background-size: 40%;
+        width: 10px;
+        height: 20px;
+        border: none;
+        margin-right: -25%;
+    }
+
+    .cardStack,
+    .currentCard {
+        background-size: 90%;
+        width: 25%;
+        height: 65%;
+        padding: 0%;
+        margin-top: 15%;
+        margin-bottom: 0%;
+        border: none;
+        margin-left: 10%;
+    }
+
+    #chatInput {
+        display: none;
+    }
+
+    .erreur-message {
+        position: relative;
+        justify-content: center;
+        text-align: center;
+        top: 20%;
+    }
+
+    .erreur-message button:hover {
+        width: 80%;
+    }
+
+    #options {
+        width: 40px;
+        height: 40px;
+        top: 1%;
+        right: 1%;
+    }
+
+    #fullscreen {
+        width: 40px;
+        height: 40px;
+        top: 840px;
+        left: 360px;
+    }
+
+    #options:hover {
+        width: 50px;
+        height: 50px;
+    }
+
+    #fullscreen:hover {
+        width: 50px;
+        height: 50px;
+        bottom: 1%;
+        right: 1%;
+    }
+
+    .image-uno {
+        width: 100px;
+        height: 80px;
+    }
+
+    .vinci {
+        width: 150px;
+        height: 50px;
+    }
+
+    .contrevinci {
+        width: 100px;
+        height: 100px;
+    }
+
+    .replayButton {
+        top: 71%;
+    }
+
+    .finalScoreboard h1 {
+        font-size: 18px !important;
+        width: 48%;
+        left: -150px !important;
+        top: 20px;
+    }
+
+    .finalScoreboard {
+        width: 100% !important;
+        height: 40% !important;
+        justify-content: center;
+        margin: 0%;
+
+    }
+
+    .leaderboard1 {
+        height: 200px !important;
+        width: 150px !important;
+        margin-left: 30% !important;
+    }
+
+    .leaderboard1 img {
+        left: 27px !important;
+    }
+
+    .leaderboard1 img,
+    .leaderboard2 img,
+    .leaderboard3 img {
+        margin-top: 30px !important;
+        height: 65px !important;
+        width: 65px !important;
+        margin-left: 11.5% !important;
+    }
+
+    .leaderboard1 h2,
+    .leaderboard2 h2,
+    .leaderboard3 h2 {
+        font-size: 18px !important;
+        width: 150px !important;
+    }
+
+    .leaderboard1 .score,
+    .leaderboard2 .score,
+    .leaderboard3 .score {
+        font-size: 15px !important;
+        width: 150px !important;
+    }
+
+    .leaderboard1 .cardsLeft,
+    .leaderboard2 .cardsLeft,
+    .leaderboard3 .cardsLeft {
+        font-size: 12px !important;
+        width: 150px !important;
+        margin-top: -5px;
+    }
+
+    .leaderboard1 .cardsPlayed,
+    .leaderboard1 .cardsDrawn,
+    .leaderboard2 .cardsPlayed,
+    .leaderboard2 .cardsDrawn,
+    .leaderboard3 .cardsPlayed,
+    .leaderboard3 .cardsDrawn {
+        font-size: 10px !important;
+        width: 150px !important;
+        margin-top: -5px;
+    }
+
+    .rankGold {
+        width: 150px !important;
+        height: 90px !important;
+        background-size: 150px 90px !important;
+    }
+
+
+    .leaderboard2 {
+        height: 200px;
+        width: 150px;
+        left: 0px !important;
+        top: 20px;
+    }
+
+    .leaderboard3 {
+        height: 200px;
+        width: 150px;
+        right: -150px !important;
+        top: 20px;
+    }
+
+
+    .rankSilver {
+        width: 150px !important;
+        height: 90px !important;
+        background-size: 150px 90px !important;
+    }
+
+    .rankBronze {
+        width: 150px !important;
+        height: 90px !important;
+        background-size: 150px 90px !important;
+    }
+
+    .leaderboard4 {
+        width: 150px !important;
+        height: 100px !important;
+        margin-left: 3% !important;
+        bottom: 15px !important;
+    }
+
+    .leaderboard4 img {
+        height: 45px !important;
+        width: 45px !important;
+        left: 85px !important;
+        top: 0px !important;
+    }
+
+    .leaderboard4 h2 {
+        margin-top: 15px !important;
+        font-size: 14px !important;
+    }
+
+    .leaderboard4 .score {
+        font-size: 12px !important;
+        padding-top: 1px !important;
+    }
+
+    .leaderboard4 .cardsLeft {
+        font-size: 9px !important;
+        padding-top: 4px !important;
+    }
+
+    .leaderboard4 .cardsPlayed,
+    .leaderboard4 .cardsDrawn {
+        font-size: 9px !important;
+        padding-top: 1px !important;
+    }
+
+    .resultBackground {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background-color: black;
+        animation: fadeIn 3s forwards;
+        z-index: 800;
+    }
+}
+
+
+.cardOpponentPlayer {
+    position: relative;
+    transition: 0.2s ease-out;
+    background-size: 84px, 130px;
+    background-repeat: no-repeat;
+    height: 130px;
+    width: 84px;
+    border: 3px solid rgba(255, 0, 0, 0.375);
+    border-radius: 10px;
+    filter: grayscale(40%)
+}
+
+.opponentPlayerCards3 {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 20px;
+    height: 130px;
+}
+
+.opponentPlayerCards2 {
+    position: absolute;
+    left: 18%;
+    height: 800px;
+    width: 130px;
+}
+
+.opponentPlayerCards4 {
+    position: absolute;
+    right: 15%;
+    height: 800px;
+    width: 130px;
+}
+
+.cardOpponentPlayer0 {
+    transform: rotate(90deg);
+    display: block;
+    background-size: 84px, 84px;
+}
+
+.cardOpponentPlayer1 {
+    transform: rotate(180deg);
+    display: inline-block;
+}
+
+.cardOpponentPlayer2 {
+    transform: rotate(270deg);
+    display: block;
+    background-size: 84px, 84px;
+}
+
+.colorChoiceBackground {
+    position: absolute;
+    display: inline-block;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.5;
+}
+
+.colorChoice {
+    position: absolute;
+    display: inline-block;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 400px;
+    height: 400px;
+}
+
+.colorChoiceyellow {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    float: right;
+    border-radius: 500px 0px 0px;
+    background: radial-gradient(circle at bottom right, rgba(0, 0, 0, 0) 40%, black 120%), rgb(252, 255, 41);
+    width: 200px;
+    height: 200px;
+    transition: 0.4s;
+    border: 5px solid black;
+}
+
+.colorChoicegreen {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    float: right;
+    border-radius: 0px 500px 0px 0px;
+    background: radial-gradient(circle at bottom left, rgba(0, 0, 0, 0) 40%, black 120%), rgb(30, 152, 0);
+    width: 200px;
+    height: 200px;
+    transition: 0.4s;
+    border: 5px solid black;
+}
+
+.colorChoicered {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    float: right;
+    border-radius: 0px 0px 500px 0px;
+    background: radial-gradient(circle at top left, rgba(0, 0, 0, 0) 40%, black 120%), rgb(233, 36, 36);
+    width: 200px;
+    height: 200px;
+    transition: 0.4s;
+    border: 5px solid black;
+}
+
+.colorChoiceblue {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    float: right;
+    border-radius: 0px 0px 0px 500px;
+    background: radial-gradient(circle at top right, rgba(0, 0, 0, 0) 40%, black 120%), rgb(0, 102, 255);
+    width: 200px;
+    height: 200px;
+    transition: 0.4s;
+    border: 5px solid black;
+}
+
+.colorChoicered:hover {
+    transform: scaleX(1.1) scaleY(1.1);
+    transform-origin: top left;
+    cursor: pointer;
+    filter: saturate(120%);
+}
+
+.colorChoiceyellow:hover {
+    transform: scaleX(1.1) scaleY(1.1);
+    transform-origin: bottom right;
+    cursor: pointer;
+    filter: saturate(120%);
+}
+
+.colorChoicegreen:hover {
+    transform: scaleX(1.1) scaleY(1.1);
+    transform-origin: bottom left;
+    cursor: pointer;
+    filter: saturate(120%);
+}
+
+.colorChoiceblue:hover {
+    transform: scaleX(1.1) scaleY(1.1);
+    transform-origin: top right;
+    cursor: pointer;
+    filter: saturate(120%);
+}
+
+.image-uno {
+    width: 200px;
+    height: 160px;
+    color: black;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.finalScoreboard h1 {
+    position: absolute;
+    font-size: 50px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    font-stretch: condensed;
+    padding-top: 10px;
+    margin-left: 250px;
+    border: 5px solid black;
+    border-radius: 20px;
+    background-color: orange;
+    padding: 10px;
+    margin-top: -50px;
+    z-index: 910;
+}
+
+.leaderboard1 {
+    height: 400px;
+    width: 300px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.leaderboard1 img,
+.leaderboard2 img,
+.leaderboard3 img {
+    margin-top: 60px;
+    height: 125px;
+    width: 125px;
+    margin-left: 80px;
+}
+
+.leaderboard1 h2,
+.leaderboard2 h2,
+.leaderboard3 h2 {
+    font-size: 40px;
+    width: 300px;
+    text-align: center;
+    margin-top: 0px;
+}
+
+.leaderboard1 .score,
+.leaderboard2 .score,
+.leaderboard3 .score {
+    font-size: 25px;
+    font-weight: bold;
+    width: 300px;
+    text-align: center;
+    margin-top: -15px;
+}
+
+.leaderboard1 .cardsLeft,
+.leaderboard2 .cardsLeft,
+.leaderboard3 .cardsLeft {
+    font-size: 20px;
+    font-weight: bold;
+    width: 300px;
+    text-align: center;
+    margin-top: -10px;
+}
+
+.leaderboard1 .cardsPlayed,
+.leaderboard1 .cardsDrawn,
+.leaderboard2 .cardsPlayed,
+.leaderboard2 .cardsDrawn,
+.leaderboard3 .cardsPlayed,
+.leaderboard3 .cardsDrawn {
+    font-size: 15px;
+    font-weight: bold;
+    width: 300px;
+    text-align: center;
+    margin-top: -5px;
+}
+
+
+.rankGold {
+    width: 330px;
+    height: 200px;
+    margin-left: 2px;
+    margin-top: 32px;
+    background: url("../img/leaderboard/laurier.png");
+    background-size: 300px 220px;
+    background-repeat: no-repeat;
+    filter: contrast(150%) saturate(150%);
+    z-index: 999;
+}
+
+
+.leaderboard2 {
+    height: 400px;
+    width: 300px;
+    position: absolute;
+    left: 50px;
+    top: 50px;
+}
+
+.leaderboard3 {
+    height: 400px;
+    width: 300px;
+    position: absolute;
+    right: 50px;
+    top: 50px;
+}
+
+
+.rankSilver {
+    width: 330px;
+    height: 200px;
+    margin-left: 2px;
+    margin-top: 32px;
+    background: url("../img/leaderboard/laurier.png");
+    background-size: 300px 220px;
+    background-repeat: no-repeat;
+    filter: grayscale(100%);
+    z-index: 999;
+}
+
+.rankBronze {
+    width: 330px;
+    height: 200px;
+    margin-left: 2px;
+    margin-top: 32px;
+    background: url("../img/leaderboard/laurier.png");
+    background-size: 300px 220px;
+    background-repeat: no-repeat;
+    filter: grayscale(50%) brightness(70%) contrast(200%) saturate(200%) hue-rotate(180deg) invert(100%);
+    z-index: 999;
+}
+
+.leaderboard4 {
+    width: 300px;
+    height: 200px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    bottom: -60px;
+}
+
+.leaderboard4 img {
+    margin-top: 25px;
+    height: 75px;
+    width: 75px;
+    margin-left: 0px;
+}
+
+.leaderboard4 h2 {
+    margin-top: 30px;
+    font-size: 22px;
+    width: 400px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.leaderboard4 .score {
+    font-size: 20px;
+    font-weight: bold;
+    width: 400px;
+    text-align: center;
+    margin-top: -15px;
+}
+
+.leaderboard4 .cardsLeft {
+    font-size: 15px;
+    font-weight: bold;
+    width: 400px;
+    text-align: center;
+    margin-top: -7px;
+}
+
+.leaderboard4 .cardsPlayed,
+.leaderboard4 .cardsDrawn {
+    font-size: 10px;
+    font-weight: bold;
+    width: 400px;
+    text-align: center;
+    margin-top: -5px;
+}
+
+.resultBackground {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    animation: fadeIn 3s forwards;
+    z-index: 800;
+}
+
+@keyframes resultSlide {
+    0% {
+        transform: translateY(300%);
+    }
+
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0.7;
+    }
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.replayButton {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 250px;
+    height: 60px;
+    z-index: 1000;
+    bottom: 3%;
+    font-size: 40px;
+    line-height: 20px;
+    background-image: linear-gradient(to right, #FF8008 0%, #FFC837 51%, #FF8008 100%);
+    background-size: 200% auto;
+    background-position: left center;
+    animation: replayButton ease-in-out 2s forwards;
+    overflow: hidden;
+    transition: 1s;
+    border-image: linear-gradient(to right, #FF8008 0%, #FFC837 51%, #FF8008 100%) 3;
+    border-width: 4px;
+    border-style: solid;
+    font-weight: 500;
+}
+
+.replayButton:hover {
+    background-position: right center;
+    width: 270px;
+    letter-spacing: 5px;
+}
+
+@keyframes replayButton {
+    0% {
+        transform: translateY(300%);
+    }
+
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+
+
+.vinci {
+    filter: blur(100px);
+    display: none;
+    position: absolute;
+    top: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    width: 300px;
+    height: 100px;
+    text-align: center;
+    transition: 2s;
+    z-index: 500;
+}
+
+.vinci0 {
+    top: 45%;
+    right: 40%;
+}
+
+.vinci1 {
+    top: 25%;
+}
+
+
+.vinci2 {
+    top: 45%;
+    left: 40%;
+}
+
+.vincinull {
+    top: 70%;
+}
+
+.vinciSpan {
+    position: relative;
+    font-family: verdana;
+    font-size: 60px;
+    color: white;
+    font-weight: bold;
+    transition: 2s;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+
+
+@keyframes blur {
+    0% {
+        filter: blur(0px);
+    }
+
+    100% {
+        filter: blur(100px);
+    }
+}
+
+@keyframes upDown {
+    0% {
+        top: 0px;
+    }
+
+    50% {
+        top: -20px;
+    }
+
+    100% {
+        top: 0px;
+    }
+
+}
+
+.contrevinci {
+    position: absolute;
+    height: 200px;
+    width: 200px;
+    background: url("../img/exclamation_mark.png");
+    background-size: 200px 200px;
+    z-index: 1000;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
+
+.contrevinci0 {
+    top: 40%;
+    right: 40%;
+}
+
+.contrevinci1 {
+    top: 10%;
+}
+
+.contrevinci2 {
+    top: 40%;
+    left: 40%;
+}
+
+.contrevincinull {
+    top: 70%;
+}
+
+@media not all and (min-resolution:.001dpcm) {
+    body {
+        margin-bottom: 10%;
+        overflow: hidden;
+    }
+}

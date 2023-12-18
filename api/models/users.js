@@ -1,101 +1,33 @@
-const jwt = require('jsonwebtoken');
+/* eslint-disable max-len */
+/* eslint-disable consistent-return */
 const bcrypt = require('bcrypt');
-const path = require('node:path');
-const { parse, serialize } = require('../utils/json');
+const json = require('../utils/json');
 
-const jwtSecret = 'ilovemypizza!';
-const lifetimeJwt = 24 * 60 * 60 * 1000; // in ms : 24 * 60 * 60 * 1000 = 24h
+const salt = 10;
 
-const saltRounds = 10;
+const accountsPath = './data/accounts.json';
 
-const jsonDbPath = path.join(__dirname, '/../data/users.json');
+const usersData = json.parse(accountsPath);
 
-const defaultUsers = [
-  {
-    id: 1,
-    username: 'admin',
-    password: bcrypt.hashSync('admin', saltRounds),
-  },
-];
-
-async function login(username, password) {
-  const userFound = readOneUserFromUsername(username);
-  if (!userFound) return undefined;
-
-  const passwordMatch = await bcrypt.compare(password, userFound.password);
-  if (!passwordMatch) return undefined;
-
-  const token = jwt.sign(
-    { username }, // session data added to the payload (payload : part 2 of a JWT)
-    jwtSecret, // secret used for the signature (signature part 3 of a JWT)
-    { expiresIn: lifetimeJwt }, // lifetime of the JWT (added to the JWT payload)
-  );
-
-  const authenticatedUser = {
-    username,
-    token,
-  };
-
-  return authenticatedUser;
+function Login(email, password) {
+  // Vérifiez les informations de connexion
+  if (password === undefined) return;
+  const currentUser = usersData.find((user) => user.email === email && bcrypt.compareSync(password, user.password));
+  return currentUser === undefined ? undefined : currentUser.nickname;
 }
 
-async function register(username, password) {
-  const userFound = readOneUserFromUsername(username);
-  if (userFound) return undefined;
+function SignIn(email, nickname, password) {
+  // Vérifiez si l'utilisateur existe déjà
+  if (email === undefined || nickname === undefined || password === undefined) return false;
+  const userExists = usersData.some((user) => user.email === email);
+  if (userExists) return undefined;
 
-  await createOneUser(username, password);
-
-  const token = jwt.sign(
-    { username }, // session data added to the payload (payload : part 2 of a JWT)
-    jwtSecret, // secret used for the signature (signature part 3 of a JWT)
-    { expiresIn: lifetimeJwt }, // lifetime of the JWT (added to the JWT payload)
-  );
-
-  const authenticatedUser = {
-    username,
-    token,
-  };
-
-  return authenticatedUser;
-}
-
-function readOneUserFromUsername(username) {
-  const users = parse(jsonDbPath, defaultUsers);
-  const indexOfUserFound = users.findIndex((user) => user.username === username);
-  if (indexOfUserFound < 0) return undefined;
-
-  return users[indexOfUserFound];
-}
-
-async function createOneUser(username, password) {
-  const users = parse(jsonDbPath, defaultUsers);
-
-  const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-  const createdUser = {
-    id: getNextId(),
-    username,
-    password: hashedPassword,
-  };
-
-  users.push(createdUser);
-
-  serialize(jsonDbPath, users);
-
-  return createdUser;
-}
-
-function getNextId() {
-  const users = parse(jsonDbPath, defaultUsers);
-  const lastItemIndex = users?.length !== 0 ? users.length - 1 : undefined;
-  if (lastItemIndex === undefined) return 1;
-  const lastId = users[lastItemIndex]?.id;
-  const nextId = lastId + 1;
-  return nextId;
+  usersData.push({ email, nickname, password: bcrypt.hashSync(password, salt) });
+  json.serialize(accountsPath, usersData);
+  return nickname;
 }
 
 module.exports = {
-  login,
-  register,
-  readOneUserFromUsername,
+  Login,
+  SignIn,
 };

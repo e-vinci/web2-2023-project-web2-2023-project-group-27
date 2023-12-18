@@ -1,15 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Your page title</title>
-    <link rel="icon" href="./img/favicon.svg" type="image/svg+xml" />
-  </head>
 
-  <body>
-    <header><div id="navbarWrapper"></div></header>
-    <main></main>
-    <footer></footer>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"/>
+  <title>Uno Vinci</title>
+  <link rel="icon" href="./img/logo.png" type="image/svg+xml" />
+  <link rel="stylesheet" href="./stylesheets/main.css">
+  <link rel="stylesheet" href="./stylesheets/game.css">
+</head>
+
+<body>
+  <audio id="music" volume="0.2">
+    <source id="musicSource" type="audio/mp3">
+  </audio>
+  
+  <div class="background"></div>
+  <div class="backgroundCards"></div>
+
+  <div class="homepage">
+    <div class="menu">
+      <div id="logo"></div>
+      <p id="pseudo">Pseudo</p>
+      <form id="playForm">
+        <span id="usernameError" class="error"></span><br>
+        <input type="text" id="nickname" maxlength="18">
+        <br>
+        <input type="submit" id="playButton" class="button" value="Jouer">
+      </form>
+    </div>
+  </div>
+  </div>
+
+
+  <img src="./img/fullscreen.png" id="fullscreen" alt="Plein Écran">
+
+  <div id="options"></div>
+
+  <div id="popupSettings" class="popup">
+    <h1 id="param">Paramètres</h1>
+    <input type="submit" id="loginPath" class="button" value="Se connecter">
+    <br>
+    <input type="submit" id="signInPath" class="button" value="S'inscrire">
+    <br>
+    <input type="submit" id="RulesPath" class="button" value="Règles">
+    <br>
+    <div class="volume-container">
+      <div class="volume-sous-container">
+        <img id="volumeMusic" alt="volume music" src="../src/img/options/volume_1.png">
+        <div class="slider-container">
+          <label for="volumeControlMusic">Musique</label><br>
+          <input id="volumeControlMusic" type="range" min="0" max="1" step="0.01" value="0.1" title="volumeMusic">
+        </div>
+      </div>
+      <div class="volume-sous-container">
+        <img id="volumeSFX" src="../src/img/options/volume_1.png">
+        <div class="slider-container">
+          <label for="volumeControlSFX">Effets sonore</label><br>
+          <input id="volumeControlSFX" type="range" min="0" max="1" step="0.01" value="0.1" title="volumeSFX">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="popupLogin" class="popup">
+    <h1>Se connecter</h1>
+    <form id="loginForm">
+      <label for="email">Email *</label>
+      <span id="loginEmailError" class="error"></span>
+      <input type="email" id="emailLogin" class="inputForm" name="email">
+      <br>
+
+      <label for="password">Mot de passe *</label>
+      <span id="loginPasswordError" class="error"></span>
+      <input type="password" id="passwordLogin" class="inputForm" name="password">
+      <br>
+      <span id="loginSubmitError" class="error"></span>
+      <input type="submit" id="loginButton" class="inputForm" value="Se connecter">
+    </form>
+  </div>
+
+  <div id="popupSignIn" class="popup">
+    <div id="popupSignInContent">
+      <h1>S'inscrire</h1>
+      <form id="signInForm">
+
+        <label for="nickname">Pseudo *</label>
+        <span id="signInNicknameError" class="error"></span>
+        <input type="text" id="nicknameSignIn" class="inputForm" name="pseudo" maxlength="18">
+        <br>
+
+        <label for="email">Email *</label>
+        <span id="signInEmailError" class="error"></span>
+        <input type="email" id="emailSignIn" class="inputForm" name="email">
+        <br>
+
+        <label for="password">Mot de passe *</label>
+        <span id="signInPasswordError" class="error"></span>
+        <input type="password" id="passwordSignIn" class="inputForm" name="password">
+        <br>
+
+        <label for="confirmPassword">Confirmer le mot de passe *</label>
+        <span id="signInConfirmPasswordError" class="error"></span>
+        <input type="password" id="passwordConfirmation" class="inputForm" name="confirmPassword">
+        <br>
+
+        <label for="CU">Conditions d'utilisation *</label>
+        <span id="signInCUError" class="error"></span>
+        <div id="divCU">
+          <button id="CUbutton" class="button">Voir les conditions d'utilisation</button>
+          <input type="checkbox" id="conditionsUtilisation">
+        </div>
+        <br>
+        <span id="signInSubmitError" class="error"></span>
+        <input type="submit" id="signInButton" class="c" value="S'inscrire">
+      </form>
+      <div class="space"> </div>
+    </div>
+
+  </div>
+
+  <script src="./script/user.js"></script>
+
+  <div id="popupRules" class="popup">
+    <h1>Règles</h1>
+    <p class="rulesParagraph">Le but du jeu est simple ! Débarassez-vous de toutes vos cartes.</p> <br>
+    <p class="rulesParagraph">Pour déposer une carte il faut que celle-ci soit de la même couleur ou de la même valeur
+      ou symbole que la dernière carte jouée. Si vous ne pouvez pas en déposer, vous devrez alors en piocher une.</p>
+    <br>
+    <p class="rulesParagraph">Attention aux petit coquins ! En effet, certaines cartes possèdent des effets sur le
+      déroulement de la partie :</p> <br>
+    <p class="rulesParagraph"> <img src="img/cards/+2_blue.png" alt="Illustration des règles du Uno +2">
+      Le +2 permet de faire piocher 2 cartes au prochain joueur et de lui faire passer son tour.</p><br>
+    <p class="rulesParagraph"> <img src="img/cards/reverse_green.png" alt="Illustration des règles du Uno inversion">
+      Le jeu se joue dans le sens des aiguilles d'une montre, cette carte inverse le sens de la partie.</p> <br>
+    <p class="rulesParagraph"> <img src="img/cards/block_red.png" alt="Illustration des règles du Uno block">
+      Le passement de tour vous permet de bloquer la personne jouant après vous.</p><br>
+    <p class="rulesParagraph"> <img src="img/cards/multicolor_black.png"
+        alt="Illustration des règles du Uno choix de couleur"> Le changement de couleur vous permet de choisir la
+      couleur dans laquelle vous voulez continuer le jeu. La personne suivante sera donc obligée de jouer dans cette
+      couleur. Cette carte peut être jouée à tout moment.</p><br>
+    <p class="rulesParagraph"> <img src="img/cards/+4_black.png" alt="Illustration des règles du Uno +4">Le +4 peut être posé à tout moment
+      et permet de choisir la couleur dans laquelle vous voulez continuer le jeu ainsi que de donner 4 cartes au prochain joueur.</p> <br>
+    <button id="closeRules" class="button">Compris</button>
+  </div>
+  <div id="popupCU" class="popup">
+    <p>Conditions d'utilisation du Jeu en Ligne</p>
+    <br>
+    <p>Dernière mise à jour : 22-11-2023</p>
+    <p>Bienvenue sur Uno Vinci. Avant de jouer, veuillez prendre le temps de lire attentivement les conditions
+      d'utilisation suivantes. En accédant au jeu et en créant un compte, vous acceptez pleinement et sans réserve ces
+      conditions.</p>
+    <br>
+    <p>Création de Compte</p>
+    <p>a. Lors de la création de votre compte, vous devez fournir des informations exactes, complètes et à jour, y
+      compris
+      un pseudo, une adresse e-mail et un mot de passe sécurisé.</p>
+    <p>b. Vous êtes responsable de maintenir la confidentialité de votre mot de passe. En cas de perte ou de vol de
+      votre
+      mot de passe, vous devez nous en informer immédiatement.</p>
+    <br>
+    <p>Collecte et Utilisation des Données</p>
+    <p>a. Nous collectons et stockons les informations que vous fournissez lors de la création de votre compte, y
+      compris votre pseudo, votre adresse e-mail et vos statistiques de jeu.</p>
+    <p>b. Vos données seront utilisées uniquement dans le cadre du jeu, notamment pour personnaliser votre expérience de
+      jeu, suivre vos progrès et vous fournir des mises à jour pertinentes.</p>
+    <p>c. Nous ne vendrons, ne louerons ni ne partagerons vos informations personnelles avec des tiers sans votre
+      consentement explicite.</p>
+    <br>
+    <p>Conduite des Joueurs</p>
+    <p>a. Vous acceptez de respecter les règles de conduite énoncées par Uno Vinci. Tout comportement inapproprié,
+      triche, harcèlement ou utilisation abusive du jeu peut entraîner la suspension ou la suppression de votre compte.
+    </p>
+    <p>b. Vous vous engagez à ne pas utiliser de programmes tiers non autorisés, hacks ou toute autre méthode visant à
+      altérer l'intégrité du jeu.</p>
+    <br>
+    <p>Propriété Intellectuelle</p>
+    <p>a. Uno Vinci et tout le contenu associé sont protégés par les lois sur la propriété intellectuelle. Vous acceptez
+      de ne pas copier, distribuer, modifier, publier ou créer des œuvres dérivées à partir du contenu du jeu sans
+      autorisation écrite.</p>
+    <br>
+    <p>Responsabilité et Garanties</p>
+    <p>a. Vous comprenez et acceptez que l'utilisation du jeu se fait à vos propres risques. Nous ne garantissons pas
+      que le jeu sera exempt d'erreurs ou d'interruptions.</p>
+    <p>b. Nous ne sommes pas responsables des dommages directs, indirects, spéciaux, accessoires ou consécutifs
+      découlant de votre utilisation du jeu.</p>
+    <br>
+    <p>Modifications des Conditions d'Utilisation</p>
+    <p>a. Nous nous réservons le droit de modifier ces conditions d'utilisation à tout moment. Les modifications seront
+      effectives dès leur publication sur le site. Il est de votre responsabilité de consulter régulièrement les
+      conditions d'utilisation pour rester informé des changements.</p>
+    <div id="acceptRefuseCU">
+      <button id="acceptCU" class="button">Accepter</button>
+      <button id="refuseCU" class="button">Refuser</button>
+    </div>
+  </div>
+</body>
 </html>
