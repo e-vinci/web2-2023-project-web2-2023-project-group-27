@@ -11,7 +11,7 @@ const {
   playCard, pickACard, signalUno, contreUno,
 } = require('../models/game');
 const lobbies = require('../models/lobbies');
-const players = require('../models/players');
+const players = require('../models/players').default;
 const { Login, SignIn } = require('../models/users');
 // Version localhost
 // const io = require('socket.io')(http, { cors: { origin: '*' } });
